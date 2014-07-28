@@ -20,6 +20,7 @@ class CusDebit(Document):
 	month = DateTimeField(default=datetime.now)
 	debit = FloatField()
 	total_debit = FloatField()
+	total_debit_trailer = FloatField()
 	rate = FloatField()
 	cycle = FloatField()
 	payment = FloatField()

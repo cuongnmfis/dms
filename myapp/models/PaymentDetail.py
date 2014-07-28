@@ -12,12 +12,12 @@ from mongoengine.fields import ReferenceField, DateTimeField,\
 
 from myapp.models.CusDebit import CusDebit
 from myapp.models.Payment import Payment
-import myapp.models.Customer as Cus
+import myapp.models.Customer as Customer
 
 class PaymentDetail(Document):
 	payment_id = ReferenceField(Payment)
 	cus_debit_id = ReferenceField(CusDebit)
-	cus_id  = ReferenceField(User)
+	cus_id  = ReferenceField(Customer)
 	create_date= DateTimeField(default=datetime.now)
 	pay_date= DateTimeField(default=datetime.now)
 	debit = FloatField()
@@ -29,6 +29,6 @@ class PaymentDetail(Document):
 			}
 
 def getPaymentdetailofadebtowner(debt_owner):
-	listcus = Cus.getlistCustomerbyDebtOwner(debt_owner)
+	listcus = Customer.getlistCustomerbyDebtOwner(debt_owner)
 	paymentdetailafterfilter = PaymentDetail.objects.filter(cus_id__in=listcus)
 	return paymentdetailafterfilter

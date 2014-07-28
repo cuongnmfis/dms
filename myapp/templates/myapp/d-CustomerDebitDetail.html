@@ -4,164 +4,251 @@
 	<div class="row" style="margin-top: -2%;">
 		<div class="col-xs-6 col-sm-6 col-md-6"style="margin-top: 2%;" >
 			<div class="table-responsive">
-				<div class="panel-heading" style="height: 40px !important;padding-top: 10px !important;padding-left: 6px !important">
-				<h4 class="panel-title">Thông tin khách hàng</h4>
+				<div class="panel panel-primary">
+					<div class="panel-heading" style="height: 40px !important;padding-top: 10px !important;padding-left: 6px !important">
+						<h4 class="panel-title" style="font-family: Arial,Helvetica,sans-serif;">THÔNG TIN KHÁCH HÀNG</h4>
+					</div>
+					<div class="panel-body" style="padding: 0px !important;">
+						<table class="table table-hover mb30" style="min-height: 264px !important;">
+							<tbody>
+								<tr>
+									<td style="width: 20%;height: 36px !important;">Mã K/H: </td>
+									<td>
+										<div class="form-group" style="margin-bottom: 0px !important;">
+											<div class="col-sm-6" style="float: left;">
+												<select class="form-control chosen-select" data-placeholder="Choose a Country..." id="selCusCode">
+													{% if lsCusomer %}
+														{% for cus in lsCusomer %}
+															<option cus_id="{{ cus.id}}" cus_name="{{ cus.full_name}}" cus_address="{{ cus.address }}" value="United States">{{ cus.cus_code }}</option>
+														{% endfor %}
+													{% endif %}
+												</select>
+											</div>
+											<div class="col-sm-6" id="divCusName"></div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 20%;height: 36px !important;">CMTND|SĐT: </td>
+									<td>
+										<div class="form-group" style="margin-bottom: 0px !important;">
+											<div class="col-sm-6" style="float: left;">
+												<select class="form-control chosen-select" data-placeholder="Choose a Country..." id="selCusIdNo">
+													{% if lsCusomer %}
+														{% for cus in lsCusomer %}
+															<option cus_id={{ cus.id}} cus_name="{{ cus.full_name}}" cus_address="{{ cus.address }}" value="United States">{{ cus.id_no }}</option>
+														{% endfor %}
+													{% endif %}
+												</select>
+											</div>
+											<div class="col-sm-6" style="float: left;">
+												<select class="form-control chosen-select" data-placeholder="Choose a Country..." id="selCusphone">
+													{% if lsCusomer %}
+														{% for cus in lsCusomer %}
+															<option  cus_id={{ cus.id}} cus_name="{{ cus.full_name}}" cus_address="{{ cus.address }}" value="United States">{{ cus.fone_number }}</option>
+														{% endfor %}
+													{% endif %}
+												</select>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 20%;height: 36px !important;">Địa chỉ: </td>
+									<td><div class="col-sm-12" id="divCusAddress"></div></td>
+								</tr>
+								<tr>
+									<td style="width: 20%;height: 36px !important;color: red;font-family: monospace;">Số khoản vay: </td>
+									<td><div class="col-sm-12" id="divCusInfor1" style="color: red;font-family: monospace;"></div>
+								</tr>
+								<tr>
+									<td style="width: 20%;height: 36px !important;color: red;font-family: monospace;">Tổng tiền nợ: </td>
+									<td><div class="col-sm-12" id="divCusInfor2" style="color: red !important;font-family: monospace;">120000</div>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
-				<table class="table table-hover mb30" style="min-height: 191px !important;">
-					<tbody>
-						<tr>
-							<td style="width: 12%;">Mã K/H: </td>
-							<td>
-								<div class="form-group" style="margin-bottom: 0px !important;">
-									<div class="col-sm-6" style="float: left;">
-										<select class="form-control chosen-select" data-placeholder="Choose a Country..." id="selCusCode">
-											{% if lsCusomer %}
-												{% for cus in lsCusomer %}
-													<option cus_id="{{ cus.id}}" cus_name="{{ cus.full_name}}" cus_address="{{ cus.address }}" value="United States">{{ cus.cus_code }}</option>
-												{% endfor %}
-											{% endif %}
-										</select>
-									</div>
-									<div class="col-sm-6" id="divCusName"></div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="width: 12%;">CMTND|SĐT: </td>
-							<td>
-								<div class="form-group" style="margin-bottom: 0px !important;">
-									<div class="col-sm-6" style="float: left;">
-										<select class="form-control chosen-select" data-placeholder="Choose a Country..." id="selCusIdNo">
-											{% if lsCusomer %}
-												{% for cus in lsCusomer %}
-													<option cus_id={{ cus.id}} cus_name="{{ cus.full_name}}" cus_address="{{ cus.address }}" value="United States">{{ cus.id_no }}</option>
-												{% endfor %}
-											{% endif %}
-										</select>
-									</div>
-									<div class="col-sm-6" style="float: left;">
-										<select class="form-control chosen-select" data-placeholder="Choose a Country..." id="selCusphone">
-											{% if lsCusomer %}
-												{% for cus in lsCusomer %}
-													<option cus_id={{ cus.id}} cus_name="{{ cus.full_name}}" cus_address="{{ cus.address }}" value="United States">{{ cus.fone_number }}</option>
-												{% endfor %}
-											{% endif %}
-										</select>
-									</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td style="width: 12%;">Địa Chỉ: </td>
-							<td><div class="col-sm-12" id="divCusAddress"></div></td>
-						</tr>
-					</tbody>
-				</table>
+				
 			</div>
 			<!-- table-responsive -->
 		</div>
 		<!-- col-md-6 -->
 	
 		<div class="col-xs-6 col-sm-6 col-md-6" style="margin-top: 2%;">
-			{% if type == 'chovay' %}
+			<input type="hidden" id="totalAmount">
+			{% if type == 'loan' %}
 				<form id="form_cus_loan" novalidate="novalidate" action="/newCusDebit" method="post">
 					{% csrf_token %}
 					<div class="table-responsive">
-						<div class="panel-heading" style="height: 40px !important;padding-top: 10px !important;padding-left: 6px !important">
-						<h4 class="panel-title">Nhập thông tin: ngày vay,lãi xuất,chu kỳ,số tiền vay</h4>
-						</div>
-						<table class="table table-hover mb30" style="min-height: 191px !important;">
-							<tbody>
-								<tr>
-									<td style="height: 36px !important;">
-										<div class="form-group" style="margin-bottom: 0px !important;">
-											<div class="input-group col-sm-4" style="float: left;">
-												<input type="text" class="form-control" required=""
-													placeholder="Ngày vay" id="startDate" name="cus_loan_date" required=""> <span
-													class="input-group-addon"><i class="fa fa-calendar"></i></span>
-											</div>
-											<div class="input-group col-sm-4" style="float: left; padding-left: 5px;">
-												<input type="text" name="cus_rate" class="form-control" id="cusRate" maxlength="10" required="" value="" placeholder="Lãi xuất(vd: 2.000)">
-												<span class="input-group-addon"><i class="fa fa-money" ></i></span>
-											</div>
-											<div class="input-group col-sm-4" style="float: left; padding-left: 5px;">
-												<input type="text" name="cus_cycle" class="form-control tooltips" id="cusCycle" maxlength="2" required="" value="" placeholder="Chu kì(vd: 15 ngày)">
-												<span class="input-group-addon">ngày</span>
-											</div>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td style="height: 36px !important;">
-										<div class="form-group" style="margin-bottom: 0px !important;">
-											<div class="input-group col-sm" style="float: left;">
-												<input type="text" name="cus_debit" class="form-control" id="cusAmount" maxlength="15" required="" placeholder="Nhập số tiền ...">
-												<label id="lbcusAmount" style="display: none;" class="error"></label>
-												<span class="input-group-addon"><i class="fa fa-money" ></i></span>
-											</div>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="form-group" style="margin-bottom: 0px !important;">
-											<button class="btn btn-primary" style="float: right;" onclick="SaveLoan();">Lưu</button>
-											<button type="reset" class="btn btn-default" style="float: right;margin-right: 10px;">Xóa</button>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+						<div class="panel panel-primary">
+							<div class="panel-heading" style="height: 40px !important;padding-top: 10px !important;padding-left: 6px !important">
+								<h4 class="panel-title" style="font-family: Arial,Helvetica,sans-serif;">NHẬP THÔNG TIN: NGÀY VAY, LÃI XUẤT, CHU KỲ, SỐ TIỀN VAY, GHI CHÚ</h4>
+							</div>
+							<div class="panel-body" style="padding: 0px !important;">
+								<table class="table table-hover mb30" style="min-height: 264px !important;">
+									<tbody>
+										<tr>
+											<td style="height: 36px !important;">
+												<div class="form-group" style="margin-bottom: 0px !important;">
+													<div class="input-group col-sm-4" style="float: left;">
+														<input type="text" class="form-control" required=""
+															placeholder="Ngày vay" id="startDate" name="cus_loan_date" required=""> <span
+															class="input-group-addon"><i class="fa fa-calendar"></i></span>
+													</div>
+													<div class="input-group col-sm-4" style="float: left; padding-left: 5px;">
+														<input type="text" name="cus_rate" class="form-control" id="cusRate" maxlength="10" required="" value="" placeholder="Lãi xuất (vd: 2.000)">
+														<span class="input-group-addon"><i class="fa fa-money" ></i></span>
+													</div>
+													<div class="input-group col-sm-4" style="float: left; padding-left: 5px;">
+														<input type="text" name="cus_cycle" class="form-control tooltips" id="cusCycle" maxlength="2" required="" value="" placeholder="Chu kỳ (vd: 15 ngày)">
+														<span class="input-group-addon">ngày</span>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td style="height: 36px !important;">
+												<div class="form-group" style="margin-bottom: 0px !important;">
+													<div class="input-group col-sm" style="float: left;">
+														<input type="text" name="cus_debit" class="form-control" id="cusAmount" maxlength="15" required="" placeholder="Nhập số tiền ...">
+														<label id="lbcusAmount" style="display: none;" class="error"></label>
+														<span class="input-group-addon"><i class="fa fa-money" ></i></span>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="form-group col-sm-10" style="margin-bottom: 0px !important; padding: 0px !important;">
+													<div class="input-group" style="float: left;width: 100%;">
+														<textarea id="action_description" name="action_description" class="form-control"
+															placeholder="Ghi chú" style="height: 88px;"> </textarea>
+													</div>
+												</div>
+												<div class="form-group col-sm-2" style="margin-bottom: 0px !important; padding-right: 0px !important;">
+													<button class="btn btn-primary" style="float: right;width: 100%;height: 88px;" onclick="SaveLoan();">Lưu</button>
+													<!-- <button type="reset" class="btn btn-default" style="float: right;margin-right: 10px;">Xóa</button> -->
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>	
 					</div>
 					<input type="hidden" value="cusLoan" name="type">
 					<input type="hidden" value="" id="hd_cus_amount" name="hd_cus_amount">
 					<input type="hidden" value="" id="hd_cus_rate" name="hd_cus_rate">
 					<input type="hidden" value="" id="hd_cus_id" name="hd_cus_id">
 				</form>
-			{% elif type == 'trano' %}
-				<form id="form_cus_payment" novalidate="novalidate" action="/paymentCusDebit" method="post">
+			{% elif type == 'payment' %}
+				<form id="form_cus_payment" novalidate="novalidate" method="post">
 					{% csrf_token %}
 					<div class="table-responsive">
-						<div class="panel-heading" style="height: 40px !important;padding-top: 10px !important;padding-left: 6px !important">
-						<h4 class="panel-title">Thông tin B....</h4>
+						<div class="panel panel-primary">
+							<div class="panel-heading" style="height: 40px !important;padding-top: 10px !important;padding-left: 6px !important">
+								<h4 class="panel-title">THÔNG TIN TRẢ NỢ : NGÀY TRẢ, SỐ TIỀN TRẢ, GHI CHÚ</h4>
+							</div>
+							<div class="panel-body" style="padding: 0px !important;">
+								<table class="table table-hover mb30" style="min-height: 264px !important;">
+									<tbody>
+										<tr>
+											<td style="height: 36px !important;">
+												<div class="form-group" style="margin-bottom: 0px !important;">
+													<div class="input-group col-sm-12" style="float: left;">
+														<input type="text" class="form-control" required=""
+															placeholder="計画開始日" id="startDatePayment" name="cus_payment_date_payment" required=""> <span
+															class="input-group-addon"><i class="fa fa-calendar" {% if estimatePaymentDay %} value={{ estimatePaymentDay }} {% endif %}></i></span>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td style="height: 36px !important;">
+												<div class="form-group" style="margin-bottom: 0px !important;">
+													<div class="input-group col-sm" style="float: left;">
+														<input type="text" name="cus_debit_payment" class="form-control" {% if estimatePayment %} value="{{ estimatePayment }}" {% endif %} id="cusAmountPayment" maxlength="15" required="" placeholder="Nhập số tiền trả ...">
+														<label id="lbcusAmountPayment" style="display: none;" class="error"></label>
+														<span class="input-group-addon"><i class="fa fa-money" ></i></span>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="form-group col-sm-8" style="margin-bottom: 0px !important; padding: 0px !important;">
+													<div class="input-group" style="float: left;width: 100%;">
+														<textarea name="txtcomment" class="form-control"
+															 placeholder="Ghi chú" style="height: 88px;"> </textarea>
+													</div>
+												</div>
+												<div class="form-group col-sm-4" style="margin-bottom: 0px !important;padding-right: 0px !important;">
+													<button class="btn btn-danger" style="float: right;width: 45%;height: 88px;" onclick="makePayment();">Trả nợ </button>
+													<button class="btn btn-primary" style="float: right;width: 45%;height: 88px;margin-right: 5%;" onclick="estimatePayment();">Xem trước</button>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
-						<table class="table table-hover mb30" style="min-height: 191px !important;">
-							<tbody>
-								<tr>
-									<td style="height: 36px !important;">
-										<div class="form-group" style="margin-bottom: 0px !important;">
-											<div class="input-group col-sm" style="float: left;">
-												<input type="text" class="form-control" required=""
-													placeholder="計画開始日" id="startDatePayment" name="cus_payment_date_payment" required=""> <span
-													class="input-group-addon"><i class="fa fa-calendar"></i></span>
-											</div>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td style="height: 36px !important;">
-										<div class="form-group" style="margin-bottom: 0px !important;">
-											<div class="input-group col-sm" style="float: left;">
-												<input type="text" name="cus_debit_payment" class="form-control" id="cusAmountPayment" maxlength="15" required="" placeholder="Nhập số tiền trả ...">
-												<label id="lbcusAmountPayment" style="display: none;" class="error"></label>
-												<span class="input-group-addon"><i class="fa fa-money" ></i></span>
-											</div>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="form-group" style="margin-bottom: 0px !important;">
-											<button class="btn btn-primary" style="float: right;" onclick="SavePayment();">Trả</button>
-											<button type="reset" class="btn btn-default" style="float: right;margin-right: 10px;">Xóa</button>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
 					</div>
-					<input type="hidden" value="cusPayment" name="type">
+					<input type="hidden" id="hd_type" value="cusPayment" name="type">
+					<input type="hidden" value="" id="hd_payment_cus_id" name="hd_payment_cus_id">
 					<input type="hidden" value="" id="hd_cus_amount_payment" name="hd_cus_amount_payment">
+				</form>
+			{% elif type == 'trathu' %}
+				<form id="form_cus_payment_trailer" novalidate="novalidate" method="post">
+					{% csrf_token %}
+					<div class="table-responsive">
+						<div class="panel panel-primary">
+							<div class="panel-heading" style="height: 40px !important;padding-top: 10px !important;padding-left: 6px !important">
+								<h4 class="panel-title">Thông tin B....</h4>
+							</div>
+							<div class="panel-body" style="padding: 0px !important;">
+								<table class="table table-hover mb30" style="min-height: 264px !important;">
+									<tbody>
+										<tr>
+											<td style="height: 36px !important;">
+												<div class="form-group" style="margin-bottom: 0px !important;">
+													<div class="input-group col-sm-10" style="float: left;">
+														<input type="text" class="form-control" required=""
+															placeholder="計画開始日" id="startDatePayment" name="cus_payment_date_payment" required=""> <span
+															class="input-group-addon"><i class="fa fa-calendar"></i></span>
+													</div>
+													<div class="input-group col-sm-2" style="float: left; padding-left: 5px;">
+														<button class="btn btn-primary" style="float: left;" onclick="check();">Xem</button>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td style="height: 36px !important;">
+												<div class="form-group" style="margin-bottom: 0px !important;">
+													<div class="input-group col-sm" style="float: left;">
+														<input type="text" name="cus_debit_payment_trailer" class="form-control" id="cusAmountPaymentTrailer" maxlength="15" required="" placeholder="Nhập số tiền trả ...">
+														<label id="lbcusAmountPayment" style="display: none;" class="error"></label>
+														<span class="input-group-addon"><i class="fa fa-money" ></i></span>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="form-group" style="margin-bottom: 0px !important;">
+													<button class="btn btn-primary" style="float: right;" onclick="SavePaymentTrailer();">Trả</button>
+													<button type="reset" class="btn btn-default" style="float: right;margin-right: 10px;">Xóa</button>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<input type="hidden" value="" id="hd_payment_trailer_cus_id" name="hd_payment_trailer_cus_id">
+					<input type="hidden" value="cusPaymentTrailer" name="type">
 				</form>
 			{% else %}
 				<h5 class="subtitle mb5">Customner's Debit Informations</h5>
@@ -206,139 +293,76 @@
 	<!-- ROW -->
 	<div class="row">
 		<div class="col-xs-2 col-sm-2 col-md-2">
-			<div class="leftpanelinner">
-				<h5 class="subtitle mb5">Tickets</h5>
-				<ul class="nav nav-pills nav-stacked nav-bracket">
-				{% for cus_debit in lsCusDebit %}
-					<li cus_id="{{ cus_debit.cus_id.id }}"><a href="#"><i class="fa fa-suitcase"></i><span>Ticket({{ cus_debit.loan_date}})</span></a></li>
-				{% endfor %}
-				</ul>
+			<div class="table-responsive">
+					<table class="table table-hover table-bordered mb30">
+						<thead>
+							<tr>
+								<th style="text-align: left;font-family: Arial,Helvetica,sans-serif;">KHOẢN CÒN NỢ</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for cus_debit in lsCusDebit %}
+								<tr custommer_id = "{{ cus_debit.cus_id.id }}" cus_debit_id ="{{ cus_debit.id }}" cus_total_debit_trailer ="{{ cus_debit.total_debit_trailer }}" cus_total_debit ="{{ cus_debit.total_debit }}">
+									<td>
+										<div class="ckbox ckbox-primary">
+											<input type="checkbox"  id="lb{{ cus_debit.id }}"  style="margin-top: 0px !important;" checked onclick="changeDebitDetail('{{ cus_debit.id }}');">
+											<label for="lb{{cus_debit.id}}">{{ cus_debit.loan_date|date:'d-m-Y' }}|{{ cus_debit.loan_date|date:'d-m-Y' }}</label>
+										</div>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
 			</div>
 		</div>
 		<!-- col-md-6 -->
 	
 		<div class="col-xs-10 col-sm-10 col-md-10">
-			<h5 class="subtitle mb5">Ticket 01</h5>
 			<div class="table-responsive">
-				<table class="table table-hover mb30">
+				<table class="table table-hover table-bordered mb30">
+				{% if lsCusDebit|length > 0 %}
 					<thead>
 						<tr>
-							<th style="width: 1%;text-align: left;">STT</th>
-							<th style="width: 5%;text-align: left;">From Date</th>
-							<th style="width: 5%;text-align: left;">To Date</th>
-							<th style="width: 5%;text-align: left;">Rate</th>
-							<th style="width: 5%;text-align: left;">Start of Cycle</th>
-							<th style="width: 5%;text-align: left;">Days</th>
-							<th style="width: 5%;text-align: left;">Amount</th>
-							<th style="width: 5%;text-align: left;">Payment</th>
-							<th style="width: 5%;text-align: left;">End of Cycle</th>
+							<th style="width: 1%;text-align: left;font-family: Arial,Helvetica,sans-serif;">STT</th>
+							<th style="width: 9%;text-align:center;font-family: Arial,Helvetica,sans-serif;">TỪ NGÀY</th>
+							<th style="width: 9%;text-align: center;font-family: Arial,Helvetica,sans-serif;">ĐẾN NGÀY</th>
+							<th style="width: 15%;text-align: center;font-family: Arial,Helvetica,sans-serif;">ĐẦU KỲ</th>
+							<th style="width: 10%;text-align: center;font-family: Arial,Helvetica,sans-serif;">LÃI XUẤT</th>
+							<th style="width: 8%;text-align: center;font-family: Arial,Helvetica,sans-serif;">CHU KỲ</th>
+							<th style="width: 8%;text-align: center;font-family: Arial,Helvetica,sans-serif;">SỐ NGÀY</th>
+							<th style="width: 12%;text-align: center;font-family: Arial,Helvetica,sans-serif;">TIỀN LÃI</th>
+							<th style="width: 15%;text-align: center;font-family: Arial,Helvetica,sans-serif;">TIỀN TRẢ</th>
+							<th style="width: 15%;text-align: center;font-family: Arial,Helvetica,sans-serif;">CUỐI KỲ</th>
 						</tr>
 					</thead>
-					<tbody style="overflow-y: scroll; overflow-x: hidden; height: 100px;">
-						<tr>
-							<td>1</td>
-							<td>08/01/2014</td>
-							<td><a href="#">08/02/2014</a></td>
-							<td>
-								<a href="#" id="bbbbb" onclick="onChangeRate();" style="color: #428bca !important;">1000</a>
-								<input type="text" id="aaaaa" name="" value="1000" style="display: none;color: #428bca;width: 80px;" onkeydown="if (event.keyCode == 13) onSaveChange();" maxlength="5" required="">
-							</td>
-							<td class="currency">50000000</td>
-							<td>31</td>
-							<td class="currency">155000000</td>
-							<td>-</td>
-							<td class="currency">5155000000</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>08/01/2014</td>
-							<td><a href="#">08/02/2014</a></td>
-							<td class="currency" style="color: #428bca !important;"><a href="#" >1000</a></td>
-							<td class="currency">50000000</td>
-							<td>31</td>
-							<td class="currency">155000000</td>
-							<td>-</td>
-							<td class="currency">5155000000</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>08/01/2014</td>
-							<td><a href="#">08/02/2014</a></td>
-							<td class="currency" style="color: #428bca !important;">
-							<a href="#">1000</a> 
-							</td>
-							<td class="currency">50000000</td>
-							<td>31</td>
-							<td class="currency">155000000</td>
-							<td>-</td>
-							<td class="currency">5155000000</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>08/01/2014</td>
-							<td><a href="#">08/02/2014</a></td>
-							<td class="currency" style="color: #428bca !important;">
-							<a href="#">1000</a> 
-							</td>
-							<td class="currency">50000000</td>
-							<td>31</td>
-							<td class="currency">155000000</td>
-							<td>-</td>
-							<td class="currency">5155000000</td>
-						</tr>
-						<tr>
-							<td>5</td>
-							<td>08/01/2014</td>
-							<td><a href="#">08/02/2014</a></td>
-							<td class="currency" style="color: #428bca !important;">
-							<a href="#">1000</a> 
-							</td>
-							<td class="currency">50000000</td>
-							<td>31</td>
-							<td class="currency">155000000</td>
-							<td>-</td>
-							<td class="currency">5155000000</td>
-						</tr>
-						<tr>
-							<td>6</td>
-							<td>08/01/2014</td>
-							<td><a href="#">08/02/2014</a></td>
-							<td class="currency" style="color: #428bca !important;">
-							<a href="#">1000</a> 
-							</td>
-							<td class="currency">50000000</td>
-							<td>31</td>
-							<td class="currency">155000000</td>
-							<td>-</td>
-							<td class="currency">5155000000</td>
-						</tr>
-						<tr>
-							<td>7</td>
-							<td>08/01/2014</td>
-							<td><a href="#">08/02/2014</a></td>
-							<td class="currency" style="color: #428bca !important;">
-							<a href="#">1000</a> 
-							</td>
-							<td class="currency">50000000</td>
-							<td>31</td>
-							<td class="currency">155000000</td>
-							<td>-</td>
-							<td class="currency">5155000000</td>
-						</tr>
-						<tr>
-							<td>8</td>
-							<td>08/01/2014</td>
-							<td><a href="#">08/02/2014</a></td>
-							<td class="currency" style="color: #428bca !important;">
-							<a href="#">1000</a> 
-							</td>
-							<td class="currency">50000000</td>
-							<td>31</td>
-							<td class="currency">155000000</td>
-							<td>-</td>
-							<td class="currency">5155000000</td>
-						</tr>
-					</tbody>
+				{% endif %}
+					{% for cus_debit in lsCusDebit %}
+						<tbody cus_id ="{{ cus_debit.cus_id.id }}" cus_debit_id="{{ cus_debit.id }}" style="overflow-y: scroll; overflow-x: hidden; height: 100px;" >
+							{% for cus_debit_detail in lsCusDebitDetail %}
+								{% if cus_debit.id|truncatechars:100 ==  cus_debit_detail.cus_debit_id.id|truncatechars:100 %}
+									<tr cus_debit_detail_flag="{{ cus_debit_detail.flag }}" cus_debit_id ="{{ cus_debit.id }}">
+										{% if cus_debit_detail.flag == 1 %}
+											<td onclick="onShowHideDetail('{{ cus_debit.id }}','{{ cus_debit_detail.id }}');"><span cus_debit_detail_id ="{{ cus_debit_detail.id }}" class="glyphicon glyphicon-chevron-down"></span></td>
+										{% else %}
+											<td>{{ cus_debit_detail.index }}</td>
+										{% endif %}
+										<td class="date">{{ cus_debit_detail.from_date|date:'d-m-Y' }}</td>
+										<td class="date"><a href="#">{{ cus_debit_detail.to_date|date:'d-m-Y' }}</a></td>
+										<td class="currency">{{ cus_debit_detail.start_cycle }}</td>
+										<td>
+											<a href="#" onclick="onChangeRate();" style="color: #428bca !important;" class="currency">{{ cus_debit_detail.rate }}</a>
+											<input type="text" id="aaaaa" name="" value="1000" style="display: none;color: #428bca;width: 80px;" onkeydown="if (event.keyCode == 13) onSaveChange();" maxlength="5" required="">
+										</td>
+										<td>{{ cus_debit.cycle }}</td>
+										<td>{{ cus_debit_detail.days }}</td>
+										<td class="currency">{{ cus_debit_detail.amount }}</td>
+										<td class="currency">{{ cus_debit_detail.payment }}</td>
+										<td class="currency">{{ cus_debit_detail.end_cycle }}</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					{% endfor %}
 				</table>
 			</div>
 			<!-- table-responsive -->
@@ -422,7 +446,22 @@
 		$("#lbcusAmountPayment").css('display','none')
 	});
 	
-	});	
+	});
+	function changeDebitDetail(cus_debit_id)
+	{
+		if($("#lb"+cus_debit_id+":checked").size() == 1)
+		{
+			$("table tbody[cus_debit_id][cus_debit_id='" + cus_debit_id + "']").show();
+		}
+		else
+		{
+			$("table tbody[cus_debit_id][cus_debit_id='" + cus_debit_id + "']").hide();
+		}
+	/* 	$("table tbody[cus_debit_id][cus_debit_id='" + cus_debit_id + "']").show();
+		$("table tbody[cus_debit_id][cus_debit_id!='" + cus_debit_id + "']").hide();
+		$("ul li[cus_debit_id='" + cus_debit_id + "']").addClass('active');
+		$("ul li[cus_debit_id!='" + cus_debit_id + "']").removeClass('active'); */
+	}
 	function reloadselect(){
 		$('#selCusphone').chosen('destroy');
 		$('#selCusphone').chosen();
@@ -443,10 +482,37 @@
 		$("#divCusAddress").html(cusAdress);
 		
 		$("#hd_cus_id").val(cusId);
+		$("#hd_payment_cus_id").val(cusId);
+		$("#hd_payment_trailer_cus_id").val(cusId);
 		
-		$("ul li[cus_id='" + cusId + "']").css("display", "block");
-		$("ul li[cus_id!='" + cusId + "']").css("display", "none");
-		$("ul li[cus_id='" + cusId + "']:first").addClass('active');
+		$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']").show();
+		$("table tbody tr[custommer_id][custommer_id!='"+ cusId +"']").hide();
+		
+		$("table tbody[cus_id][cus_id='" + cusId + "']").show();
+		$("table tbody[cus_id][cus_id!='" + cusId + "']").hide();
+		
+		var cus_debit_id=$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']:first").attr('cus_debit_id');
+		var number_records=$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']").size();
+		
+		var totalTemp=0;
+		var totalTemp1=0;
+		var type ='{{ type_post }}';
+		$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']").each(function( index )
+		{
+			totalTemp += parseFloat($( this ).attr('cus_total_debit'));
+			totalTemp1 += parseFloat($( this ).attr('cus_total_debit_trailer'));
+		});
+		$("#divCusInfor1").html('<span > '+ number_records +' </span>');
+		
+		if (type == "estimatePayment" )
+			$("#divCusInfor2").html(totalTemp1);
+		else
+			$("#divCusInfor2").html(totalTemp);
+		
+		$('#divCusInfor2').formatCurrency({ colorize:true, region: 'vi-VN' });
+		
+		$("#totalAmount").val(totalTemp);
+		
 	});
 	$('#selCusIdNo').change(function(){
 		var cusId = $(this).find('option:selected').attr('cus_id');
@@ -459,10 +525,41 @@
 		$("#divCusName").html(cusName);
 		$("#divCusAddress").html(cusAdress);
 		$("#hd_cus_id").val(cusId);
+		$("#hd_payment_cus_id").val(cusId);
+		$("#hd_payment_trailer_cus_id").val(cusId);
 		
 		$("ul li[cus_id='" + cusId + "']").css("display", "block");
 		$("ul li[cus_id!='" + cusId + "']").css("display", "none");
 		$("ul li[cus_id='" + cusId + "']:first").addClass('active');
+		
+		$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']").show();
+		$("table tbody tr[custommer_id][custommer_id!='"+ cusId +"']").hide();
+		
+		$("table tbody[cus_id][cus_id='" + cusId + "']").show();
+		$("table tbody[cus_id][cus_id!='" + cusId + "']").hide();
+		
+		var cus_debit_id=$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']:first").attr('cus_debit_id');
+		var number_records=$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']").size();
+		
+		var totalTemp=0;
+		var totalTemp1=0;
+		var type ='{{ type_post }}';
+		$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']").each(function( index )
+		{
+			totalTemp += parseFloat($( this ).attr('cus_total_debit'));
+			totalTemp1 += parseFloat($( this ).attr('cus_total_debit_trailer'));
+		});
+		$("#divCusInfor1").html('<span > '+ number_records +' </span>');
+		
+		if (type == "estimatePayment" )
+			$("#divCusInfor2").html(totalTemp1);
+		else
+			$("#divCusInfor2").html(totalTemp);
+		
+		$('#divCusInfor2').formatCurrency({ colorize:true, region: 'vi-VN' });
+		
+		$("#totalAmount").val(totalTemp);
+		
 	});
 	$('#selCusCode').change(function(){
 		var cusId = $(this).find('option:selected').attr('cus_id');
@@ -475,10 +572,35 @@
 		$("#divCusName").html(cusName);
 		$("#divCusAddress").html(cusAdress);
 		$("#hd_cus_id").val(cusId);
+		$("#hd_payment_cus_id").val(cusId);
+		$("#hd_payment_trailer_cus_id").val(cusId);
 		
-		$("ul li[cus_id='" + cusId + "']").css("display", "block");
-		$("ul li[cus_id!='" + cusId + "']").css("display", "none");
-		$("ul li[cus_id='" + cusId + "']:first").addClass('active');
+		$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']").show();
+		$("table tbody tr[custommer_id][custommer_id!='"+ cusId +"']").hide();
+		
+		$("table tbody[cus_id][cus_id='" + cusId + "']").show();
+		$("table tbody[cus_id][cus_id!='" + cusId + "']").hide();
+		
+		var cus_debit_id=$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']:first").attr('cus_debit_id');
+		var number_records=$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']").size();
+		
+		var totalTemp=0;
+		var totalTemp1=0;
+		var type ='{{ type_post }}';
+		$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']").each(function( index )
+		{
+			totalTemp += parseFloat($( this ).attr('cus_total_debit'));
+			totalTemp1 += parseFloat($( this ).attr('cus_total_debit_trailer'));
+		});
+		$("#divCusInfor1").html('<span > '+ number_records +' </span>');
+		if (type == "estimatePayment" )
+			$("#divCusInfor2").html(totalTemp1);
+		else
+			$("#divCusInfor2").html(totalTemp);
+		
+		$('#divCusInfor2').formatCurrency({ colorize:true, region: 'vi-VN' });
+		
+		$("#totalAmount").val(totalTemp);
 	});
 	function SaveLoan()
 	{
@@ -490,22 +612,91 @@
 		}
 		jQuery('#form_cus_loan').submit();
 	}
+	function SavePaymentTrailer()
+	{
+		jQuery('#form_cus_payment_trailer').submit();
+	}
+	function estimatePayment()
+	{
+		$("#hd_type").val("estimatePayment");
+		var $valid = jQuery('#form_cus_payment').valid();
+		if(!$valid) 
+		{
+			$validator.focusInvalid();
+			return false;
+		}
+		jQuery('#form_cus_payment').submit();
+	}
+	function makePayment()
+	{
+		$("#hd_type").val("makePayment");
+		var $valid = jQuery('#form_cus_payment').valid();
+		if(!$valid) 
+		{
+			$validator.focusInvalid();
+			return false;
+		}
+		jQuery('#form_cus_payment').submit();
+	}
+	function onShowHideDetail(cus_debit_id,cus_debit_detail_id)
+	{
+		if ($("table tbody tr span[cus_debit_detail_id][cus_debit_detail_id='"+ cus_debit_detail_id +"']").hasClass('glyphicon-chevron-down'))
+		{
+			$("table tbody tr[cus_debit_id][cus_debit_id='"+ cus_debit_id +"']").show();
+			$("table tbody tr span[cus_debit_detail_id][cus_debit_detail_id='"+ cus_debit_detail_id +"']").removeClass('glyphicon-chevron-down');
+			$("table tbody tr span[cus_debit_detail_id][cus_debit_detail_id='"+ cus_debit_detail_id +"']").addClass('glyphicon-chevron-up');
+		}
+		else
+		{
+			$("table tbody tr[cus_debit_id][cus_debit_id='"+ cus_debit_id +"'][cus_debit_detail_flag][cus_debit_detail_flag!='1']").hide();
+			$("table tbody tr[cus_debit_id][cus_debit_id='"+ cus_debit_id +"'][cus_debit_detail_flag][cus_debit_detail_flag='1']").show();
+			$("table tbody tr span[cus_debit_detail_id][cus_debit_detail_id='"+ cus_debit_detail_id +"']").removeClass('glyphicon-chevron-up');
+			$("table tbody tr span[cus_debit_detail_id][cus_debit_detail_id='"+ cus_debit_detail_id +"']").addClass('glyphicon-chevron-down');
+		}
+	}
 	jQuery(window).load(function(){ 
-		//$('#bbbbb').formatCurrency().regions['vi-VN'];
-		$('#bbbbb').formatCurrency({ colorize:true, region: 'vi-VN' });
-		$('td.currency').formatCurrency({ colorize:true, region: 'vi-VN' });
+	//	$('#bbbbb').formatCurrency({ colorize:true, region: 'vi-VN' });
+		$('.currency').formatCurrency({ colorize:true, region: 'vi-VN' });
 		$('#cusRate').formatCurrency({ colorize:true, region: 'vi-VN' });
+		
 		var cusId = $("#selCusCode").find('option:selected').attr('cus_id');
 		var cusName = $("#selCusCode").find('option:selected').attr('cus_name');
 		var cusAdress = $("#selCusCode").find('option:selected').attr('cus_address');
 		$("#divCusName").html(cusName);
 		$("#divCusAddress").html(cusAdress);
+		
 		$("#hd_cus_id").val(cusId);
+		$("#hd_payment_cus_id").val(cusId);
+		$("#hd_payment_trailer_cus_id").val(cusId);
 		
-		$("ul li[cus_id='" + cusId + "']").css("display", "block");
-		$("ul li[cus_id!='" + cusId + "']").css("display", "none");
-		$("ul li[cus_id='" + cusId + "']:first").addClass('active');
+		$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']").show();
+		$("table tbody tr[custommer_id][custommer_id!='"+ cusId +"']").hide();
 		
+		$("table tbody[cus_id][cus_id='" + cusId + "']").show();
+		$("table tbody[cus_id][cus_id!='" + cusId + "']").hide();
+		
+		var cus_debit_id=$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']:first").attr('cus_debit_id');
+		var number_records=$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']").size();
+		$("table tbody tr[cus_debit_detail_flag][cus_debit_detail_flag='1']").show();
+		$("table tbody tr[cus_debit_detail_flag][cus_debit_detail_flag!='1']").hide();
+		
+		var totalTemp=0;
+		var totalTemp1=0;
+		var type ='{{ type_post }}';
+		$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']").each(function( index )
+		{
+			totalTemp += parseFloat($( this ).attr('cus_total_debit'));
+			totalTemp1 += parseFloat($( this ).attr('cus_total_debit_trailer'));
+		});
+		
+		$("#divCusInfor1").html('<span > '+ number_records +' </span>');
+		if (type == "estimatePayment" )
+			$("#divCusInfor2").html(totalTemp1);
+		else
+			$("#divCusInfor2").html(totalTemp);
+		$('#divCusInfor2').formatCurrency({ colorize:true, region: 'vi-VN' });
+		$("#totalAmount").val(totalTemp);
+			
 		StartpickerOptsPlanStart = {
 				//minDate: new Date(),
 				maxDate: "+5Y"
@@ -515,26 +706,20 @@
 		//jQuery("#startDate").datepicker( "setDate" , new Date() );
 		
 		jQuery('#startDatePayment').datepicker(StartpickerOptsPlanStart);
-		jQuery("#startDatePayment").datepicker( "setDate" , new Date() );
 		
 		$("#cusAmount").numeric();
 	});
 	</script>
 	<script>
-		
 		//change rate
 		function onChangeRate()
 		{
 			$("#aaaaa").numeric();
 			$('#aaaaa').css('display', 'block');
-			$('#bbbbb').css('display', 'none');
 		}
 		function onSaveChange()
 		{
-			$('#bbbbb').text($('#aaaaa').val());
-			$('#bbbbb').formatCurrency({ colorize:true, region: 'vi-VN' });
 			$('#aaaaa').css('display', 'none');
-			$('#bbbbb').css('display', 'block');
 		}
 	</script>
 {% endblock scripts%}

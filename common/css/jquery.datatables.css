@@ -250,4 +250,9 @@ table.dataTable thead td:active {
 	*margin-top: -1px;
 	-webkit-overflow-scrolling: touch;
 }
-
+.table-bordered thead > tr > th {
+	background-color: #428bca;
+	background-repeat: no-repeat;
+	background-position: 97% center;
+	color: #fff;
+}
