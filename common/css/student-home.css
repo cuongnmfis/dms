@@ -1,0 +1,61 @@
+.row {
+	margin: 0;
+	padding: 10px;
+}
+
+.media-header {
+	font-size: 15px;
+}
+
+.blog-media {
+	margin-left: 70px;
+}
+
+.activity-block {
+	background: #fff;
+}
+
+.module {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.pageheader {
+	padding: 5px;
+	height: 30px;
+}
+
+.pageheader span {
+	float: right;
+}
+
+.pageheader .pageheader-right {
+	float: right;
+	font-style: italic;
+	color: #999;
+	font-size: 13px;
+	text-transform: none;
+}
+
+.pageheader .logo {
+	width: 50px;
+	background: #fff;
+	float: left;
+}
+
+.media-user {
+	position: relative;
+	margin-top: 10px;
+}
+
+.media-user .close {
+	position: absolute;
+	right: 15px;
+	bottom: 5px;
+}
+.media-user .pull-left{
+	margin-right: 10px;
+}
+.media-user .pull-right{
+	margin-top: 10px;
+}

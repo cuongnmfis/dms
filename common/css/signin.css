@@ -1,0 +1,174 @@
+.menu-top {
+	height: 52px;
+	font: inherit;
+	vertical-align: baseline;
+	white-space: normal;
+	text-align: left;
+	-webkit-box-shadow: 0 1px 4px #ccc;
+	-moz-box-shadow: 0 1px 4px #ccc;
+	box-shadow: 0 1px 4px #ccc;
+	z-index: 200;
+	background: #fff;
+	border-bottom: 1px solid #CDCDCD;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+.menu-top .logo img {
+	width: 50px;
+	background: #fff;
+	float: left;
+	margin: 0 0 0 10px;
+}
+
+.menu-top p {
+	color: #636e7b;
+	font-size: 100%;
+	font-weight: normal;
+	margin: 0 0 0 10px;
+	padding: 0;
+	float: left;
+}
+
+.menu-top .signin-panel {
+	position: absolute;
+	right: 5px;
+	padding-left: 10px;
+	float: right;
+	margin-right: 9px;
+	font-family: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	font: inherit;
+	color: #fff;
+	top: 10px;
+}
+
+.menu-top .signin-panel 
+ a:link {
+	float: left;
+	margin-right: 5px;
+}
+
+.menu-top .signin-panel a {
+	float: left;
+	margin-right: 5px;
+}
+
+.pipe {
+	color: #789797;
+}
+
+.slide {
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.header {
+	padding-bottom: 5px;
+	-webkit-box-shadow: 0 1px 4px #ccc;
+	-moz-box-shadow: 0 1px 4px #ccc;
+	box-shadow: 0 1px 4px #ccc;
+	z-index: 200;
+	background: #F4F4F4;
+	border-bottom: 1px solid #CDCDCD;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+.block {
+	padding: 0;
+	background: #fff;
+	margin-left: 5%;
+	margin-top: 2%;
+}
+
+.block-title {
+	height: 30px;
+	font-size: 18px;
+	background-image: url("../images/TinBg001.png");
+	vertical-align: baseline;
+	padding: 5px 5px;
+}
+
+.book {
+	display: block;
+	margin-left: 5px;
+	margin-top: 10px;
+}
+
+.book .book-img {
+	width: 80px;
+	height: 100px;
+	float: left;
+}
+
+.book .book-img img {
+	max-width: 100%;
+}
+
+.book .book-infor {
+	float: left;
+	margin-left: 5px;
+}
+
+.book .book-infor .book-name {
+	
+}
+
+.book .book-infor .book-content {
+	
+}
+
+.img-avatar {
+	width: 18%;
+	top: 15px;
+	height: 280px;
+	left: 15px;
+	position: inherit;
+	padding-top: 3%;
+}
+
+.infor {
+	position: absolute;
+	top: 15px;
+	left: 24%;
+}
+
+.social {
+	margin: 10px;
+}
+
+.social a {
+	width: 180px;
+	height: 60px;
+}
+
+.headerbar {
+	margin-top: 50px;
+}
+
+.headerbar .signin {
+	position: absolute;
+	top: 35%;
+	left: 64%;
+	background: #fff;
+	width: 333px;
+}
+
+.headerbar img {
+	width: 100%
+}
+
+@media screen and (max-width: 860px) {
+	.img-avatar {
+		width: auto;
+		top: 5%;
+		height: 90%;
+		left: 15px;
+		position: inherit;
+		padding-top: 10%;
+	}
+}

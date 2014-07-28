@@ -1,0 +1,227 @@
+{% extends "myapp/base.html" %} {% block styles %}
+<link rel="stylesheet" href="css/chat-style.css" />
+{% endblock %} {% block header %}
+<div class="pageheader">
+	<h2>
+		<i class="fa fa-home"></i> <a href="index">Home</a>
+	</h2>
+</div>
+{% endblock %} {% block content %}
+<div class="contentpanel">
+
+	<div class="row">
+		<div class="col-sm-3" style="padding: 0; margin: 0;">
+			<div>
+				<h5 class="subtitle">Friends</h5>
+				<ul class="nav nav-profile ul-user">
+					{% for profile in profiles %}
+					<li class="li-user" id="li-user"><a href="#{{profile.user_id.id}}" id="{{profile.user_id.id}}"><img alt=""
+						{% if profile.user_id %}
+							{% if profile.images %}
+								src="/{{profile.images}}" 
+							{% else %}
+								src="images/photos/user.png" 
+							{% endif %}
+								 style="width: 36px; height: 36px">
+								{{profile.user_id.username}}</a>
+								<!-- <span class="badge" style="position:absolute;right:0;top: 0;">new</span> -->
+					</li>
+						{% endif %}	
+					{% endfor %}
+				</ul>
+
+				<div class="mb30"></div>
+			</div>
+		</div>
+		<!-- col-sm-3 -->
+		<div class="col-sm-9" style="padding: 0;margin: 0">
+
+			<div class="panel panel-default panel-timeline" >
+				<div class="panel-heading" id = "chat-infor" style="border-bottom: 1px solid tranparent;">
+					<div class="media">
+						<a href="#" class="pull-left"> <img alt=""
+							src="images/photos/user.png" class="media-object">
+						</a>
+						<div class="media-body">
+							<h4 class="text-primary">
+								Welcome chat 
+							</h4>
+						</div>
+					</div>
+					<!-- media -->
+				</div>
+				<div class="panel-body" id = "chat-output">
+					<!-- media -->
+				</div>
+				<!-- panel-heading -->
+				<div class="panel-footer">
+					<div class="media">
+						<div class="media-body">
+							<input type="text" class="form-control" id="chat-input"
+								placeholder="Write a chat">
+							<input type="hidden" id="current-user"
+								value = {{user.id}}>
+						</div>
+					</div>
+					<!-- media -->
+				</div>
+			</div>
+
+		</div>
+		<!-- col-sm-9 -->
+	</div>
+	<!-- row -->
+
+</div>
+{% endblock %}
+{% block scripts %}
+<script language="javascript" type="text/javascript">  
+var wsUri = "ws://thawing-mountain-3752.herokuapp.com"; 
+var output;
+var websocket;
+var from_user_id = $("#current-user").val();
+var to_user_id;
+var to_user_name;
+var chats ={};
+function init() 
+{ 	
+	output = document.getElementById("chat-output"); 
+	initWebSocket(); 
+}
+function initWebSocket() 
+{ 
+	websocket = new WebSocket(wsUri); 
+	websocket.onopen = function(evt) { onOpen(evt) }; 
+	websocket.onclose = function(evt) { onClose(evt) }; 
+	websocket.onmessage = function(evt) { onMessage(evt) }; 
+	websocket.onerror = function(evt) { onError(evt) }; 
+}  
+function onOpen(evt) 
+{
+	var request={};
+	request.handle = "announce";
+	request.user_id = from_user_id;
+	sendWebsocketMessage(request);
+}  
+function onClose(evt) 
+{ 
+	initWebSocket();
+	//alert('disconnected');
+	//writeToScreen("DISCONNECTED"); 
+}
+function onMessage(evt) 
+{
+	var response = JSON.parse(evt.data);
+	switch(response.handle)
+	{
+		case "on_send_message":
+			if(to_user_id==response.from_user_id)
+			{
+				message = {};
+				message.content = response.message;
+				message.from_user = to_user_name;
+				writeToScreen(message);
+			}
+			else
+			{
+				liUser = document.getElementById(response.from_user_id);
+				if(chats[response.from_user_id]==null)
+					chats[response.from_user_id] = [];
+				chats[response.from_user_id].push(response.message);
+				liUser.innerHTML = liUser.innerHTML + '<span class="badge" style="position:absolute;right:0;top: 0;">new</span>';
+			}
+			break;
+		default:
+			break;
+	}
+	//alert(evt.data); 
+}  
+function onError(evt) 
+{ 
+	writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data); 
+}  
+function doSend(message) 
+{ 
+	writeToScreen("SENT: " + message);  
+	websocket.send(message); 
+}  
+function writeToScreen(message) 
+{
+	div=document.createElement('div');
+	div.className = "media";
+	div.innerHTML = "<div class='media-body'>"+
+					"<h4 class='text-primary' style=\"font-family: tahoma;\">"+
+					message.from_user + "<small style=\"float: right\"></small>"+
+					"</h4>"+
+					"<div class=\"text-muted\">"+message.content+"</div>"+
+					"</div>"; 
+	output.appendChild(div); 
+}
+
+//window.addEventListener("load", init, false);
+
+function sendWebsocketMessage(request)
+{
+	websocket.send(JSON.stringify(request));
+} 
+$(document).ready(function() {
+	init();
+	$("#li-user a").click(function() 
+	{
+		if($(this).find(".badge")!=null)
+			$(this).find(".badge").remove();
+		user_img = $(this).children('img').attr("src");
+		user_id = $(this).attr("href").substring(1);
+		user_name = $(this).text();
+		to_user_name = user_name;
+		to_user_id = user_id;
+		//alert(to_user_id);
+		//update chat-infor
+		$("#chat-infor").find(".text-primary").text(user_name);
+		
+		//uddate output
+		$("#chat-output").empty();
+		var request={};
+		request.handle = "get_message";
+		request.user_id = user_id;
+		request.user_img = user_img;
+		request.user_name = user_name;
+		sendWebsocketMessage(request);
+		if(chats[to_user_id]!=null)
+		{
+			arr = chats[to_user_id];
+			for(var i=0;i<arr.length;i++)
+			{
+				var message = {};
+				message.content = arr[i];
+				message.from_user = to_user_name;
+				writeToScreen(message);
+			}
+		}
+	});
+	$( "#chat-input" ).keypress(function(evt) {
+		if(evt.which == 13) 
+		{
+			if(this.value.trim()=="")
+				return;
+			//alert(this.value);
+			message = {};
+			message.content = this.value;
+			message.from_user = "Me";
+			writeToScreen(message);
+			
+			var request={};
+			request.handle = "send_message";
+			request.from_user_id = from_user_id;
+			request.to_user_id = to_user_id;
+			request.message = this.value;
+			sendWebsocketMessage(request);
+			
+			this.value = "";
+		}
+	});
+});
+  
+</script>
+<script src="js/custom.js"></script>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% load i18n %}
+<div class="btn-group" style="width: 100%; margin-bottom: 1%;margin-top: 1%;">
+	<button type="button" class="btn btn-primary"
+		onclick="window.location.href='/index'" style="width: 10%;"><i class="glyphicon glyphicon-home"></i></button>
+	<button type="button" class="btn btn-default"
+		onclick="window.location.href='/search-mentor'" style="width: 20%;"><i class="glyphicon glyphicon-search"></i> Cho Vay</button>
+	<button type="button" class="btn btn-default"
+		onclick="window.location.href='/studylog'" style="width: 20%;"><i class="glyphicon glyphicon-calendar"></i> Trả Nợ</button>
+	<button type="button" class="btn btn-default"
+		onclick="window.location.href='/community'" style="width: 30%;"><i class="glyphicon glyphicon-plus"></i>Báo cáo</button>
+	
+	<button type="button" class="btn btn-default dropdown-toggle"
+		data-toggle="dropdown" style="width: 20%;">
+		<img src="{{ user_images }}" style="max-height: 20px; max-width: 20px;" alt="" onError="this.onerror=null;this.src='/images/avatar/default.png';">
+		{{ user.username }} <span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu dropdown-menu-usermenu pull-right" style="width: 20%;margin-right: 5px;">
+		<!-- <li><a href="profile?user_id={{ user.id }}"><i class="glyphicon glyphicon-user"></i> ç§�ã�®ãƒ—ãƒ­ãƒ•ã‚£ãƒ¼ãƒ«</a></li> -->
+		<!-- <li><a href="chat"><i class="glyphicon glyphicon-user"></i> Private Chat</a></li> -->
+		<li><a href="/account-setting"><i class="glyphicon glyphicon-cog"></i>Cài đặt</a></li>
+ 		<li><a href="signout"><i class="glyphicon glyphicon-log-out"></i>Đăng Xuất</a></li>
+	</ul>
+</div>

@@ -1,0 +1,10 @@
+db.category.remove();
+db.progresstype.remove();
+db.impression.remove();
+db.mentor.remove();
+db.student.remove();
+db.unit.remove();
+db.curriculumn.remove();
+db.action.remove();
+db.materialtype.remove();
+db.material.remove();

@@ -1,0 +1,129 @@
+{% extends "myapp/base.html" %} {%block styles %}
+<link href="css/mentor-course.css" rel="stylesheet">
+{% endblock styles%} {%block content %}
+<div class="row" style="margin: 10px">
+	<div class="col-sm">
+		<div class="people-item">
+			<div class="media">
+				<a href="#" class="pull-left"> <img alt=""
+					src="images/photos/user4.png" class="thumbnail media-object">
+				</a>
+
+				<div class="media-body">
+					<h4 class="person-name">TuanNA13</h4>
+					<div class="text-muted">
+						<i class="fa fa-map-marker"></i> Ha Noi City, Viet Nam
+					</div>
+					<div class="text-muted">
+						<i class="fa fa-briefcase"></i> CRO at <a href="#">EAS, Inc.</a>
+					</div>
+					<ul class="social-list">
+						<li><a href="#" class="tooltips" data-toggle="tooltip"
+							data-placement="top" title="" data-original-title="Email"><i
+								class="fa fa-envelope-o"></i></a></li>
+						<li><a href="#" class="tooltips" data-toggle="tooltip"
+							data-placement="top" title="" data-original-title="Facebook"><i
+								class="fa fa-facebook"></i></a></li>
+						<li><a href="#" class="tooltips" data-toggle="tooltip"
+							data-placement="top" title="" data-original-title="Twitter"><i
+								class="fa fa-twitter"></i></a></li>
+						<li><a href="#" class="tooltips" data-toggle="tooltip"
+							data-placement="top" title="" data-original-title="LinkedIn"><i
+								class="fa fa-linkedin"></i></a></li>
+						<li><a href="#" class="tooltips" data-toggle="tooltip"
+							data-placement="top" title="" data-original-title="Skype"><i
+								class="fa fa-skype"></i></a></li>
+					</ul>
+				</div>
+			</div>
+			{% ifequal mentor.id user.id%}
+			<button class="btn btn-primary" data-toggle="modal"
+				data-target="#add-new-course">
+				<i class="fa fa-envelope-o"></i>Add new
+			</button>
+			{% endifequal %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6"></div>
+		<div class="col-md-6"></div>
+	</div>
+</div>
+
+<input type="hidden" name="user_id" id="user_id" value={{user_id}} />
+<script type="text/javascript">
+function setValue() {
+	user_id = document.getElementById("user_id").value
+	alert(user_id);
+}
+window.onload = setValue;
+</script>
+<!-- Modal -->
+{% include "myapp/add-curriculumn.html"%}
+<!-- modal -->
+{% endblock content%} 
+{% block scripts %}
+<script src="js/jquery-ui-1.10.3.min.js"></script>
+
+<script src="js/bootstrap-wizard.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+
+<script src="js/custom.js"></script>
+<script>
+jQuery(document).ready(function(){
+	
+  // Basic Wizard
+  jQuery('#basicWizard').bootstrapWizard();
+  // Date Picker
+  jQuery('#startdate').datepicker({});
+  // Date Picker
+  jQuery('#enddate').datepicker();
+  // Progress Wizard
+  $('#courseWizard').bootstrapWizard({
+    'nextSelector': '.next',
+    'previousSelector': '.previous',
+    'lastSelector':'.submit',
+    tabClass: 'nav nav-pills nav-justified nav-disabled-click',
+    onTabClick: function(tab, navigation, index) {
+      return false;
+    },
+    onNext: function(tab, navigation, index) {
+    var $valid = jQuery('#firstForm').valid();
+    if(!$valid) {
+    	$validator.focusInvalid();
+   		return false;
+     }
+      var $total = navigation.find('li').length;
+      var $current = index+1;
+      var $percent = ($current/$total) * 100;
+      jQuery('#courseWizard').find('.progress-bar').css('width', $percent+'%');
+    },
+    onPrevious: function(tab, navigation, index) {
+      var $total = navigation.find('li').length;
+      var $current = index+1;
+      var $percent = ($current/$total) * 100;
+      jQuery('#courseWizard').find('.progress-bar').css('width', $percent+'%');
+      
+    },
+    onTabShow: function(tab, navigation, index) {
+      var $total = navigation.find('li').length;
+      var $current = index+1;
+      var $percent = ($current/$total) * 100;
+      jQuery('#courseWizard').find('.progress-bar').css('width', $percent+'%');
+      if($current >= $total) {
+			$('#courseWizard').find('.pager .next').hide();
+			$('#courseWizard').find('.pager .finish').show();
+			$('#courseWizard').find('.pager .finish').removeClass('disabled');
+		} else {
+			$('#courseWizard').find('.pager .next').show();
+			$('#courseWizard').find('.pager .finish').hide();
+		}
+		$('#courseWizard .finish').click(function() {
+			jQuery('#firstForm').submit();
+		});
+		
+    }
+  });
+});
+</script>
+{% endblock scripts%}

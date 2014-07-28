@@ -1,0 +1,74 @@
+{% extends "myapp/base.html" %}
+{% block header %}
+<div class="pageheader">
+	<h2>
+		<i class="fa fa-home"></i> <a href="index">Home</a>
+		{% if user_type == "M" %}
+		<span><a href="mentorpost">Add new post</a></span>
+		{% endif %}
+	</h2>
+</div>
+{% endblock %} 
+{% block content %}
+<div class="contentpanel">
+	<div id="bloglist" class="row">
+		{% for post in posts %}
+		<div class="col-xs-6 col-sm-4 col-md-3">
+			<div class="blog-item">
+				<a href="post-detail?post_id={{ post.id }}" class="blog-img">
+				{% if post.imagelink != "" %}
+				<img src="{{ post.imagelink}}" class="img-responsive" style="margin-left: auto;margin-right: auto;padding-top: 1%"></a>
+				{% endif %}
+				<div class="blog-details">								
+					<h4 class="blog-title">									
+						<a href = "post-detail?post_id={{ post.id }}" >{{ post.title }}</a>
+					</h4>
+					<ul class="blog-meta">
+						<li>By: <a href="profile?user_id={{ post.user_id.id }}">{{ post.user_id.username }}</a></li>
+						<li>{{ post.published_date }}</li>
+						<li><a href="#">2 Comments</a></li>
+					</ul>
+					<div class="blog-summary" style="text-align: justify;">
+						<p>{{ post.content }}</p>
+						<a href = "post-detail?post_id={{ post.id }}" ><button class="btn btn-sm btn-white">Read More</button></a>
+					</div>
+				</div>
+			</div>
+			<!-- blog-item -->
+		</div>
+		<!-- col-xs-6 -->
+		{% endfor %}
+
+	</div>
+<!-- row -->
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="js/masonry.pkgd.min.js"></script>
+
+<script src="js/custom.js"></script>
+<script>
+  jQuery(window).load(function(){
+  
+    var container = document.querySelector('#bloglist');
+    var msnry = new Masonry( container, {
+      // options
+      columnWidth: '.col-xs-6',
+      itemSelector: '.col-xs-6'
+    });
+    
+    // check on load
+    if(jQuery(window).width() <= 480 )
+        msnry.destroy();
+
+    // check on resize
+    jQuery(window).resize(function(){
+        if(jQuery(this).width() <= 480 )
+            msnry.destroy();
+    });
+
+  });
+  
+</script>
+{% endblock %}

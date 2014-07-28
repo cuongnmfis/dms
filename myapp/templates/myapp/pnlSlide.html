@@ -1,0 +1,30 @@
+<div class="flexslider" style="max-height: 50px; margin-top: 1%;">
+	<ul class="slides">
+		{% for ls in lsRecomment %}
+		<li><div class="col-sm">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<!-- panel-btns -->
+						<h3 class="panel-title" align="center">管理者別推奨コース</h3>
+					</div>
+					<div class="panel-body">
+
+						<div class="media">
+							<a class="pull-left" href="/course-detail?course_id={{ ls.id }}&user_id={{ ls.mentor.user.id }}"> <img
+								class="media-object thumbnail"
+								src="images/Study.png" alt="">
+							</a>
+							<div class="media-body event-body">
+								<a href="/course-detail?course_id={{ ls.id }}&user_id={{ ls.mentor.user.id }}"><h4 class="subtitle">Course Name: {{ls.name}}</h4></a>
+								<p>{{ls.description|truncatechars:100}}</p>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</li> 
+		{% endfor %}
+	</ul>
+</div>

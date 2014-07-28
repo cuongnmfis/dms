@@ -1,0 +1,169 @@
+<!-- Modal -->
+<div class="modal fade" id="edit-curriculumn" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">編集カリキュラム</h4>
+			</div>
+			<form class="form" id="editCurriculumnForm" novalidate="novalidate" method="post" action="/edit-curriculumn" style="margin-top: 10px;">
+				{% csrf_token %}
+				<div class="form-group">
+					<div class="col-sm-12">
+						<input type="text" name="editName" id="editName" class="form-control"
+						 placeholder="カリキュラム名" required="" maxlength="100">
+					</div>
+				</div>
+			
+				<div class="form-group">
+					<div class="col-sm-6">
+						<input type="text" id="editDuration" name="editDuration" class="form-control"
+							 placeholder="デュレーション" maxlength="2" required="">
+			
+					</div>
+					<div class="col-sm-6">
+						<select class="form-control" name="editDurationType" id="editDurationType">
+							<option value="Week">週</option>
+							<option value="Month">月</option>
+							<option value="Year">年</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-6">
+						<span id="parentId" hidden="false"></span>
+						<select id="listParentCategories" hidden="false">
+							{% if listCategory %}
+								{% for category in listCategory %}
+									{% if  category.isparent == '0' %}
+										<option isparent="{{ category.id}}" anc="{{category.parentCategory.id}}" value="{{ category.id }}">{{category.categoryName}}</option>
+									{% endif %}
+								{% endfor %}
+							{% endif %}
+						</select>
+						<select onChange="changeCategory(this)" name="slcategory" id="slcategory" class="form-control" required="">
+							{% if listCategory %}
+								{% for category in listCategory %}
+									{% if  category.isparent == '1' %}
+										{% if  parentCategory and category.id|truncatechars:100 == parentCategory %}
+											<option value="{{ category.id }}" selected>{{category.categoryName}}</option>
+										{% else %}
+											<option value="{{ category.id }}">{{category.categoryName}}</option>
+										{% endif %}
+									{% endif %}
+								{% endfor %}
+							{% endif %}
+						</select>
+					</div>
+					<div class="col-sm-6">
+						<select name="changeChildrenCategory" id="changeChildrenCategory" title="一度選択してください " class="form-control" required="">
+							{% if listCategory %}
+								{% for category in listCategory %}
+									{% if  category.isparent == '0'%}
+										<option value="{{ category.id }}">{{category.categoryName}}</option>
+									{% endif %}
+								{% endfor %}
+							{% endif %}
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-6">
+						<div class="input-group">
+							<input type="text" name="curriculumstartdate" id="curriculumstartdate" class="form-control" 
+								 placeholder="開始日" id="curriculumstartdate" required="">
+							<span class="input-group-addon"><i
+								class="fa fa-calendar"></i></span>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<input type="text" name="curriculumenddate" id="curriculumenddate" class="form-control"
+								placeholder="終了日" id="curriculumenddate" required=""> <span
+								class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-12">
+					<textarea name="editDescription" id="editDescription" class="form-control"
+						 placeholder="説明" rows="2" required=""> </textarea>
+					</div>
+					<input type="hidden" id="curriculumn_id" name="edit_curriculumn_id" >
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">クローズ</button>
+					<button type="button" class="btn btn-primary" onclick="return onEditCurriculumnFromSubmit();">保存</button>
+				</div>
+			</form>
+			<!-- End of block -->
+
+		</div>
+		<!-- modal-content -->
+
+	</div>
+	<!-- modal-dialog -->
+</div>
+<!-- modal -->
+<script>
+function changeCategory(x){
+	var country = x.value;
+	document.getElementById('parentId').innerHTML = country;
+	select = document.getElementById('changeChildrenCategory');
+	for(var i=select.options.length-1;i>=0;i--)
+	{
+		select.remove(i);
+	}
+	//remove  option
+	
+	var ex = document.getElementById("listParentCategories").options;
+	//window.alert(ex.length)
+	for(var i=0;i<ex.length;i++)
+	{
+		if(ex[i].getAttribute('anc')==country)
+		{
+			//window.alert(ex[i].text)
+			var opt = document.createElement('option');
+			opt.value = ex[i].value;
+			opt.innerHTML = ex[i].text;
+			select.appendChild(opt);
+		}
+	}
+}
+function onEditCurriculumn(curriculumId)
+{
+	$("#editCurriculumnForm").find("#editName").val($('#curriculumnName'+curriculumId).val());
+	$("#editCurriculumnForm").find("#editDuration").val($('#curriculumnDuration'+curriculumId).val());
+	$("#editCurriculumnForm").find("#editDurationType").val($('#curriculumnDurationType'+curriculumId).val());
+	$("#editCurriculumnForm").find("#curriculumstartdate").val($('#curriculumnFromDate'+curriculumId).val());
+	$("#editCurriculumnForm").find("#curriculumenddate").val($('#curriculumnToDate'+curriculumId).val());
+	$("#editCurriculumnForm").find("#editDescription").val($('#curriculumnDescription'+curriculumId).val());
+	$("#editCurriculumnForm").find("#curriculumn_id").val(curriculumId);
+	//set selected parentCategory
+	var parent=$('#curriculumnCategoryParent'+curriculumId).val();
+	$("#slcategory").find('option').each(function( i, opt ) {
+		if( opt.value === parent ) 
+		$(opt).attr('selected', 'selected');
+	});
+	//set selected children category
+	var child=$('#curriculumnCategoryChildren'+curriculumId).val();
+	$("#changeChildrenCategory").find('option').each(function( i, opt ) {
+		if( opt.value === child ) 
+		$(opt).attr('selected', 'selected');
+	});
+	
+	//
+};
+function onEditCurriculumnFromSubmit()
+{
+	var $valid = jQuery('#editCurriculumnForm').valid();
+	if(!$valid) 
+	{
+		$validator.focusInvalid();
+		return false;
+	}
+	jQuery('#editCurriculumnForm').submit();
+};
+</script>

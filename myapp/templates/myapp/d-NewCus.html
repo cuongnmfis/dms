@@ -1,0 +1,140 @@
+{% extends "myapp/base.html" %}
+{% block header %}
+<div class="pageheader">
+	<h2>
+		<i class="fa fa-edit"></i> <a href="#">New cus</a>
+	</h2>
+</div>
+{% endblock %} 
+{% block content %}
+<div class="mainpanel" style="margin-top: 2%">
+        
+    <div class="contentpanel">
+      
+      <div class="row">
+        <div class="col-sm-3">
+          
+          
+          <h5 class="subtitle">About</h5>
+          <p class="mb30">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitat... <a href="#">Show More</a></p>
+          
+          <h5 class="subtitle">Connect</h5>
+          <ul class="profile-social-list">
+            <li><i class="fa fa-twitter"></i> <a href="#">twitter.com/eileensideways</a></li>
+            <li><i class="fa fa-facebook"></i> <a href="#">facebook.com/eileen</a></li>
+            <li><i class="fa fa-youtube"></i> <a href="#">youtube.com/eileen22</a></li>
+            <li><i class="fa fa-linkedin"></i> <a href="#">linkedin.com/4ever-eileen</a></li>
+            <li><i class="fa fa-pinterest"></i> <a href="#">pinterest.com/eileen</a></li>
+            <li><i class="fa fa-instagram"></i> <a href="#">instagram.com/eiside</a></li>
+          </ul>
+          
+          <div class="mb30"></div>
+          
+          <h5 class="subtitle">Address</h5>
+          <address>
+            795 Folsom Ave, Suite 600<br>
+            San Francisco, CA 94107<br>
+            <abbr title="Phone">P:</abbr> (123) 456-7890
+          </address>
+          
+        </div>
+        <div class="col-sm-9">
+
+         <div class="panel panel-default">
+        <form method="post" action="/newcustomer" class="form-horizontal form-bordered" id="frmNewCus" novalidate="novalidate">
+        {% csrf_token %}
+	        <div class="panel-body panel-body-nopadding">
+	            <div class="form-group">
+					  <label class="col-sm-3 control-label" for="readonlyinput">Họ khách hàng</label>
+					  <div class="col-sm-6">
+						 <input name="txtLastName" type="text" placeholder="Điền họ và đệm của khách hàng" value="" id="readonlyinput" class="form-control" required=""/>
+					  </div>
+					</div>
+					
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Tên khách hàng<span class="asterisk">*</span></label>
+					<div class="col-sm-6">
+						<input name="txtFirstName"  type="text" value="" placeholder="Điền tên khác hàng" class="form-control" required=""/>
+					</div>
+				</div>
+				
+	            <div class="form-group">
+	              <label class="col-sm-3 control-label">Số chừng minh thư<span class="asterisk">*</span></label>
+	              <div class="col-sm-6">
+	                <input name="txtidNo" type="text" value="" placeholder="Diền số chứng mình nhân dân" class="form-control" required=""/>
+	              </div>
+	            </div>
+	            
+	            <div class="form-group">
+	              <label class="col-sm-3 control-label">Địa chỉ<span class="asterisk">*</span></label>
+	              <div class="col-sm-6">
+	                <input name="txtAddress" type="text" value="" placeholder="Điền địa chỉ tạm trú" class="form-control" required=""/>
+	              </div>
+	            </div>
+	            
+	            <div class="form-group">
+	              <label class="col-sm-3 control-label">Địa chỉ nhà riêng<span class="asterisk">*</span></label>
+	              <div class="col-sm-6">
+	                <input name="txtHomeAddress" type="text" value="" placeholder="Điền địa chỉ thường trú" class="form-control" required=""/>
+	              </div>
+	            </div>
+	            
+	            <div class="form-group">
+	              <label class="col-sm-3 control-label">Số điện thoại<span class="asterisk">*</span></label>
+	              <div class="col-sm-6">
+	                <input name="txtPhoneNumber" type="text" value="" placeholder="Điền số điện thoại liên hệ" class="form-control" required=""/>
+	              </div>
+	            </div>
+	            
+	            <div class="form-group">
+                  <label class="col-sm-3 control-label">Ghi chú<span class="asterisk">*</span></label>
+                  <div class="col-sm-9">
+                    <textarea name="txaAbout" rows="5" value="" class="form-control" placeholder="Ghi chú về khách hàng ..." required=""></textarea>
+                  </div>
+                </div>
+	
+	        </div><!-- panel-body -->
+	        
+	        <div class="panel-footer">
+				 <div class="row">
+					<div class="col-sm-6 col-sm-offset-3">
+					  <button class="btn btn-primary" onclick="validatesdata();">Lưu</button>&nbsp;
+					  <span id="lblsuccess" style="display: none;" class="label label-success">Success</span>
+					  <span id="lblfail" style="display: none;" class="label label-danger">Fail</span>
+					</div>
+					
+				 </div>
+			  </div><!-- panel-footer -->
+        </form>
+      </div>
+          
+        </div><!-- col-sm-9 -->
+      </div><!-- row -->
+      
+    </div><!-- contentpanel -->
+  </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="js/custom.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script>
+	function validatesdata()
+	{
+		var $valid = jQuery('#frmNewCus').valid();
+		if(!$valid) {
+			$validator.focusInvalid();
+			return false;
+		 }
+		else
+		{
+			jQuery('#frmNewCus').submit();
+		}
+		
+	}
+
+</script>
+<script defer src="slider/jquery.flexslider.js"></script>
+{% endblock %}

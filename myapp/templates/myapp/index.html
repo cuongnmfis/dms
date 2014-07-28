@@ -1,0 +1,212 @@
+{% extends "myapp/base.html" %} 
+{% block header %} 
+{% endblock header%} 
+{%block content %}
+
+<div class="btn-group" style="width: 100%;text-align: center; margin-bottom: 0px;">
+	<button type="button" class="btn btn-primary" onclick="window.location.href='/index'" style="width: 20%;">Home</button>
+	<button type="button" class="btn btn-default" onclick="window.location.href='/personalhome'"  style="width: 20%;">As Mentor</button>
+	<button type="button" class="btn btn-default" onclick="window.location.href='/studentview'" style="width: 20%;">As Student</button>
+	<button type="button" class="btn btn-default" onclick="window.location.href='/profile'" style="width: 20%;">Profile</button>
+</div>
+<div class="tab-content mb30">
+	<!-- Tab home display all post that exists in DB -->
+	<div class="tab-pane active" id="home" style="background-color: #d8dbde;"><!-- start tab home -->
+			<div class="contentpanel">
+				<div id="bloglist" class="row">
+					{% for post in posts %}
+					<div class="col-xs-6 col-sm-4 col-md-3">
+						<div class="blog-item">
+							<a href="post-detail?post_id={{ post.id }}" class="blog-img">
+							{% if post.imagelink != "" %}
+							<img src="{{ post.imagelink}}" class="img-responsive" style="margin-left: auto;margin-right: auto;padding-top: 1%"></a>
+							{% endif %}
+							<div class="blog-details">								
+								<h4 class="blog-title">									
+									<a href = "post-detail?post_id={{ post.id }}" >{{ post.title }}</a>
+								</h4>
+								<ul class="blog-meta">
+									<li>By: <a href="profile?user_id={{ post.user_id.id }}">{{ post.user_id.username }}</a></li>
+									<li>{{ post.published_date|date:'Y-M-d' }}</li>
+									{% if post.user_id == user_id %}
+									<li><a href = "mentor-post?post_id={{ post.id }}&edit=true" > edit </a></li>
+									{% endif %}
+								</ul>
+								{% if post.post_type == "1" or post.post_type == "2" %}
+								<ul class="blog-meta" style="text-align:center;">
+									<li>From: {{ post.from_date|date:'Y-M-d' }}</li>
+									<li>To: {{ post.to_date|date:'Y-M-d' }}</li>
+									
+								</ul>
+								<li>Place: {{ post.place }}</li>
+								{% endif %}
+								<div class="blog-summary" style="text-align: justify;">
+									<p>{{ post.content| truncatechars:100  }}</p>
+									<a href = "post-detail?post_id={{ post.id }}" ><button class="btn btn-sm btn-white">Read More</button></a>
+									{% if post.post_type == "1" or post.post_type == "2" %}
+										{% if post.user_id != user_id %}
+										<a href = "#" ><button class="btn btn-sm btn-white" style="text-align: right; margin-left: 60px;">Joint Class</button></a>
+										{% endif %}
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<!-- blog-item -->
+					</div>
+					<!-- col-xs-6 -->
+					{% endfor %}
+				</div>
+			<!-- row -->
+		</div><!-- end of content panel -->
+			
+	</div> <!-- end of tab home -->
+	
+	<div class="tab-pane " id="News" style="background-color: #d8dbde;"><!-- start tab home -->
+			<div class="contentpanel">
+				<div id="bloglist" class="row">
+					{% for post in posts %}
+					{% if post.post_type == "0" %}
+					<div class="col-xs-6 col-sm-4 col-md-3">
+						<div class="blog-item">
+							<a href="post-detail?post_id={{ post.id }}" class="blog-img">
+							{% if post.imagelink != "" %}
+							<img src="{{ post.imagelink}}" class="img-responsive" style="margin-left: auto;margin-right: auto;padding-top: 1%"></a>
+							{% endif %}
+							<div class="blog-details">								
+								<h4 class="blog-title">									
+									<a href = "post-detail?post_id={{ post.id }}" >{{ post.title }}</a>
+								</h4>
+								<ul class="blog-meta">
+									<li>By: <a href="profile?user_id={{ post.user_id.id }}">{{ post.user_id.username }}</a></li>
+									<li>{{ post.published_date|date:'Y-M-d' }}</li>
+									{% if post.user_id == user_id %}
+									<li><a href = "mentor-post?post_id={{ post.id }}&edit=true" > edit </a></li>
+									{% endif %}
+								</ul>
+								{% if post.post_type == "1" or post.post_type == "2" %}
+								<ul class="blog-meta" style="text-align:center;">
+									<li>From: {{ post.from_date|date:'Y-M-d' }}</li>
+									<li>To: {{ post.to_date|date:'Y-M-d' }}</li>
+									
+								</ul>
+								<li>Place: {{ post.place }}</li>
+								{% endif %}
+								<div class="blog-summary" style="text-align: justify;">
+									<p>{{ post.content| truncatechars:100  }}</p>
+									<a href = "post-detail?post_id={{ post.id }}" ><button class="btn btn-sm btn-white">Read More</button></a>
+									{% if post.post_type == "1" or post.post_type == "2" %}
+										{% if post.user_id != user_id %}
+										<a href = "#" ><button class="btn btn-sm btn-white" style="text-align: right; margin-left: 60px;">Joint Class</button></a>
+										{% endif %}
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<!-- blog-item -->
+					</div>
+					<!-- col-xs-6 -->
+					{% endif %} <!-- endif of posttype -->
+					{% endfor %}
+				</div>
+			<!-- row -->
+		</div><!-- end of content panel -->
+	</div> <!-- end of tab home -->
+	<div class="tab-pane " id="Lectures" style="background-color: #d8dbde;">
+	{% include 'myapp/lecture.html' %}
+	</div> <!-- end of tab Lectures -->
+	<div class="tab-pane " id="Events" style="background-color: #d8dbde;">
+		<div class="contentpanel">
+				<div id="bloglist" class="row">
+					{% for post in posts %}
+					{% if post.post_type == "2" %}
+					<div class="col-xs-6 col-sm-4 col-md-3">
+						<div class="blog-item">
+							<a href="{{post.videolink}}" class="video adv-tooltip maia-col-3 javascript-oov" style="height: 250px;" class="blog-img">
+							{% if post.imagelink != "" %}
+							<img src="{{ post.imagelink}}" class="img-responsive" style="margin-left: auto;margin-right: auto;padding-top: 1%"></a>
+							{% endif %}
+							<div class="blog-details">								
+								<h4 class="blog-title">									
+									<a href = "post-detail?post_id={{ post.id }}" >{{ post.title }}</a>
+								</h4>
+								<ul class="blog-meta">
+									<li>By: <a href="profile?user_id={{ post.user_id.id }}">{{ post.user_id.username }}</a></li>
+									<li>{{ post.published_date|date:'Y-M-d' }}</li>
+									{% if post.user_id == user_id %}
+									<li><a href = "mentor-post?post_id={{ post.id }}&edit=true" > edit </a></li>
+									{% endif %}
+								</ul>
+								{% if post.post_type == "1" or post.post_type == "2" %}
+								<ul class="blog-meta" style="text-align:center;">
+									<li>From: {{ post.from_date|date:'Y-M-d' }}</li>
+									<li>To: {{ post.to_date|date:'Y-M-d' }}</li>
+									
+								</ul>
+								<li>Place: {{ post.place }}</li>
+								{% endif %}
+								<div class="blog-summary" style="text-align: justify;">
+									<p>{{ post.content| truncatechars:100  }}</p>
+									<a href = "post-detail?post_id={{ post.id }}" ><button class="btn btn-sm btn-white">Read More</button></a>
+									{% if post.post_type == "1" or post.post_type == "2" %}
+										{% if post.user_id != user_id %}
+										<a href = "#" ><button class="btn btn-sm btn-white" style="text-align: right; margin-left: 60px;">Joint Class</button></a>
+										{% endif %}
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<!-- blog-item -->
+					</div>
+					<!-- col-xs-6 -->
+					{% endif %} <!-- endif of posttype -->
+					{% endfor %}
+				</div>
+			<!-- row -->
+		</div><!-- end of content panel -->
+	</div><!-- end of tab Events -->
+</div>
+{% endblock content%} 
+{% block scripts %}
+<script src="js/masonry.pkgd.min.js"></script>
+
+<script src="js/custom.js"></script>
+<script>
+  jQuery(window).load(function(){
+  
+    var container = document.querySelector('#bloglist');
+    var msnry = new Masonry( container, {
+      // options
+      columnWidth: '.col-xs-6',
+      itemSelector: '.col-xs-6'
+    });
+    
+    // check on load
+    if(jQuery(window).width() <= 480 )
+        msnry.destroy();
+
+    // check on resize
+    jQuery(window).resize(function(){
+        if(jQuery(this).width() <= 480 )
+            msnry.destroy();
+    });
+
+    var container = document.querySelector('#timeline-list');
+    var msnry = new Masonry( container, {
+      // options
+      columnWidth: '.col-sm-6',
+      itemSelector: '.col-sm-6'
+    });
+    
+    // check on load
+	if(jQuery(window).width() <= 480 )
+		msnry.destroy();
+
+    // check on resize
+	jQuery(window).resize(function(){
+		if(jQuery(this).width() <= 480 )
+			msnry.destroy();
+	});
+		CallURL();
+	});	
+</script>
+{% endblock scripts%}

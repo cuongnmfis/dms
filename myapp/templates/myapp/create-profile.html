@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="shortcut icon" href="images/favicon.png" type="image/png">
+
+<title>Ex-artisan Admin System</title>
+
+<link href="css/style.default.css" rel="stylesheet">
+<link href="css/ase-style.css" rel="stylesheet">
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="signin">
+
+	<!-- Preloader -->
+	<div id="preloader">
+		<div id="status">
+			<i class="fa fa-spinner fa-spin"></i>
+		</div>
+	</div>
+	<section>
+
+		<div class="signuppanel">
+			
+			<div class="row">
+				<div class="col">
+					<div style="float: inherit;">
+						<h3 class="panel-title" >ADULT SOCIAL EDUCATION</h3>
+						<br>
+					</div>
+					<div class="panel panel-default panel-alt widget-messaging">
+						<div class="panel-heading" style="background: #333;color: #fff">
+							<h3 class="panel-title" style="color: #fff">Create Profile</h3>
+							<small>Choose type of account as below</small>
+						</div>
+						<div class="panel-body" style="padding: 10px">
+							<ul>
+								<li style="cursor: pointer;" onclick="location.href='update-profile?acccount_type=M';"><span class="pull-right"><i class="glyphicon glyphicon-forward"></i></span>
+										<h4 class="sender">Mentor</h4> <small>Choose account
+											as mentor.</small></li>
+								<li style="cursor: pointer;" onclick="location.href='update-profile?acccount_type=S';"><span class="pull-right"><i class="glyphicon glyphicon-forward"></i></span>
+									<h4 class="sender">Student</h4> <small>Choose account
+										as student.</small></li>
+								<li style="cursor: pointer;" onclick="location.href='update-profile?acccount_type=O';"><span class="pull-right"><i class="glyphicon glyphicon-forward"></i></span>
+									<h4 class="sender">Other</h4> <small>Choose account as
+										other.</small></li>
+							</ul>
+						</div>
+						<!-- panel-body -->
+					</div>
+				</div>
+				<div class="signup-footer" style="padding-top: 5px; margin-top: 5px">
+					<div class="pull-left">© 2014. All Rights Reserved.</div>
+					<div class="pull-right">
+						Created By: <a href="http://ex-artisan.com" target="_blank">Ex-artisan</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<script src="js/jquery-1.10.2.min.js"></script>
+	<script src="js/jquery-migrate-1.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/modernizr.min.js"></script>
+	<script src="js/retina.min.js"></script>
+
+	<script src="js/chosen.jquery.min.js"></script>
+
+	<script src="js/custom.js"></script>
+	<script>
+    jQuery(document).ready(function(){
+        
+        // Chosen Select
+        jQuery(".chosen-select").chosen({
+            'width':'100%',
+            'white-space':'nowrap',
+            disable_search_threshold: 10
+        });
+        
+    });
+</script>
+
+</body>
+</html>

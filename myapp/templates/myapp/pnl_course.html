@@ -1,0 +1,70 @@
+<div class="contentpanel" style="min-height: 800px auto;">
+	{% include 'myapp/createesay.html'%} {% include 'myapp/addphoto.html'%}
+	{% include 'myapp/addvideo.html' %} {% include 'myapp/addlink.html' %}
+
+	{% if not is_joined %}
+		{% if user_id|truncatechars:100 == cl.mentor.user.username|truncatechars:100 %}
+			<p></p>
+		{% else %}
+			<form id="frmJoincourse" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="user_id" value="{{ user_id }}"> 
+				<input type="hidden" name="course_id" value="{{ course_id }}">
+				<input type="hidden" name="posttype" value="frmJoincourse">
+				<div class="row" style="margin-left: 0%;margin-bottom: 1%;">
+					<!-- <button type="submit" class="btn btn-primary" onclick=" joincourse('{{ user_id }}','{{ course_id }}');">Join</button> -->
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#joincourse" onclick="onJoinCourse('{{ course_id }}');">参加する</button>
+				</div>
+			</form>
+		{% endif %}
+	{% endif %}
+	<div id="bloglist" class="row" style="min-height: 500px;">
+		{% for mt in cl.material %}
+			{% include "myapp/pnl_material.html"%}
+		{% endfor %}
+	</div>
+</div>
+<script type="text/javascript">
+	function createpost() {
+		document.getElementById("formcreateesay").submit();
+	};
+	
+	function joincourse(user_id,course_id) {
+		document.forms["frmJoincourse"].user_id.value = user_id
+		document.forms["frmJoincourse"].course_id.value = course_id;
+		document.getElementById("frmJoincourse").submit();
+	};
+
+	function saveComment() {
+		document.getElementById("formcommentonlecture").submit();
+	};
+
+	function createesay(postid) {
+		document.forms["formcreateesay"].post_id.value = postid;
+	};
+
+	function socialmodule(postid) {
+		document.forms["formcreateesay"].post_id.value = postid;
+	};
+
+	function commentpost() {
+		document.forms["formcreateesay"].post_id.value = postid;
+		alert('comment post. asladskdla..');
+	};
+	
+	
+	function createlecture() {
+		document.getElementById("formcreatelecture").submit();
+	};
+	
+	function teststar(postid) {
+		for (i = 0; i < document.getElementsByName('rating').length; i++) {
+			if (document.getElementsByName('rating')[i].checked == true) {
+				var ratingValue = document.getElementsByName('rating')[i].value;
+				break;
+			}
+		}
+		document.getElementsByName('txtrate').value = ratingValue;
+		document.getElementById("frmrating").submit();
+	};
+</script>

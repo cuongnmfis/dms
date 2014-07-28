@@ -1,0 +1,150 @@
+{% extends "myapp/base.html" %}
+{% block header %}
+<div class="pageheader">
+	<h2>
+		<i class="fa fa-edit"></i> <a href="/account-setting">プロファイル設定</a>
+	</h2>
+</div>
+{% endblock %} 
+{% block content %}
+<div class="mainpanel" style="margin-top: 2%">
+        
+    <div class="contentpanel">
+      
+      <div class="row">
+        <div class="col-sm-3">
+          <img onclick="$('#id_image').click();"  src="{{ user_images }}" class="thumbnail img-responsive" alt="">
+          
+          
+          <div class="mb30"></div>
+          
+         <div class="profile-header">
+            {% if user.firstname %}
+            <h2 class="profile-name">{{ user.firstname }}{{ user.lastname }}</h2>
+            {% else %}
+            <h2 class="profile-name">{{ user.username }}</h2>
+            {% endif %}
+            <div class="profile-position"><i class="fa fa-briefcase"></i> {{ UserProfile.job_title }} at <a href="#">{{ UserProfile.company }}</a></div>
+            {% if form.image.errors %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <strong>誤ったイメージ形式 </strong> 
+            </div>
+            {% endif %}
+          </div><!-- profile-header -->
+          
+        </div><!-- col-sm-3 -->
+        <div class="col-sm-9">
+
+         <div class="panel panel-default">
+        <form method="post" action="/account-setting" class="form-horizontal form-bordered" id="frmProfile" novalidate="novalidate">
+        {% csrf_token %}
+	        <div class="panel-body panel-body-nopadding">
+	            <div class="form-group">
+					  <label class="col-sm-3 control-label" for="readonlyinput">ユーザ名</label>
+					  <div class="col-sm-6">
+						 <input name="txtUserName" type="text" value="{{ user.username }}" id="readonlyinput" class="form-control" readonly="readonly"/>
+					  </div>
+					</div>
+					
+				<div class="form-group">
+					<label class="col-sm-3 control-label">現在のジョブ<span class="asterisk">*</span></label>
+					<div class="col-sm-6">
+						<input name="txtJob"  type="text" value="{{ UserProfile.job_title }}" placeholder="Describle your job now" class="form-control" required=""/>
+					</div>
+				</div>
+				
+	            <div class="form-group">
+	              <label class="col-sm-3 control-label">現在の職場<span class="asterisk">*</span></label>
+	              <div class="col-sm-6">
+	                <input name="txtCompany" type="text" value="{{ UserProfile.company }}" placeholder="What company are you working with now ?" class="form-control" required=""/>
+	              </div>
+	            </div>
+	            
+	            <div class="form-group">
+	              <label class="col-sm-3 control-label">現在の作業時間]フィールド<span class="asterisk">*</span></label>
+	              <div class="col-sm-6">
+	                <input name="txtWorking" type="text" value="{{ UserProfile.work_field }}" placeholder="Your woking field ?" class="form-control" required=""/>
+	              </div>
+	            </div>
+	            
+	            <div class="form-group">
+	              <label class="col-sm-3 control-label">教育<span class="asterisk">*</span></label>
+	              <div class="col-sm-6">
+	                <input name="txtEducation" type="text" value="{{ UserProfile.edu }}" placeholder="Your education level ?" class="form-control" required=""/>
+	              </div>
+	            </div>
+	            
+	            <div class="form-group">
+	              <label class="col-sm-3 control-label">スキル<span class="asterisk">*</span></label>
+	              <div class="col-sm-6">
+	                <input name="txtSkill" type="text" value="{{ UserProfile.skill }}" placeholder="Skill" class="form-control" required=""/>
+	              </div>
+	            </div>
+	            
+	            <div class="form-group">
+                  <label class="col-sm-3 control-label">約 <span class="asterisk">*</span></label>
+                  <div class="col-sm-9">
+                    <textarea name="txaAbout" rows="5" value="{{ UserProfile.about }}" class="form-control" placeholder="Tell us some thing about your self..." required="">{{ UserProfile.about }}</textarea>
+                  </div>
+                </div>
+	
+	        </div><!-- panel-body -->
+	        
+	        <div class="panel-footer">
+				 <div class="row">
+					<div class="col-sm-6 col-sm-offset-3">
+					  <button class="btn btn-primary" onclick="validatesdata();">保存</button>&nbsp;
+					  <span id="lblsuccess" style="display: none;" class="label label-success">Success</span>
+					  <span id="lblfail" style="display: none;" class="label label-danger">Fail</span>
+					</div>
+					
+				 </div>
+			  </div><!-- panel-footer -->
+			  <input type="hidden" name="formType" value="frmProfile"/>
+        </form>
+      </div>
+          
+		<!-- Upload form. Note enctype attribute! -->
+		<form style="display: none;" id="frmImage" action="/account-setting" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form }}
+			<p><input type="submit" value="Upload" /></p>
+			<input type="hidden" name="formType" value="frmImage"/>
+		</form>
+		
+        </div><!-- col-sm-9 -->
+      </div><!-- row -->
+      
+    </div><!-- contentpanel -->
+  </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="js/custom.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script>
+	function validatesdata()
+	{
+		var $valid = jQuery('#frmProfile').valid();
+		if(!$valid) {
+			$validator.focusInvalid();
+			return false;
+		 }
+		else
+		{
+			jQuery('#frmProfile').submit();
+		}
+		
+	}
+	
+	$('#id_image').live('change', function(){ 
+		$('#frmImage').submit();
+	});
+		
+	
+</script>
+<script defer src="slider/jquery.flexslider.js"></script>
+{% endblock %}

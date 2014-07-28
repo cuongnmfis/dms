@@ -1,0 +1,55 @@
+@CHARSET "ISO-8859-1";
+@media screen and (max-width: 767px)
+{
+	.signinpanel .signin-info{
+	   display: none;
+	}
+
+	.signuppanel .signup-info {
+	   display: none;
+	}
+}
+.leftpanel{
+		display: none;
+}
+.mainpanel{
+	margin: 0px;
+	min-height: 0;
+}
+.peoplename{
+	font-family: tahoma,arial !important;
+}
+.img{
+	vertical-align: middle;
+	margin-right: 2px;
+}
+.pageheader {
+	height: 30px;
+}
+
+.pageheader span {
+	float: right;
+}
+
+.pageheader .pageheader-right {
+	float: right;
+	font-style: italic;
+	color: #999;
+	font-size: 13px;
+	text-transform: none;
+}
+
+.pageheader .logo {
+	width: 50px;
+	background: #fff;
+	float: left;
+}
+.showDiv{
+	display: none;
+}
+.alert-success:hover .showDiv{
+display : block;
+}
+.alert-danger:hover .showDiv{
+display : block;
+}

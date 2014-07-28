@@ -1,0 +1,131 @@
+{% extends "myapp/base.html" %} 
+
+{% block header %}
+	{% include 'myapp/pnl_header.html' %}
+{% endblock %} 
+
+
+{% block content %}
+<!-- Start content panel -->
+{% include 'myapp/pnl_course.html' %}
+<!-- contentpanel -->
+{% endblock %} 
+{% block scripts %}
+
+<script src="js/jquery-ui-1.10.3.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+
+<script src="js/masonry.pkgd.min.js"></script>
+<script src="js/custom.js"></script>
+<script>
+jQuery(window).load(function(){
+		var container = document.querySelector('#bloglist');
+		var msnry = new Masonry( container, {
+		// options
+		columnWidth: '.col-xs-6',
+		itemSelector: '.col-xs-6'
+	});
+	
+	// check on load
+	if(jQuery(window).width() <= 480 )
+		msnry.destroy();
+
+	// check on resize
+	jQuery(window).resize(function(){
+		if(jQuery(this).width() <= 480 )
+			msnry.destroy();
+	});
+	// Date Picker
+	var pickerOpts = {
+		minDate: new Date(),
+		maxDate: "+365"
+	};
+// Date Picker
+jQuery('#planstart').datepicker(pickerOpts);
+jQuery('#planend').datepicker(pickerOpts);
+$('a#like').click( function() {
+	$(this).closest("form").submit();
+});
+$("form#formLike").submit(function( event ) {
+		// Stop form from submitting normally
+		event.preventDefault();
+		// Get some values from elements on the page:
+		var $form = $( this ),token= $form.find( "input[name='csrfmiddlewaretoken']" ).val(),
+			term = 'likeMaterial',
+			url = $form.attr( "action" );
+		// Send the data using post
+		var posting = $.post( url, $( this ).serialize() );
+		
+		// Put the results in a div
+		posting.done(function( data )
+		{
+			//alert(data.formdata);
+			material_id = data.formdata;
+			var ic=document.getElementById('icon'+material_id);
+			var testClass = ic.className;
+			if(!document.getElementById('icon'+material_id).classList.contains('glyphicon-heart'))
+			{
+				document.getElementById('hiddenOnlyClick'+material_id).value=1;
+				ic.className="glyphicon glyphicon-heart"
+				var numberLike=parseInt(document.getElementById('hiddenNumberLike'+material_id).value);
+				numberLike=numberLike;
+				document.getElementById('hiddenNumberLike'+material_id).value=numberLike;
+				document.getElementById('type'+material_id).value=1;
+				if(numberLike == 0)
+				{
+					document.getElementById('numberLike'+material_id).innerHTML='you like this';
+				}
+				else
+				{
+					document.getElementById('numberLike'+material_id).innerHTML='you and ' + numberLike +' people like this';
+				}
+			}
+			else
+			{
+				var numberLike=parseInt(document.getElementById('hiddenNumberLike'+material_id).value);
+					document.getElementById('hiddenOnlyClick'+material_id).value=0;
+					ic.className="glyphicon glyphicon-heart-empty";
+					numberLike=numberLike;
+				document.getElementById('hiddenNumberLike'+material_id).value=numberLike;
+				document.getElementById('type'+material_id).value=0;
+				
+				if(numberLike<1)
+				{
+					document.getElementById('numberLike'+material_id).innerHTML=numberLike +' people like this';
+				}
+				else
+				{
+					document.getElementById('numberLike'+material_id).innerHTML=numberLike +' peoples like this';
+				}
+			}
+			//alert(data.formdata);
+		});
+	});	
+});
+
+	function onValidateSubmit()
+	{
+		var $valid = jQuery('#formjoincourse').valid();
+		if(!$valid) 
+		{
+			$validator.focusInvalid();
+			return false;
+		}
+		jQuery('#formjoincourse').submit();
+	};
+
+$( document ).ready(function() {
+
+	console.log('course_id: '+ '{{course_id}}');
+	console.log('author_id: '+ '{{author_id}}');
+	
+	document.forms["formjoincourse"].user_id.value = '{{author_id}}';
+	document.forms["formjoincourse"].curriculum_id.value = '{{course_id}}';
+	
+	$("#formjoincourse").find("#user_id").val('{{author_id}}');
+	$("#formjoincourse").find("#curriculum_id").val('{{course_id}}');
+	
+	console.log( "ready!" );
+});
+</script>
+{% endblock %}

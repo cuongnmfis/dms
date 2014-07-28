@@ -1,0 +1,87 @@
+<!-- Modal -->
+<div class="modal fade" id="addvideo" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Add new video</h4>
+			</div>
+
+			<!-- Start block -->
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#home" data-toggle="tab"><strong>Youtube Video</strong></a></li>
+				<li><a href="#URL" data-toggle="tab"><strong>URL Video</strong></a></li>
+				<li><a href="#YourVideo" data-toggle="tab"><strong>Upload your video</strong></a></li>
+			</ul>
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane" id="home">
+					<script type="text/javascript">
+					function go_getlist(){
+					var base_url = 'http://www.youtube.com/embed?listType=search&list=';
+					var search_field = document.getElementById('txtsearch').value ;
+					var target_url = base_url + search_field ;
+					var ifr = document.getElementById('playlist') ;
+					ifr.src = target_url ;
+					return false ;
+					}
+					
+					</script>
+					<div class="row">
+						<form onsubmit="go_getlist(); return false;">
+						<div class="input-group mb15">
+						<input type="text" class="form-control" id="txtsearch" placeholder="Search here.."> 
+						<span class="input-group-btn"><button type="submit" class="btn btn-default" value="Search Playlists">Go!</button></span>
+						</div>
+						</form>
+						<div class="col-sm" style="margin-top: 2%;">
+						<iframe id="playlist" width="100%" height="360"></iframe>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-pane" id="URL">
+					<script type="text/javascript">
+					function go_get(){
+					 var base_url = 'http://www.youtube.com/embed?listType=search&list=';
+					 var search_field = document.getElementById('yourtextfield').value ;
+					 var target_url = base_url + search_field ;
+					 var ifr = document.getElementById('youriframe') ;
+					 ifr.src = target_url ;
+					 return false ;
+					}
+					
+					</script>
+					<div class="row">
+						<form onsubmit="go_get(); return false;">
+						<div class="input-group mb15">
+						<input type="text" class="form-control" id="yourtextfield" placeholder="Search here.."> 
+						<span class="input-group-btn"><button type="submit" class="btn btn-default" value="Search Playlists">Go!</button></span>
+						</div>
+						</form>
+						<div class="col-sm" style="margin-top: 2%;">
+						<iframe id="youriframe" width="100%" height="360"></iframe>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="YourVideo">
+				<form action="http://themepixels.com/file/post" class="dropzone dz-clickable">
+					<div class="dz-default dz-message"><span>Drop files here to upload</span></div>
+				</form>
+				</div>
+			</div>
+			<!-- End of block -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary"
+					onclick="createpost();">Save</button>
+			</div>
+		</div>
+		<!-- modal-content -->
+	</div>
+	<!-- modal-dialog -->
+</div>
+<!-- modal -->

@@ -1,0 +1,118 @@
+{% extends "myapp/base.html" %} {% block header %}
+<div class="pageheader">
+	<h2>
+		<i class="fa fa-home"></i> <a href="index">Search Mentor</a>
+	</h2>
+</div>
+{% endblock %} 
+{% block content %}
+
+<div class="contentpanel">	
+	<div class="mb30">
+		<form class="" action="people-directory" method="post">
+		{% csrf_token %}
+			<div align="center">
+				<input type="text" style="width: 50%;" class="form-control" name="keyword" value="{{keyword}}" placeholder="Search here..." />
+			</div>
+		</form>
+	</div>
+	<div class="people-list">
+		<div class="row">
+		{% if lisUserProfile %}
+			{% for profile in lisUserProfile %}
+			<div class="col-md-6">
+				<div class="people-item">
+					<div class="media">
+						<a href="#" class="pull-left"> <img alt=""
+							{% if profile.images %}
+								src="/{{profile.images}}" class="thumbnail media-object">
+							{% else %}
+								src="images/photos/user.png" class="thumbnail media-object">
+							{% endif %}
+						</a>
+						<div class="media-body">
+							<h4 class="person-name peoplename">{{profile.user_id.last_name|add:" "|add:profile.user_id.first_name}}</h4>
+							<div class="text-muted">
+								<i class="fa fa-map-marker"></i> {{profile.work_field.type_name}}
+							</div>
+							<div class="text-muted">
+								<i class="fa fa-briefcase"></i> <a href="#">{{profile.job_title.name}}</a> at <a
+									href="http://www.ex-artisan.com" target="_blank">{{profile.company}}</a>
+							</div>
+							<div class="text-muted">
+								<i class="fa fa-briefcase"></i>Skill : 
+								{% for skill in profile.skill %}
+										{{skill|add:","}}
+								{% endfor %}
+							</div>
+							<div class="text-muted">
+								<i class="fa fa-briefcase"></i>Education : 
+								{% for edu in profile.edu %}
+										{{edu|add:","}}
+								{% endfor %}
+							</div>
+							<ul class="social-list">
+								<li><a href="#" class="tooltips" data-toggle="tooltip"
+									data-placement="top" title="" data-original-title="Email"><i
+										class="fa fa-envelope-o"></i></a></li>
+								<li><a href="#" class="tooltips" data-toggle="tooltip"
+									data-placement="top" title="" data-original-title="Facebook"><i
+										class="fa fa-facebook"></i></a></li>
+								<li><a href="#" class="tooltips" data-toggle="tooltip"
+									data-placement="top" title="" data-original-title="Twitter"><i
+										class="fa fa-twitter"></i></a></li>
+								<li><a href="#" class="tooltips" data-toggle="tooltip"
+									data-placement="top" title="" data-original-title="LinkedIn"><i
+										class="fa fa-linkedin"></i></a></li>
+								<li><a href="#" class="tooltips" data-toggle="tooltip"
+									data-placement="top" title="" data-original-title="Skype"><i
+										class="fa fa-skype"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- col-md-6 -->
+			{% endfor %}
+			{% else %}
+			<div class="col-md-6">
+				<h1>No Mentor Found</h1>
+			</div>
+			<!-- col-md-6 -->
+			{% endif %}
+			
+		</div>
+		<!-- row -->
+	</div>
+	<!-- people-list -->
+
+</div>
+<!-- contentpanel -->
+
+{% endblock %} {% block scripts %}
+<script src="js/masonry.pkgd.min.js"></script>
+
+<script src="js/custom.js"></script>
+<script>
+  jQuery(window).load(function(){
+  
+    var container = document.querySelector('#bloglist');
+    var msnry = new Masonry( container, {
+      // options
+      columnWidth: '.col-xs-6',
+      itemSelector: '.col-xs-6'
+    });
+    
+    // check on load
+    if(jQuery(window).width() <= 480 )
+        msnry.destroy();
+
+    // check on resize
+    jQuery(window).resize(function(){
+        if(jQuery(this).width() <= 480 )
+            msnry.destroy();
+    });
+
+  });
+</script>
+{% endblock %}

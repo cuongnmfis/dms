@@ -1,0 +1,42 @@
+<div id="modalchangepw">
+	<ul style="margin: 5px;">
+		<ul class="thumbnails" style="margin: 0 auto; background: white;">
+			<div class="thumbnail row-fluid"
+				style="background: white; padding: 10px; width: 97%; -moz-border-radius: 5px; border-radius: 5px; -moz-box-shadow: 3px 3px 5px 0px #ccc; -webkit-box-shadow: 3px 3px 5px 0px #ccc; box-shadow: 3px 3px 5px 0px #ccc;">
+				<br> {% if not error == '' %}
+				<div class="alert alert-error">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					{{ error }}
+				</div>
+				{% endif %} {% if not success == '' %}
+				<div class="alert alert-success">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					{{ success }}
+				</div>
+				{% endif %} {% if messages %} {% for message in messages %}
+				<div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					{{ message|safe }}
+				</div>
+				{% endfor %} {% endif %}
+				<form id='changepw' enctype="multipart/form-data" method="post"
+					action=".">
+					<p>
+						<label for="id_currentpw">Current Password:</label> <input
+							type="password" name="currentpw" id="id_currentpw" />
+					</p>
+					<p>
+						<label for="id_newpw1">New Password:</label> <input
+							type="password" name="newpw1" id="id_newpw1" />
+					</p>
+					<p>
+						<label for="id_newpw2">Re-enter New Password:</label> <input
+							type="password" name="newpw2" id="id_newpw2" />
+					</p>
+					<input class="btn btn-primary" type="submit" value="submit" /> {%
+					csrf_token %}
+				</form>
+			</div>
+		</ul>
+	</ul>
+</div>

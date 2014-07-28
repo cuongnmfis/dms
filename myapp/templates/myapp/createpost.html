@@ -1,0 +1,45 @@
+<div class="col-sm-6">
+			<div class="panel panel-dark panel-alt timeline-post">
+				<!-- Start block -->
+				<form method="post" name="formcreatelecture" id="formcreatelecture">
+					{% csrf_token %}
+					<input type="hidden" name="posttype" value="2">
+					<div class="col-md">
+						<div class="panel panel-default">
+							<form>
+								<div class="panel-body">
+									<div class="col-lg" style="margin-top: 10px;width: 98%; margin-left: 1%;">
+										<input name="txtTitle" type="text" class="form-control" required="required"
+											placeholder="Title of lecture" value="{{Title}}" maxlength="100" style="width: 100%; border: 1px solid #BDE0BE;"/>
+									</div>
+									<div class="col-lg" style="margin-top: 10px;width: 98%; margin-left: 1%;">
+										<input name="txtAmazonLink" type="text" class="form-control"
+											placeholder="Amazon URL" value="{{Amazonlink}}" maxlength="100" style="width: 100%; border: 1px solid #BDE0BE;"/>
+									</div>
+									<!-- row -->
+									<div class="col-lg" style="margin-top: 10px;width: 98%; margin-left: 1%;">
+									<textarea name="txtContent" id="autoResizeTA" class="form-control" required="required" maxlength="2000" rows="5" placeholder="Description of lecture" style="width: 100%; border: 1px solid #BDE0BE;"></textarea>
+									</div>
+								</div>
+						</div>
+						<!-- panel -->
+					</div>
+				</form>
+				<!-- End of block -->
+				<!-- panel-body -->
+				<div class="panel-footer">
+					<div class="timeline-btns pull-left">
+						<a href="#" class="tooltips" data-toggle="modal" data-target="#addphoto" title="Add Photo"><i class="glyphicon glyphicon-picture"></i></a>
+						<a href="#" class="tooltips" data-toggle="modal" data-target="#addvideo" title="Add Video"><i class="glyphicon glyphicon-facetime-video"></i></a>
+						<a href="#" class="tooltips" data-toggle="modal" data-target="#addlink" title="Amazon Link"><i class="glyphicon glyphicon-link"></i></a> 
+						<a href="#" class="tooltips" data-toggle="modal" data-target="#addvideo" title="Check In"><i class="glyphicon glyphicon-map-marker"></i></a> 
+						<a href="#" class="tooltips" data-toggle="modal" data-target="#addvideo" title="Tag User"><i class="glyphicon glyphicon-user"></i></a>
+					</div>
+					<!--timeline-btns -->
+					<button class="btn btn-primary pull-right" onclick="createlecture();">Submit Post</button>
+				</div>
+				</form> <!-- end of form mentor post -->
+				<!-- panel-footer -->
+			</div>
+		</div>
+		<!-- col-sm-6 -->

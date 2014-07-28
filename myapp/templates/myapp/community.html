@@ -1,0 +1,46 @@
+{% extends "myapp/base.html" %}
+{% load i18n %} 
+{% block styles %}
+<link href="css/student-home.css" rel="stylesheet">
+<link rel="stylesheet" href="slider/flexslider.css" type="text/css" />
+{% endblock %} 
+{% block content %}
+<div class="contentpanel" style="margin-top: 3%">
+
+<div class="imgcontruction">
+	<img src="/images/uc-jp.jpg" style="float:middle" height="50%" width="50%">
+</div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script> 
+<script src="js/modernizr.min.js"></script>
+<script src="js/retina.min.js"></script>
+<script defer src="slider/jquery.flexslider.js"></script>
+<script src="js/jquery-ui-1.10.3.min.js"></script>
+<script src="js/chosen.jquery.min.js"></script>
+<script src="js/custom.js"></script>
+<script type="text/javascript">
+$(window).load(function() {
+  $('.flexslider').flexslider({
+    animation: "slide",
+    controlNav: false,
+  });
+});
+</script>
+
+<style>
+.imgcontruction{
+
+	position:absolute;
+	left:50%;
+	top:40%;
+	margin:-75px 0 0 -135px;
+}
+</style>
+
+{% endblock scripts%}
+

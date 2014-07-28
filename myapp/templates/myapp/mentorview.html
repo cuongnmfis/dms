@@ -1,0 +1,282 @@
+{% extends "myapp/base.html" %} 
+{%block styles %}
+<link href="css/mentor-course.css" rel="stylesheet">
+{% endblock %}
+{% block header %}
+	{% include 'myapp/pnl_header.html' %}
+{% endblock %} 
+
+{%block content %}
+	<div class="contentpanel" style="min-height: 550px;padding: 0px;">
+		{% if has_curriculum == True %} 
+			{% include 'myapp/listofcurriculumn.html' %}
+		{% else %}
+			{% include 'myapp/createcourse.html' %}
+		{% endif %}
+	
+		<!-- end of content panel -->
+	</div>
+{% endblock content%} 
+
+{% block scripts %}
+<script src="js/masonry.pkgd.min.js"></script>
+<script src="js/jquery-ui-1.10.3.min.js"></script>
+<script src="js/chosen.jquery.min.js"></script>
+
+<script src="js/bootstrap-wizard.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script src="js/jquery.maskedinput.min.js"></script>
+<script src="js/jquery.numeric.js"></script>
+<script src="js/custom.js"></script>
+
+<script>
+	jQuery(window).load(function(){
+		/* $("#firstForm").submit(function( event ) {
+		// Stop form from submitting normally
+		event.preventDefault();
+		// Get some values from elements on the page:
+		var $form = $( this ),token= $form.find( "input[name='csrfmiddlewaretoken']" ).val(),
+			term = 'likeMaterial',
+			url = $form.attr( "action" );
+		// Send the data using post
+		var posting = $.post( url, $( this ).serialize() );
+		
+		// Put the results in a div
+		posting.done(function( data )
+		{
+			document.getElementById('showAdd').style.display="none";
+		});
+	}); */
+    var container = document.querySelector('#bloglist');
+    var msnry = new Masonry( container, {
+      // options
+      columnWidth: '.col-xs-6',
+      itemSelector: '.col-xs-6'
+    });
+    
+    // check on load
+    if(jQuery(window).width() <= 480 )
+        msnry.destroy();
+
+    // check on resize
+    jQuery(window).resize(function(){
+        if(jQuery(this).width() <= 480 )
+            msnry.destroy();
+    });
+ // Date Picker
+	var pickerOptsStart = {
+		minDate: new Date(),
+		maxDate: "+5Y",
+		onSelect: function(dateText) {
+			jQuery("#enddate").datepicker('option', 'minDate', dateText);
+		}
+	};
+	var pickerOptsEnd = {
+			minDate: new Date(),
+			maxDate: "+5Y",
+			onSelect: function(dateText) {
+				jQuery("#startdate").datepicker('option', 'maxDate', dateText);
+			}
+		};
+	// Date Picker
+	var pickerOptsPlanStart = {
+		minDate: new Date(),
+		maxDate: "+5Y",
+		onSelect: function(dateText) {
+			jQuery("#planend").datepicker('option', 'minDate', dateText);
+		}
+	};
+	var pickerOptsPlanEnd = {
+		minDate: new Date(),
+		maxDate: "+5Y",
+		onSelect: function(dateText) {
+			jQuery("#planstart").datepicker('option', 'maxDate', dateText);
+		}
+	};
+	// Date Picker
+	jQuery('#planstart').datepicker(pickerOptsPlanStart);
+	jQuery('#planend').datepicker(pickerOptsPlanEnd);
+  // Basic Wizard
+  jQuery('#basicWizard').bootstrapWizard();
+  
+  jQuery('#startdate').datepicker(pickerOptsStart);
+  jQuery("#startdate").mask("99/99/9999");
+  // Date Picker
+  jQuery('#enddate').datepicker(pickerOptsEnd);
+  jQuery("#enddate").mask("99/99/9999");
+  // Date Picker
+  jQuery('#curriculumstartdate').datepicker({});
+  jQuery("#curriculumstartdate").mask("99/99/9999");
+  // Date Picker
+  jQuery('#curriculumenddate').datepicker({});
+  jQuery("#curriculumenddate").mask("99/99/9999");
+  $("#duration").numeric();
+  // Progress Wizard
+  $('#courseWizard').bootstrapWizard({
+    'nextSelector': '.next',
+    'previousSelector': '.previous',
+    'lastSelector':'.submit',
+    tabClass: 'nav nav-pills nav-justified nav-disabled-click',
+    onTabClick: function(tab, navigation, index) {
+      return false;
+    },
+    onNext: function(tab, navigation, index) {
+    	if(document.getElementById('numberMaterialShow').value == "0")
+    	{
+    		var $valid = jQuery('#firstForm').valid();
+    	    if(!$valid) {
+    	    	$validator.focusInvalid();
+    	   		return false;
+    	     }
+    	}
+    	else
+    	{
+	   		if( index !=2 )
+   	    	{
+   	    		var $valid = jQuery('#firstForm').valid();
+   	    	    if(!$valid) {
+   	    	    	$validator.focusInvalid();
+   	    	   		return false;
+   	    	     }
+   	    	      var $total = navigation.find('li').length;
+   	    	      var $current = index+1;
+   	    	      var $percent = ($current/$total) * 100;
+   	    	      jQuery('#courseWizard').find('.progress-bar').css('width', $percent+'%');
+   	    	   		document.getElementById('finish').style.display="inline";
+   	    	}
+	   		else
+	   		{
+	   			document.getElementById('finish').style.display="none";	
+	   		}
+    	}
+    },
+    onPrevious: function(tab, navigation, index) {
+      var $total = navigation.find('li').length;
+      var $current = index+1;
+      var $percent = ($current/$total) * 100;
+      jQuery('#courseWizard').find('.progress-bar').css('width', $percent+'%');
+      if(document.getElementById('numberMaterialShow').value != "0")
+	  	{
+    	  document.getElementById('finish').style.display="inline";
+    	  $('#courseWizard').find('.pager .next').show();
+	  	}
+    },
+    onTabShow: function(tab, navigation, index) {
+      var $total = navigation.find('li').length;
+      var $current = index+1;
+      var $percent = ($current/$total) * 100;
+      jQuery('#courseWizard').find('.progress-bar').css('width', $percent+'%');
+      if($current >= $total) {
+			$('#courseWizard').find('.pager .next').hide();
+			$('#courseWizard').find('.pager .finish').show();
+			$('#courseWizard').find('.pager .finish').removeClass('disabled');
+		} else {
+			if(index==1)
+			{
+				if(document.getElementById('numberMaterialShow').value != "0")
+				{
+					$('#courseWizard').find('.pager .next').show();
+				}
+				else
+				{
+					$('#courseWizard').find('.pager .next').hide();
+				}
+			}
+			else
+			{
+				$('#courseWizard').find('.pager .next').show();
+			}
+			$('#courseWizard').find('.pager .finish').hide();
+		}
+		$('#courseWizard .finish').click(function() {
+			var $valid = jQuery('#firstForm').valid();
+			if(!$valid) {
+				$validator.focusInvalid();
+				return false;
+			}
+			jQuery('#firstForm').submit();
+			$('#courseWizard').find('.pager .next').hide();
+			$('#courseWizard').find('.pager .finish').hide();
+			document.getElementById('finish').style.display="none";
+		});
+		
+    }
+  });
+
+	
+  });
+	function onMaterialFormSubmit()
+	{
+		var $valid = jQuery('#materialForm').valid();
+		if(!$valid) 
+		{
+			$validator.focusInvalid();
+			return false;
+		}
+		jQuery('#materialForm').submit();
+	};
+	/* function onEditMaterialFormSubmit()
+		var $valid = jQuery('#editMaterialForm').valid();
+		if(!$valid) 
+		{
+			$validator.focusInvalid();
+			return false;
+		}
+		jQuery('#editMaterialForm').submit();
+	}; */
+	function onActionFormSubmit()
+	{
+		var $valid = jQuery('#actionForm').valid();
+		if(!$valid) 
+		{
+			$validator.focusInvalid();
+			return false;
+		}
+		jQuery('#actionForm').submit();
+	};
+	function onShowFormMaterial(curriculumId) 
+	{
+		$("#materialForm").find("#curriculum_id").val(curriculumId);
+	};
+	function onEditFormMaterial(curriculumId,materialId,materialName,materialUrl,materialDescription,materialType) 
+	{
+		//alert('mentorview');
+		$("#editMaterialForm").find("#material_title").val(materialName);
+		$("#editMaterialForm").find("#material_url").val(materialUrl);
+		$("#editMaterialForm").find("#material_description").val(materialDescription);
+		$("#editMaterialForm").find("#material_type").val(materialType);
+		$("#editMaterialForm").find("#material_id").val(materialId);
+	};
+	function onEditMaterialFromSubmit()
+	{
+		//alert(1);
+		var $valid = jQuery('#editMaterialForm').valid();
+		if(!$valid) 
+		{
+			$validator.focusInvalid();
+			return false;
+		}
+		jQuery('#editMaterialForm').submit();
+	};
+	function onShowFormAction(curriculumId) 
+	{
+		$("#actionForm").find("#curriculum_id").val(curriculumId);
+	};
+
+	function onValidateSubmit()
+	{
+		var $valid = jQuery('#formjoincourse').valid();
+		if(!$valid) 
+		{
+			$validator.focusInvalid();
+			return false;
+		}
+		jQuery('#formjoincourse').submit();
+	};
+	function onJoinCourse(curriculumId) 
+	{
+		$("#formjoincourse").find("#curriculum_id").val(curriculumId);
+	};
+
+</script>
+{% endblock scripts%}

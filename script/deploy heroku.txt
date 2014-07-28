@@ -1,0 +1,15 @@
+- heroku login --account cuongnm
+- Create new Folder to store source code. (Ex: c:\my-app)
+- run cmd
+- cd to folder store source code (cd \ c:\my_app)
+- Run command: "heroku git:clone -a app-ase --account cuongnm"
+- Coppy lastest code to deploy folder: (c:\my_app)
+deploy:
+- git init
+- git add .
+- git commit -m "my django app"
+call heroku git:remote -a demo-ase --account cuongnm
+git push heroku master
+
+call heroku login --account %account%
+

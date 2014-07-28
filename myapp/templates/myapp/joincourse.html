@@ -1,0 +1,83 @@
+<!-- Modal -->
+<div class="modal fade" id="joincourse" tabindex="-1" role="dialog" style="margin-top: 32px;"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">このカリキュラムに参加するように設定計画</h4>
+			</div>
+
+			<!-- Start block -->
+			<form method="post" name="formjoincourse" id="formjoincourse" novalidate="novalidate" action="/join-course">
+				{% csrf_token %} 
+				<input type="hidden" id="curriculum_id" name="curriculum_id" value="{{ cl.id }}">
+				<input type="hidden" id="user_id" name="user_id" value="{{ author_id }}">
+				<input type="hidden" name="posttype" value="frmJoincourse">
+				<!-- post type = 3; add easy -->
+
+				<div class="col-md">
+					<div class="panel panel-default">
+						<form>
+							<div class="panel-body">
+
+								<div class="row" style="padding: 0px; margin-top: 1%;">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="control-label">計画開始日</label>
+											<div class="input-group">
+												<input type="text" class="form-control" required=""
+													placeholder="計画開始日" id="planstart" name="planstart"> <span
+													class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>
+										</div>
+									</div>
+									<!-- col-sm-6 -->
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="control-label">計画終了日</label>
+											<div class="input-group">
+												<input type="text" class="form-control" required=""
+													placeholder="計画終了日" id="planend" name="planend"> <span
+													class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>
+										</div>
+									</div>
+									<!-- col-sm-6 -->
+								</div>
+								<div class="row" style="padding: 0px;  margin-top: 1%;">
+								<div class="col-sm-6">
+									<select id="fruits" class="form-control" required="" name="impression">
+										<option value="">Select your impression ..</option>
+										<option value="1">So so</option>
+										<option value="2">Quite well</option>
+										<option value="3" selected="selected">Good</option>
+										<option value="4">Very good</option>
+										<option value="5">Impressive</option>
+									</select>
+								</div>
+								</div>
+								<!-- row -->
+								<div class="row" style="padding: 0px;  margin-top: 1%; margin-left: 0%; width: 100%;">
+									<textarea rows="5" class="form-control" name="description"
+										title="Please type a description at least 6 characters long!"
+										placeholder="あなたの説明" ></textarea>
+								</div>
+							</div>
+					</div>
+					<!-- panel -->
+				</div>
+			</form>
+			<!-- End of block -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">クローズ</button>
+				<button type="button" class="btn btn-primary" onclick="return onValidateSubmit();">保存</button>
+			</div>
+			
+		</div>
+		<!-- modal-content -->
+	</div>
+	<!-- modal-dialog -->
+</div>
+<!-- modal -->

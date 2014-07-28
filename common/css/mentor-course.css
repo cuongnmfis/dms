@@ -1,0 +1,36 @@
+.modal-dialog{
+	margin-top: 55px;
+}
+.tab-pane{
+	min-height: 300px;
+	
+}
+.modal-dialog{
+	width: 80%;
+}
+#firstForm .col-sm-6{
+	padding: 2px;
+}
+#firstForm .col-sm{
+	padding: 2px;
+}
+#materialForm .col-sm-6{
+	padding: 2px;
+}
+#materialForm .col-sm{
+	padding: 2px;
+}
+#vtab2 #panel-left{
+	border-right: solid 5px;
+	border-color:#e4e7ea;
+	height: 300px;
+	width: 30%;
+}
+#vtab2 #panel-right{
+}
+#vtab2 textarea{
+	height: 150px;
+}
+#vtab3 textarea{
+	height: 200px;
+}

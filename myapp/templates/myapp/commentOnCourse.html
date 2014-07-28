@@ -1,0 +1,46 @@
+<!-- Modal -->
+<div class="modal fade" id="cmtOnCourse" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Comment On Course</h4>
+			</div>
+
+			<!-- Start block -->
+			<form method="post" name="cmtCourse" id="cmtCourse">
+				{% csrf_token %} 
+				<input type="hidden" id="post_id" name="post_id" value="">
+				<input type="hidden" name="posttype" value="2"> <!-- post type = 3; add comment on Course -->
+				
+				<div class="col-md">
+					<div class="panel panel-default">
+						<form>
+							<div class="panel-body">
+								<!-- row -->
+								<div class="col-lg"
+									style="margin-top: 10px; width: 98%; margin-left: 1%;">
+									<textarea name="txtContent" id="autoResizeTA"
+										class="form-control" required="required" maxlength="2000"
+										rows="5" placeholder="Leave your comment.."
+										style="width: 100%; border: 1px solid #BDE0BE;"></textarea>
+								</div>
+							</div>
+					</div>
+					<!-- panel -->
+				</div>
+			</form>
+			<!-- End of block -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary"
+					onclick="createpost();">Save</button>
+			</div>
+		</div>
+		<!-- modal-content -->
+	</div>
+	<!-- modal-dialog -->
+</div>
+<!-- modal -->

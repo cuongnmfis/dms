@@ -1,0 +1,49 @@
+{% include 'myapp/createesay.html' %}
+{% include 'myapp/startlecture.html' %}
+{% include 'myapp/endlecture.html' %}
+
+{% if post.length > 0 %}
+
+<div class="contentpanel">
+	<div class="people-list">
+		<div class="row">
+			{% for post in posts %}
+			{% if post.user_id.id == user.id%}
+			<div class="col-md-6">
+				<div class="people-item">
+					<div class="media">
+						<div class="progress">
+								<div id="{{post.id}}" class="progress-bar progress-bar-success" role="progressbar"
+									aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"
+									style="width: 80%">
+									<span class="sr-only">80% Complete</span>
+								</div>
+							</div>
+						<div class="media-body">
+							<div class="timeline-btns pull-left">
+							<h4 class="person-name">{{post.title}}</h4>
+							</div>
+							<div class="btn-group pull-right">
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#startlecture">Start</button>
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#endlecture">End</button>
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createesay">Esay</button>
+							</div>
+							<ul class="social-list">
+							{% include 'myapp/sumarize.html' %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- col-md-6 -->
+			{% endif %}{% endfor %}
+
+		</div>
+		<!-- row -->
+	</div>
+	<!-- people-list -->
+</div>
+
+{% else %}
+asdasldksald
+{% endif %}

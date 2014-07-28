@@ -1,0 +1,424 @@
+{% extends "myapp/base.html" %} {% block styles %}
+<link href='css/fullcalendar.css' rel='stylesheet' />
+<link href="css/student-home.css" rel="stylesheet">
+<link rel="stylesheet" href="slider/flexslider.css" type="text/css" />
+{% endblock %} {% block content %}
+<div class="contentpanel" style="min-height: 800px;">{% include 'myapp/calendar.html' %}</div>
+
+<div id="loading-div-background">
+    <div id="loading-div" class="ui-corner-all" >
+     </div>
+</div>
+
+
+{% endblock %} {% block scripts %}
+<script src="js/custom.js"></script>
+<script defer src="slider/jquery.flexslider.js"></script>
+<script type="text/javascript">
+	$(window).load(function() {
+
+		$("#frmCalendar").submit(
+			function(event) {
+				// Stop form from submitting normally
+				event.preventDefault();
+				// Get some values from elements on the page:
+				var $form = $(this), token = $form
+						.find(
+								"input[name='csrfmiddlewaretoken']")
+						.val(), term = 'likeMaterial', url = $form
+						.attr("action");
+				// Send the data using post
+				var posting = $.post(url, $(this)
+						.serialize());
+
+				// Put the results in a div
+				posting.done(function(data) {
+					console.log('message: '+data.formdata)
+					console.log('all data :'+JSON.stringify(data));
+					HideProgressAnimation();
+					console.log('done');
+				});
+		});
+		
+		$("#frmProgress").submit(
+				function(event) {
+					// Stop form from submitting normally
+					event.preventDefault();
+					// Get some values from elements on the page:
+					var $form = $(this), token = $form
+							.find(
+									"input[name='csrfmiddlewaretoken']")
+							.val(), term = 'likeMaterial', url = $form
+							.attr("action");
+					// Send the data using post
+					var posting = $.post(url, $(this)
+							.serialize());
+
+					// Put the results in a div
+					posting.done(function(data) {
+						
+						HideProgressAnimation();
+					});
+			});
+
+			$('.flexslider').flexslider({
+				animation : "slide",
+				controlNav : false,
+			});
+	});
+</script>
+<link href='css/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='js/jquery.min.js'></script>
+<script src='js/jquery-ui.custom.min.js'></script>
+<script src='js/fullcalendar.min.js'></script>
+<script src="js/chosen.jquery.min.js"></script>
+<script>
+jQuery(document).ready(function(){
+  // Chosen Select
+  jQuery(".chosen-select").chosen({'width':'100%','white-space':'nowrap'});
+  
+});
+
+
+//when the timezone selector changes, rerender the calendar
+
+
+$('#selCurriculumn').change(function(){
+	$("#progressdiv").css("display", "block");
+	$("#listMA").css("display", "block");
+	$("#noResult").css("display", "none");
+	var curriculumnid = $(this).find('option:selected').attr('curriidd');
+	var curriid = $(this).find('option:selected').attr('curriid');
+	var curridatalog=$(this).find('option:selected').attr('datalog');
+	var curriprogressName = $(this).find('option:selected').attr('processName');
+	var curriprogressrate=$(this).find('option:selected').attr('processrate');
+	$('button#showUpdateProgress').text(curriprogressName);
+	
+	
+	//update curriculumn progress
+	$("#ratebar").css("width", curriprogressrate +"%");	
+	$("#curriculumnlog_progress_id").val(curriid);
+	$('#calendar').fullCalendar('destroy');
+	var json1 = JSON.parse(curridatalog.replace(/&quot;/g,'"'));
+	renderCalendar1(json1);
+	
+	$(".external-event[curriId='" + curriculumnid + "']").css("display", "block");
+	$(".external-event[curriId!='" + curriculumnid + "']").css("display", "none");
+	
+	$('#selCurriculumn').trigger('chosen:updated');
+	
+	//update curriculumnCurrentId
+	$("#curriculumnlog_id").val(curriid);
+});
+function renderCalendar1(stringtoShow) {
+	$('#calendar').fullCalendar(
+			{
+				header : {
+					left : 'prev,next today',
+					center : 'title',
+					right : 'month,agendaWeek,agendaDay'
+				},
+				eventClick: function(calEvent, jsEvent, view) {
+					var flag = confirm("Do you want to delete this event ?");
+					if (flag) {
+						$('#calendar').fullCalendar('removeEvents',calEvent._id);
+						submitdata();
+					}
+			    },
+			    eventDrop: function( event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view )
+			    {
+			    	submitdata();
+			    },
+			   events : stringtoShow,
+				selectable: true,
+				selectHelper: true,
+				select: function(start, end) {
+					var title = prompt('Event Title:');
+					var eventData;
+					if (title) {
+						eventData = {
+							title: title,
+							start: start,
+							end: end
+						};
+						$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+						submitdata();
+					}
+					$('#calendar').fullCalendar('unselect');
+				},
+				eventResize: function(event,delta,revertFunc,jsEvent,ui,view) {
+					submitdata();
+				},
+				editable : true,
+				timeFormat:  'HH:mm { - HH:mm}',
+				droppable : true, // this allows things to be dropped onto the calendar !!!
+				drop : function(date, allDay) { // this function is called when something is dropped
+
+					// retrieve the dropped element's stored Event Object
+					var originalEventObject = $(this).data(
+							'eventObject');
+					// we need to copy it, so that multiple events don't have a reference to the same object
+					var copiedEventObject = $.extend({},
+							originalEventObject);
+
+					// assign it the date that was reported
+					copiedEventObject.start = date;
+					copiedEventObject.allDay = allDay;
+
+					// render the event on the calendar
+					// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+					$('#calendar').fullCalendar('renderEvent',
+							copiedEventObject, true);
+
+					// is the "remove after drop" checkbox checked?
+					if ($('#drop-remove').is(':checked')) {
+						// if so, remove the element from the "Draggable Events" list
+						$(this).remove();
+					}
+					submitdata();
+			}
+	});
+}
+</script>
+<script>
+	$(document).ready(
+			function() {
+				/* initialize the external events
+				-----------------------------------------------------------------*/
+
+				$('#external-events div.external-event').each(function() {
+
+					// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+					// it doesn't need to have a start or end
+					var eventObject = {
+						title : $.trim($(this).text())
+					//alert(title);
+					// use the element's text as the event title
+					};
+
+					// store the Event Object in the DOM element so we can get to it later
+					$(this).data('eventObject', eventObject);
+
+					// make the event draggable using jQuery UI
+					$(this).draggable({
+						zIndex : 999,
+						revert : true, // will cause the event to go back to its
+						revertDuration : 0
+					//  original position after the drag
+					});
+
+				});
+
+				/* initialize the calendar
+				-----------------------------------------------------------------*/
+				
+				var flag='{{ flag }}';
+				if(flag == '1')
+				{
+					$("#selCurriculumn option").hide();
+					$('#selCurriculumn').trigger('chosen:updated');
+					$('#selCurriculumn').prop("selectedIndex", -1);
+					$('#selCurriculumn').trigger('chosen:updated');
+					
+					$('#calendar').fullCalendar({});
+					$("#noResult").css("display", "block");
+					$("#listMA").css("display", "none");
+					$("#progressdiv").css("display", "none");
+					
+					//update progress
+					countprogress();
+				}
+				else
+				{
+					$('#calendar').fullCalendar({});
+					$("#noData").css("display", "block");
+					$("#listMA").css("display", "none");
+					$("#progressdiv").css("display", "none");
+				}
+				
+			});
+	function countprogress(){
+		$('#listProcess li').each(function() {
+			var progressId=$(this).find('a').attr('id');
+			var progressName=$(this).find('a').attr('progressName');
+			$(this).find('a').text('Test message here');
+			//count number reocord have display = "block" in select tag
+			var number_records=$("#selCurriculumn option[value='" + progressId + "']").size();
+			$(this).find('a').text(progressName+'   (' + number_records + ')');
+		});
+	}
+	function submitdata() {
+
+		var eventsFromCalendar = $('#calendar').fullCalendar('clientEvents');
+		var eventsForCookie = [];
+		$.each(eventsFromCalendar, function(index, value) {
+			var event = new Object();
+			event.id = value.id;
+			event.start = (value.start).toString();
+			if(value.end !=null )
+				event.end = (value.end).toString();
+			else
+				event.end = value.end;
+			event.allDay = false;
+			event.title = value.title;
+			eventsForCookie.push(event);
+		});
+		console.log(JSON.stringify(eventsForCookie));
+		document.getElementById('datacontent').value = JSON
+				.stringify(eventsForCookie);
+		$('#selCurriculumn').find('option:selected').attr('datalog',document.getElementById('datacontent').value);
+		//alert(document.getElementById('datacontent').value);
+		$("#frmCalendar").submit();
+		ShowProgressAnimation();
+	}
+	
+	//Change progress
+	function changeProgress(progressIdCurent,progressName )
+	{
+		var listCurrilog = document.getElementById("selCurriculumn").options;
+		
+		//count number reocord have display = "block" in select tag
+		var number_records=$("#selCurriculumn option[value='" + progressIdCurent + "']").size();
+		$('button#showProgress').text(progressName);
+		
+		$('button#showProgress').attr('choosedProgressId',progressIdCurent);
+		
+		$("#selCurriculumn option[value='" + progressIdCurent + "']").show();
+		$("#selCurriculumn option[value='" + progressIdCurent + "']").css("display", "block");
+		$("#selCurriculumn option[value!='" + progressIdCurent + "']").hide(); 
+
+		$('#selCurriculumn').chosen('destroy');
+		$('#selCurriculumn').prop("selectedIndex", -1);
+		$('#selCurriculumn').chosen();
+		
+		$('#calendar').fullCalendar('destroy');
+		$('#calendar').fullCalendar({});
+		$("#noResult").css("display", "block");
+		$("#listMA").css("display", "none");
+		$("#progressdiv").css("display", "none");
+		$("#noData").css("display", "none");
+		
+		
+	}
+	
+	function updateProgress(progressIdCurent,progressName,progressrate){
+		var currentCurri = $('#selCurriculumn').find('option:selected').attr('curriid').value;
+		$('button#showUpdateProgress').text(progressName);		
+		$("#ratebar").css("width", progressrate +"%");
+		document.getElementById('progress_id').value = progressIdCurent;
+		$('#selCurriculumn').find('option:selected').attr('processName',progressName);
+		$('#selCurriculumn').find('option:selected').attr('processrate',progressrate);
+		$('#selCurriculumn').find('option:selected').attr('progressId',progressIdCurent);
+		$('#selCurriculumn').find('option:selected').attr('value',progressIdCurent);
+		
+		var progressChoosed=$('#showProgress').attr('choosedProgressId');
+		
+		$("#selCurriculumn option[value='" + progressChoosed + "']").show();
+		$("#selCurriculumn option[value='" + progressChoosed + "']").css("display", "block");
+		$("#selCurriculumn option[value!='" + progressChoosed + "']").hide();
+		$('#selCurriculumn').trigger('chosen:updated');
+		
+		//update progress
+		countprogress();
+		
+		$("#frmProgress").submit();
+		ShowProgressAnimation();
+	}
+	
+	
+</script>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    $("#loading-div-background").css({ opacity: 0.8 });
+});
+function ShowProgressAnimation() {
+    $("#loading-div-background").show();
+}
+function HideProgressAnimation() {
+    $("#loading-div-background").hide();
+}
+</script>
+
+<style>
+body {
+	margin-top: 40px;
+	text-align: center;
+	font-size: 14px;
+	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+}
+
+width: 1100px ;
+#wrap {
+	margin: 0 auto;
+}
+
+#external-events {
+	float: left;
+	width: 150px;
+	padding: 0 10px;
+	border: 1px solid #ccc;
+	background: #eee;
+	text-align: left;
+}
+
+#external-events h4 {
+	font-size: 16px;
+	margin-top: 0;
+	padding-top: 1em;
+}
+
+.external-event { /* try to mimick the look of a real event */
+	margin: 10px 0;
+	padding: 2px 4px;
+	background: #3366CC;
+	color: #fff;
+	font-size: .85em;
+	cursor: pointer;
+}
+
+#external-events p {
+	margin: 1.5em 0;
+	font-size: 11px;
+	color: #666;
+}
+
+#external-events p input {
+	margin: 0;
+	vertical-align: middle;
+}
+
+#calendar {
+	float: left;
+	width: 70%;
+	margin-left: 5%
+}
+
+#loading-div-background 
+{
+	display:none;
+	position:fixed;
+	top:0;
+	left:0;
+	background:black;
+	width:100%;
+	height:100%;
+	z-index: 10002;
+}
+#loading-div
+{
+	width: 20%;
+	height: 20%;
+	background-color: #000000;
+	text-align:center;
+	position:absolute;
+	left: 50%;
+	top: 50%;
+	margin-left:-150px;
+	margin-top: -100px;
+	background:url(images/loaders/loader12.gif) no-repeat center center;
+}
+
+</style>
+
+{% endblock scripts%}

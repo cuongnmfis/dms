@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="shortcut icon" href="images/favicon.png" type="image/png">
+
+<title>Adult social education</title>
+
+<link href="css/style.default.css" rel="stylesheet">
+<link href="css/ase-style.css" rel="stylesheet">
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+{% block styles %} {% endblock %}
+</head>
+
+<body>
+
+	{% include 'myapp/preloader.tpl.html' %}
+	
+	<section>
+		<div class="leftpanel">
+
+			<div class="logopanel">
+				<h1>ASE</h1>
+			</div>
+			<!-- logopanel -->
+
+			<div class="leftpanelinner">
+
+				<div class="visible-xs hidden-sm hidden-md hidden-lg">
+					<div class="media userlogged">
+						<img alt="" src="images/photos/user.png" class="media-object">
+						<div class="media-body">
+							<h4>{{user.username}}</h4>
+							<span></span>
+						</div>
+					</div>
+
+					<h5 class="sidebartitle actitle">Account</h5>
+					<ul class="nav nav-pills nav-stacked nav-bracket mb30">
+						<li><a href="profile?user_id={{ user.id }}"><i
+								class="fa fa-user"></i> <span>Profile</span></a></li>
+						<!-- <li><a href="chat"><i class="fa fa-user"></i> <span>Private Chat</span></a></li>
+						<li><a href="/account-setting"><i class="fa fa-cog"></i>
+								<span>Account Settings</span></a></li> -->
+						<li><a href="/slide"><i class="fa fa-question-circle"></i> <span>Help</span></a></li>
+						<li><a href="signout"><i class="fa fa-sign-out"></i> <span>Sign Out</span></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- leftpanel -->
+
+		<div class="mainpanel">
+			{% block toolbar %}
+			<div class="headerbar" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10001;background: #eee;">
+				{% include 'myapp/pnl_button.html' %}
+			</div>
+			{% endblock %}
+			<!-- headerbar -->
+			{% block header %}
+			{% endblock %} 
+			{% block content %}
+			<div class="contentpanel">
+				<!-- content goes here... -->
+			</div>
+			{% endblock %}
+		</div>
+		<!-- mainpanel -->
+	</section>
+
+
+
+	<script src="js/jquery-1.10.2.min.js"></script>
+	<script src="js/jquery-migrate-1.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/modernizr.min.js"></script>
+	<script src="js/jquery.sparkline.min.js"></script>
+	<script src="js/toggles.min.js"></script>
+	<script src="js/retina.min.js"></script>
+	<script src="js/jquery.cookies.js"></script>
+
+
+	{% block scripts %}
+	<script src="js/custom.js"></script>
+	{% endblock %}
+</body>
+</html>

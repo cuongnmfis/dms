@@ -1,0 +1,351 @@
+
+<div class="col-xs-6 col-sm-6 col-md-6">
+	<div class="people-item">
+		<div>
+			<div class="media">
+				<div class="media-body" style="text-align: justify;">
+					<h4>
+						{{ mt.name }}
+					</h4>
+					<p>{{ mt.description }}</p>
+				</div>
+			</div>
+			<div class="timeline-btns">
+				<div class="pull-left">
+					<form name="formLikeMaterial" id="formLike" method="post" action="">
+							{% csrf_token %}
+							{% if mt.note == '1' %}
+								<a href="#" id="like" data-toggle="modal" data-target="#rating"
+									class="tooltips" title="" data-original-title="Like"><i
+								id="icon{{mt.id}}"	class="glyphicon glyphicon-heart"></i></a>
+								<input type="hidden" id="type{{mt.id}}" name="status" value="1">
+							{% else %}
+								<a href="#" id="like" data-toggle="modal" data-target="#rating"
+									class="tooltips" title="" data-original-title="Like"><i
+								id="icon{{mt.id}}"	class="glyphicon glyphicon-heart-empty"></i></a>
+								<input type="hidden" id="type{{mt.id}}" name="status" value="0">
+							{% endif %}
+							<input type="hidden" name="posttype" value="likeMaterial">
+							<input type="hidden" name="materialId" value="{{ mt.id }}">
+							<input type="hidden" name="courseId" value="{{ course_id }}">
+							<input type="hidden" name="userId" value="{{ author_id }}">
+					</form>
+				</div>
+				<div class="pull-right">
+					<!-- <span id="numberLike{{mt.id}}" class="text-muted">{{ course_id }}</span>
+					<span id="numberLike{{mt.id}}" class="text-muted">{{ mt.id }}</span> -->
+					<!-- {% if mt.statistic.statistic_detail|length > 0 %}
+						{% for sd in mt.statistic.statistic_detail %}
+							{% if sd.like_user == user_id %}
+								{% if sd.status == '1' %}
+									<span id="numberLike{{mt.id}}" class="text-muted"> you and {{ mt.statistic.currentLikeNumber }} people like this</span>
+								{% else %}
+									<span id="numberLike{{mt.id}}" class="text-muted"> {{ mt.statistic.currentLikeNumber }} people like this</span>
+								{% endif %}
+								
+							{% endif %}
+						{% endfor %}
+					{% else %}
+						<span id="numberLike{{mt.id}}" class="text-muted">{{ mt.statistic.currentLikeNumber }} people like this</span>
+					{% endif %} -->
+					{% if mt.note == '1' %}
+						{% if mt.statistic.currentLikeNumber > 0 %}
+							<span id="numberLike{{mt.id}}" class="text-muted">you and {{ mt.statistic.currentLikeNumber }} people like this</span>
+						{% else %}
+							<span id="numberLike{{mt.id}}" class="text-muted">you like this</span>
+						{% endif %}
+					{% else %} 
+						{% if mt.statistic.currentLikeNumber > 0 %}
+							<span id="numberLike{{mt.id}}" class="text-muted">{{ mt.statistic.currentLikeNumber }} people like this</span>
+						{% else %}
+							<span id="numberLike{{mt.id}}" class="text-muted">people like this</span>
+						{% endif %}
+					{% endif %}
+					{% if mt.statistic.currentLikeNumber > 0 %}
+						<input type="text" value="{{ mt.statistic.currentLikeNumber }}" id="hiddenNumberLike{{mt.id}}" class="text-muted" hidden="false">
+					{% else %}
+						<input type="text" value="0" id="hiddenNumberLike{{mt.id}}" class="text-muted" hidden="false">
+					{% endif %}
+					
+					<input type="text" value="0" id="hiddenOnlyClick{{mt.id}}" class="text-muted" hidden="false">
+				</div>
+			</div>
+		</div>
+		<!-- panel-body -->
+				<!-- for comments from here -->
+				{% for cmt in mt.comment %}
+					{% if cmt.status %}
+						{% if cmt.status == '1' %}
+							{% if cmt.user.id == cl.mentor.user.id %}
+								<div class="alert alert-success"
+									style="margin-left: 5%; margin-right: 10%;">
+									<div class="media" style="padding-bottom: 0px;">
+										
+										<a href="#" class="pull-left"> <img alt=""
+											src="/upload/{{ cmt.user.username }}-avatar.jpg" class="media-object"
+											style="width: 32px;height: 32px;" onError="this.onerror=null;this.src='/images/avatar/default.png';" /></a>
+										<div style="width: 100%;">
+											<div class="pull-left" style="width: 80%;">
+												<h4>
+													<a href="profile?user_id={{ cmt.user_id }}">{{cmt.user.username}}</a>
+													- Since:{{cmt.create_date|date:'Y-M-d'}}
+												</h4>
+												
+											</div>
+										</div>
+										<div id="comment{{cmt.id}}" class="pull-left"style="width: 100%;margin-top: 3%;">
+											<div class="pull-left" style="width: 90%;">
+												<span style="font-size: 15px;">{{cmt.content}}</span>
+											</div>
+											{% if cmt.user.username|truncatechars:100 == user_id|truncatechars:100 %}
+												<div class="pull-left showDiv"style="width: 8%;margin-left: 2%;">
+													<span onclick="EditComment('{{cmt.id}}');"><i class="fa fa-pencil"></i></span>
+													<span class="delete-row" onclick="DeleteComment('{{cmt.id}}');"><i class="fa fa-trash-o"></i></span>
+												</div>
+											{% endif %}
+										</div>
+										<div class="panel panel-dark panel-alt timeline-post" style="display:none;margin-top: 10%;margin-right: 2%" id="changeComment{{ cmt.id }}" >
+											<div class="panel-body">
+												<form method="post" name="formEditCmtMaterial" id="formEditCmtMaterial{{cmt.id}}" novalidate="novalidate">
+													{% csrf_token %} 
+													<textarea placeholder="Write something..." class="form-control" name="txtcommentName" required="">{{cmt.content}}</textarea>
+													<input type="hidden" name="hd_course_id" value="{{ course_id }}">
+													<input type="hidden" name="hd_author_course_id" value="{{ author_id }}">
+													<input type="hidden" name="hd_comment_id" value="{{ cmt.id }}">
+													<input type="hidden" name="posttype" value="editComment">
+												</form>
+												<form method="post" name="formDeleteCmtMaterial" id="formDeleteCmtMaterial{{cmt.id}}" style="display: none;">
+													{% csrf_token %} 
+													<input type="hidden" name="hd_course_id" value="{{ course_id }}">
+													<input type="hidden" name="hd_author_course_id" value="{{ author_id }}">
+													<input type="hidden" name="hd_comment_id" value="{{ cmt.id }}">
+													<input type="hidden" name="posttype" value="deleteComment">
+												</form>
+											</div><!-- panel-body -->
+											<div class="panel-footer">
+												<button class="btn btn-primary btn-xs pull-right" onclick="closeChangeComment('{{ cmt.id }}');">Cancel</button>
+												<button class="btn btn-primary btn-xs pull-right" onclick="submitChangeComment('{{ cmt.id }}');" style="margin-right: 8px;">Done</button>
+											</div><!-- panel-footer -->
+										</div>
+									</div>
+								</div>
+								{% else %}
+								<div class="alert alert-danger"
+									style="margin-left: 10%; margin-right: 5%;">
+									<div class="media" style="padding-bottom: 0px;">
+										<a href="#" class="pull-right"> <img alt=""
+											src="/upload/{{ cmt.user.username }}-avatar.jpg" class="media-object"
+											style="width: 32px;height: 32px;" onError="this.onerror=null;this.src='/images/avatar/default.png';"></a>
+										<h4>
+											<a href="profile?user_id={{ cmt.user_id }}">{{cmt.user.username}}</a>
+											- {{cmt.create_date|date:'Y-M-d'}}
+										</h4>
+										<div id="comment{{cmt.id}}" class="pull-left"style="width: 100%;margin-top: 3%;">
+											<div class="pull-left" style="width: 90%;">
+												<span style="font-size: 15px;">{{cmt.content}}</span>
+											</div>
+											{% if cmt.user.username|truncatechars:100 == user_id|truncatechars:100 %}
+												<div class="pull-left showDiv"style="width: 8%;margin-left: 2%;">
+													<span onclick="EditComment('{{cmt.id}}');"><i class="fa fa-pencil"></i></span>
+													<span class="delete-row" onclick="DeleteComment('{{cmt.id}}');"><i class="fa fa-trash-o"></i></span>
+												</div>
+											{% endif %}
+										</div>
+										<div class="panel panel-dark panel-alt timeline-post" style="display:none;margin-top: 5%;margin-right: 2%" id="changeComment{{ cmt.id }}" >
+											<div class="panel-body">
+												<form method="post" name="formEditCmtMaterial" id="formEditCmtMaterial{{cmt.id}}" novalidate="novalidate">
+													{% csrf_token %} 
+													<textarea placeholder="Write something..." class="form-control" name="txtcommentName" required="">{{cmt.content}}</textarea>
+													<input type="hidden" name="hd_course_id" value="{{ course_id }}">
+													<input type="hidden" name="hd_author_course_id" value="{{ author_id }}">
+													<input type="hidden" name="hd_comment_id" value="{{ cmt.id }}">
+													<input type="hidden" name="posttype" value="editComment">
+												</form>
+												<form method="post" name="formDeleteCmtMaterial" id="formDeleteCmtMaterial{{cmt.id}}" style="display: none;">
+													{% csrf_token %} 
+													<input type="hidden" name="hd_course_id" value="{{ course_id }}">
+													<input type="hidden" name="hd_author_course_id" value="{{ author_id }}">
+													<input type="hidden" name="hd_comment_id" value="{{ cmt.id }}">
+													<input type="hidden" name="posttype" value="deleteComment">
+												</form>
+											</div><!-- panel-body -->
+											<div class="panel-footer">
+												<button class="btn btn-primary btn-xs pull-right" onclick="closeChangeComment('{{ cmt.id }}');">Cancel</button>
+												<button class="btn btn-primary btn-xs pull-right" onclick="submitChangeComment('{{ cmt.id }}');" style="margin-right: 8px;">Done</button>
+											</div><!-- panel-footer -->
+										</div>
+									</div>
+								</div>
+							{% endif %} 
+						{% endif %}	
+					{% else %}
+						{% if cmt.user.id == cl.mentor.user.id %}
+							<div class="alert alert-success"
+								style="margin-left: 5%; margin-right: 10%;">
+								<div class="media" style="padding-bottom: 0px;">
+									
+									<a href="#" class="pull-left"> <img alt=""
+										src="/upload/{{ cmt.user.username }}-avatar.jpg" class="media-object"
+										style="width: 32px;height: 32px;" onError="this.onerror=null;this.src='/images/avatar/default.png';" /></a>
+									<div style="width: 100%;">
+										<div class="pull-left" style="width: 80%;">
+											<h4>
+												<a href="profile?user_id={{ cmt.user_id }}">{{cmt.user.username}}</a>
+												- Since:{{cmt.create_date|date:'Y-M-d'}}
+											</h4>
+											
+										</div>
+									</div>
+									<div id="comment{{cmt.id}}" class="pull-left"style="width: 100%;margin-top: 3%;">
+										<div class="pull-left" style="width: 90%;">
+											<span style="font-size: 15px;">{{cmt.content}}</span>
+										</div>
+										{% if cmt.user.username|truncatechars:100 == user_id|truncatechars:100 %}
+											<div class="pull-left showDiv"style="width: 8%;margin-left: 2%;">
+												<span onclick="EditComment('{{cmt.id}}');"><i class="fa fa-pencil"></i></span>
+												<span class="delete-row" onclick="DeleteComment('{{cmt.id}}');"><i class="fa fa-trash-o"></i></span>
+											</div>
+										{% endif %}
+									</div>
+									<div class="panel panel-dark panel-alt timeline-post" style="display:none;margin-top: 10%;margin-right: 2%" id="changeComment{{ cmt.id }}" >
+										<div class="panel-body">
+											<form method="post" name="formEditCmtMaterial" id="formEditCmtMaterial{{cmt.id}}" novalidate="novalidate">
+												{% csrf_token %} 
+												<textarea placeholder="Write something..." class="form-control" name="txtcommentName" required="">{{cmt.content}}</textarea>
+												<input type="hidden" name="hd_course_id" value="{{ course_id }}">
+												<input type="hidden" name="hd_author_course_id" value="{{ author_id }}">
+												<input type="hidden" name="hd_comment_id" value="{{ cmt.id }}">
+												<input type="hidden" name="posttype" value="editComment">
+											</form>
+											<form method="post" name="formDeleteCmtMaterial" id="formDeleteCmtMaterial{{cmt.id}}" style="display: none;">
+												{% csrf_token %} 
+												<input type="hidden" name="hd_course_id" value="{{ course_id }}">
+												<input type="hidden" name="hd_author_course_id" value="{{ author_id }}">
+												<input type="hidden" name="hd_comment_id" value="{{ cmt.id }}">
+												<input type="hidden" name="posttype" value="deleteComment">
+											</form>
+										</div><!-- panel-body -->
+										<div class="panel-footer">
+											<button class="btn btn-primary btn-xs pull-right" onclick="closeChangeComment('{{ cmt.id }}');">Cancel</button>
+											<button class="btn btn-primary btn-xs pull-right" onclick="submitChangeComment('{{ cmt.id }}');" style="margin-right: 8px;">Done</button>
+										</div><!-- panel-footer -->
+									</div>
+								</div>
+							</div>
+							{% else %}
+							<div class="alert alert-danger"
+								style="margin-left: 10%; margin-right: 5%;">
+								<div class="media" style="padding-bottom: 0px;">
+									<a href="#" class="pull-right"> <img alt=""
+										src="/upload/{{ cmt.user.username }}-avatar.jpg" class="media-object"
+										style="width: 32px;height: 32px;" onError="this.onerror=null;this.src='/images/avatar/default.png';"></a>
+									<h4>
+										<a href="profile?user_id={{ cmt.user_id }}">{{cmt.user.username}}</a>
+										- {{cmt.create_date|date:'Y-M-d'}}
+									</h4>
+									<div id="comment{{cmt.id}}" class="pull-left"style="width: 100%;margin-top: 3%;">
+										<div class="pull-left" style="width: 90%;">
+											<span style="font-size: 15px;">{{cmt.content}}</span>
+										</div>
+										{% if cmt.user.username|truncatechars:100 == user_id|truncatechars:100 %}
+											<div class="pull-left showDiv"style="width: 8%;margin-left: 2%;">
+												<span onclick="EditComment('{{cmt.id}}');"><i class="fa fa-pencil"></i></span>
+												<span class="delete-row" onclick="DeleteComment('{{cmt.id}}');"><i class="fa fa-trash-o"></i></span>
+											</div>
+										{% endif %}
+									</div>
+									<div class="panel panel-dark panel-alt timeline-post" style="display:none;margin-top: 5%;margin-right: 2%" id="changeComment{{ cmt.id }}" >
+										<div class="panel-body">
+											<form method="post" name="formEditCmtMaterial" id="formEditCmtMaterial{{cmt.id}}" novalidate="novalidate">
+												{% csrf_token %} 
+												<textarea placeholder="Write something..." class="form-control" name="txtcommentName" required="">{{cmt.content}}</textarea>
+												<input type="hidden" name="hd_course_id" value="{{ course_id }}">
+												<input type="hidden" name="hd_author_course_id" value="{{ author_id }}">
+												<input type="hidden" name="hd_comment_id" value="{{ cmt.id }}">
+												<input type="hidden" name="posttype" value="editComment">
+											</form>
+											<form method="post" name="formDeleteCmtMaterial" id="formDeleteCmtMaterial{{cmt.id}}" style="display: none;">
+												{% csrf_token %} 
+												<input type="hidden" name="hd_course_id" value="{{ course_id }}">
+												<input type="hidden" name="hd_author_course_id" value="{{ author_id }}">
+												<input type="hidden" name="hd_comment_id" value="{{ cmt.id }}">
+												<input type="hidden" name="posttype" value="deleteComment">
+											</form>
+										</div><!-- panel-body -->
+										<div class="panel-footer">
+											<button class="btn btn-primary btn-xs pull-right" onclick="closeChangeComment('{{ cmt.id }}');">Cancel</button>
+											<button class="btn btn-primary btn-xs pull-right" onclick="submitChangeComment('{{ cmt.id }}');" style="margin-right: 8px;">Done</button>
+										</div><!-- panel-footer -->
+									</div>
+								</div>
+							</div>
+						{% endif %} 
+					{% endif %}
+				{% endfor %}
+				<!-- end for comment -->
+		<form method="post" name="formCmtMaterial">
+			{% csrf_token %} 
+			<input type="hidden" name="hd_material_id" value="{{ mt.id }}"> 
+			<input type="hidden" name="hd_course_id" value="{{ course_id }}">
+			<input type="hidden" name="hd_author_course_id" value="{{ author_id }}">
+			<input type="hidden" name="posttype" value="1">
+			<div class="panel-footer">
+				<div class="media">
+					<a href="#" class="pull-left"> <img alt=""
+						src="{{ user_images }}" class="media-object"
+						style="width: 32px; height: 32px;" onError="this.onerror=null;this.src='/images/avatar/default.png';">
+					</a>
+					<div class="media-body">
+						<input id="txtComment" type="text" name="txtComment"
+							class="form-control" placeholder="Leave your comment for current material"
+							onkeydown="if (event.keyCode == 13) commentMaterial('{{course_id}}','{{mt.id}}');" />
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<img alt="" id="defaultImage" src="/images/avatar/default.png" class="media-object" style="display: none" >
+<script src="http://code.jquery.com/jquery-2.0.3.js"></script>
+<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript"
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js">
+</script>
+<script type="text/javascript"
+	src="http://malsup.github.com/min/jquery.form.min.js">
+</script>
+<script>
+function commentMaterial(hd_course_id,hd_material_id) {
+	document.forms["formCmtMaterial"].hd_course_id.value = hd_course_id
+	document.forms["formCmtMaterial"].hd_material_id.value = hd_material_id;
+};
+function EditComment(commentId){
+	$("#changeComment"+commentId).css("display", "block");
+	$("#comment"+commentId).css("display", "none");
+}
+function DeleteComment(commentId){
+	if (confirm('あなたが削除してもよろしいですか？ '))
+	{
+		$("#formDeleteCmtMaterial"+commentId).submit();
+	}
+	else
+	{
+	}
+}
+function closeChangeComment(commentId){
+	$("#changeComment"+commentId).css("display", "none");
+	$("#comment"+commentId).css("display", "block");
+}
+function submitChangeComment(commentId){
+	var $valid = jQuery('#formEditCmtMaterial'+commentId).valid();
+	if(!$valid) 
+	{
+		$validator.focusInvalid();
+		return false;
+	}
+	$("#formEditCmtMaterial"+commentId).submit();
+}
+function MyFunction(material_id){
+	$("#formLike").submit();
+};
+</script>

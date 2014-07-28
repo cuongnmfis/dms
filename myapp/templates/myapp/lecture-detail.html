@@ -1,0 +1,133 @@
+{% extends "myapp/base.html" %} {% block header %}
+<div class="pageheader">
+	<h2>
+		<i class="fa fa-file-text"></i> <a href="index"> Home </a> <span><a
+			href="mentorpost"> Add New Post </a></span>
+	</h2>
+</div>
+
+{% endblock %} {% block content %}
+
+<div class="contentpanel">
+
+	<div>
+		<div>
+
+			<div class="panel panel-default panel-blog">
+				<div class="panel-body">
+
+					<ul class="blog-meta">
+						<li><a href="index"><i class="fa fa-home"
+								style="font-size: 22px;"></i></a></li>
+						<li><h3 class="blogsingle-title">{{ post.title }}</h3></li>
+					</ul>
+
+					<ul class="blog-meta">
+						<li>By: <a href="profile?user_id={{ post.user_id.id }}">{{post.user_id }}</a></li>
+						<li>{{ post.published_date|date:'Y-M-d'}}</li>
+						{% if post.user_id == user_id %}
+						<li><a href = "mentor-post?post_id={{ post.id }}&edit=true" > edit </a></li>
+						{% endif %}
+						
+					</ul>
+					<br>
+					<div style="text-align: justify; margin: 20px 0px;">
+						<div style="float: left; margin: 0px 10px 3px 0px;">
+							<img src="{{ post.imagelink}}">
+						</div>
+						<span>{{ post.content }}</span>
+					</div>
+				</div>
+				<!-- panel-body -->
+			</div>
+			<!-- panel -->
+
+			<div class="mb30"></div>
+			{% if user_type != "M" %}
+			<button class="btn btn-success mr5">
+				<i class="fa fa-user"></i> Follow - {{user_type}}
+			</button>
+			<button class="btn btn-white">
+				<a href="{{ post.amazonlink }}"><i class="fa fa-dollar"></i> Buy
+					book</a>
+			</button>
+			{% endif %}
+			<div class="fb-like" data-href="#" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+			<a href="https://twitter.com/share" class="twitter-share-button" data-size="small">Tweet</a>
+			<div class="g-plus" data-action="share" data-annotation="none"></div>
+			
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+			<div class="mb30"></div>
+			<h5 class="subtitle">{{ Comments.lenght }} Comments {{user_id}}</h5> 
+			<div class="mb30"></div>
+			<ul class="media-list comment-list">
+				{% for cmt in comments %}
+				{% if cmt.user_id.id != user.id %}
+				<li class="media" style="background-color: #ffffff; color: #1D2939">
+					<div style="text-align: left; margin: 10px 0px;">
+						<div
+							style="float: left; margin: 0px 0px 3px 10px; margin-left: 2%; margin-right: 2%;">
+							<a href="profile?user_id={{ cmt.user_id.id }}"><img
+								src="images/photos/shimizu_small.jpg"></a>
+						</div>
+						<h4>
+							<a href="profile?user_id={{ cmt.user_id.id }}">{{cmt.user_id.username}}</a>
+							- Since:{{cmt.create_date}}
+						</h4>
+						<div
+							style="margin-right: 15%; margin-left: 10%; text-align: justify;">
+							<span>{{cmt.content}}</span>
+						</div>
+					</div>
+				</li> 
+				{% else %}
+				<li class="media" style="background-color: #119380; color: #ffffff">
+					<div style="text-align: right; margin: 10px 0px;">
+						<div
+							style="float: right; margin: 0px 0px 3px 10px; margin-left: 2%; margin-right: 2%;">
+							<a href="profile?user_id={{ cmt.user_id }}"><img
+								src="images/photos/cuongnm_small.jpg"></a>
+						</div>
+						<h4>
+							<a href="profile?user_id={{ cmt.user_id }}">{{cmt.user_id.username}}</a>
+							- Since:{{cmt.create_date|date:'Y-M-d'}}
+						</h4>
+						<div
+							style="margin-left: 15%; margin-left: 10%; text-align: justify;">
+							<span>{{cmt.content}}</span>
+						</div>
+					</div>
+				</li> 
+				{% endif %} 
+				{% endfor %}
+			</ul>
+
+			<div class="mb30"></div>
+			<h5 class="subtitle mb5">Leave A Comment</h5>
+			<div class="mb20"></div>
+
+			<form method="post">
+				{% csrf_token %} <input type="hidden" name="hd_post_id"
+					value="{{ post.id }}">
+				<div class="row row-pad-5"></div>
+				<!-- row -->
+				<textarea name="txtComment" placeholder="Message" rows="3"
+					class="form-control"></textarea>
+				<div class="mb10"></div>
+				<button class="btn btn-primary">Add Comment</button>
+			</form>
+
+		</div>
+		<!-- col-sm-8 -->
+	</div>
+	<!-- col-sm-4 -->
+
+</div>
+<!-- row -->
+
+</div>
+<!-- contentpanel -->
+{% endblock %} {% block scripts %}
+<script src="js/masonry.pkgd.min.js"></script>
+<script src="js/custom.js"></script>
+{% endblock %}

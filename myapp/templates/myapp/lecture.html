@@ -1,0 +1,161 @@
+<div class="contentpanel" style="padding-left: 12%;">
+	{% include 'myapp/createesay.html' %} 
+	{% include 'myapp/addphoto.html'%} 
+	{% include 'myapp/addvideo.html' %} 
+	{% include 'myapp/addlink.html' %}
+
+	<div id="timeline-list" class="row" style="max-width: 950px; position: relative;">
+		<!-- {% include 'myapp/createpost.html' %} -->
+		<!-- Start lecture content from here -->
+		{% for post in posts %}
+
+		<div class="col-sm-6">
+			<div class="panel panel-default panel-timeline">
+				<div class="panel-heading">
+
+					<div class="media">
+						<a href="#" class="pull-left"> <img alt=""
+							src="images/photos/user3.png" class="media-object">
+						</a>
+						<div class="media-body">
+							<h4 class="text-primary">{{ post.user_id.username }}</h4>
+							<small class="text-muted">{{
+								post.published_date|date:'Y-M-d' }}</small>
+						</div>
+					</div>
+					<!-- media -->
+				</div>
+				<!-- panel-heading -->
+				<div class="panel-body">
+					<div class="media">
+						{% if post.imagelink != None %} <a href="#" class="pull-left">
+							<img alt="" src="{{post.imagelink}}" class="media-object">
+						</a> {% endif%}
+						<div class="media-body" style="text-align: justify;">
+							<h4>
+								<a href="post-detail?post_id={{ post.id }}">{{post.title}}</a>
+							</h4>
+							<p>{{ post.content| truncatechars:100 }}</p>
+							<a href="post-detail?post_id={{ post.id }}"><button
+									class="btn btn-sm btn-white">Read More</button></a>
+							<button class="btn btn-sm btn-white pull-right"
+								data-toggle="modal" data-target="#createesay"
+								onclick="createesay('{{post.id}}');">Esay</button>
+						</div>
+					</div>
+					<!-- {% include 'myapp/socialmodule.html' %} -->
+				</div>
+				<!-- panel-body -->
+				<!-- for comments from here -->
+				{% for esay in post.esay %}
+				<div class="panel panel-warning">
+					<div class="panel-heading">
+						<div class="panel-btns">
+							<a href="#" class="panel-close">×</a> <a href="#"
+								class="minimize">−</a>
+						</div>
+						<!-- panel-btns -->
+						<h3 class="panel-title">Esay Title : {{esay.title}}</h3>
+					</div>
+					<div class="panel-body">{{esay.content}}</div>
+				</div>
+				{% endfor%} 
+				{% for cmt in post.comments %} 
+				{% if cmt.user_id.id == post.user_id.id %}
+				<div class="alert alert-success"
+					style="margin-left: 5%; margin-right: 30%;">
+					<div class="media" style="padding-bottom: 0px;">
+						<a href="#" class="pull-left"> <img alt=""
+							src="images/photos/user3.png" class="media-object"
+							style="width: 32px;"></a>
+						<h4>
+							<a href="profile?user_id={{ cmt.user_id }}">{{cmt.user_id.username}}</a>
+							- Since:{{cmt.create_date|date:'Y-M-d'}}
+						</h4>
+						<div class="media-body">
+							<span>{{cmt.content}}</span>
+						</div>
+					</div>
+				</div>
+				{% else %}
+				<div class="alert alert-danger"
+					style="margin-left: 30%; margin-right: 5%;">
+					<div class="media" style="padding-bottom: 0px;">
+						<a href="#" class="pull-right"> <img alt=""
+							src="images/photos/user3.png" class="media-object"
+							style="width: 32px;"></a>
+						<h4>
+							<a href="profile?user_id={{ cmt.user_id }}">{{cmt.user_id.username}}</a>
+							- {{cmt.create_date|date:'Y-M-d'}}
+						</h4>
+						<div class="media-body ">
+							<span>{{cmt.content}}</span>
+						</div>
+					</div>
+				</div>
+				{% endif %} 
+				
+				{% endfor %}
+				<!-- end for comment -->
+				<form method="post" name="form">
+					{% csrf_token %} <input type="hidden" name="hd_post_id"
+						value="{{ post.id }}"> <input type="hidden"
+						name="posttype" value="1">
+					<div class="panel-footer">
+						<div class="media">
+							<a href="#" class="pull-left"> <img alt=""
+								src="images/photos/user3.png" class="media-object">
+							</a>
+							<div class="media-body">
+								<input id="txtComment" type="text" name="txtComment"
+									class="form-control" placeholder="Write a comment"
+									onkeydown="if (event.keyCode == 13) commentpost();" />
+							</div>
+						</div>
+						<!-- media -->
+					</div>
+				</form>
+			</div>
+			<!-- panel -->
+		</div>
+		<!-- col-sm-6 -->
+		{% endfor %}
+	</div>
+</div>
+<!-- document.getElementById("formcreatepost").submit(); -->
+<script type="text/javascript">
+	function createpost() {
+		document.getElementById("formcreateesay").submit();
+	};
+
+	function saveComment() {
+		document.getElementById("formcommentonlecture").submit();
+	};
+
+	function createesay(postid) {
+		document.forms["formcreateesay"].post_id.value = postid;
+	};
+
+	function socialmodule(postid) {
+		document.forms["formcreateesay"].post_id.value = postid;
+	};
+
+	function commentpost() {
+		alert('comment post...');
+	};
+	
+	function createlecture() {
+		document.getElementById("formcreatelecture").submit();
+	};
+	
+	function teststar(postid) {
+		for (i = 0; i < document.getElementsByName('rating').length; i++) {
+			if (document.getElementsByName('rating')[i].checked == true) {
+				var ratingValue = document.getElementsByName('rating')[i].value;
+				break;
+			}
+		}
+		document.getElementsByName('txtrate').value = ratingValue;
+		document.getElementById("frmrating").submit();
+	};
+</script>

@@ -1,0 +1,59 @@
+<!-- Modal -->
+<div class="modal fade" id="startlecture" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Start Lecture</h4>
+			</div>
+
+			<!-- Start block -->
+			<form method="post" name="formcreateesay" id="formcreateesay">
+				{% csrf_token %} 
+				<input type="hidden" id="post_id" name="post_id" value="">
+				<input type="hidden" name="posttype" value="3"> <!-- post type = 3; add easy -->
+				
+				<div class="col-md">
+					<div class="panel panel-default">
+						<form>
+							<div class="panel-body">
+								<h4 class="subtitle mb5">Date Created</h4>
+								<div class="input-group">
+									<input type="text" class="form-control"
+										placeholder="mm/dd/yyyy" id="datepicker"> <span
+										class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								</div>
+								<!-- row -->
+								<div class="col-lg"
+									style="margin-top: 1%;">
+									<input name="txtTitle" type="text" class="form-control"
+										required="required" placeholder="ごほうび"
+										value="{{Title}}" maxlength="100"
+										style="width: 100%; border: 1px solid #BDE0BE;" />
+								</div>
+								<div class="col-lg" style="margin-top: 1%;">
+									<input name="txtTitle" type="text" class="form-control"
+										required="required" placeholder="意気込み"
+										value="{{Title}}" maxlength="100"
+										style="width: 100%; border: 1px solid #BDE0BE;" />
+								</div>
+
+							</div>
+					</div>
+					<!-- panel -->
+				</div>
+			</form>
+			<!-- End of block -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary"
+					onclick="createpost();">Save</button>
+			</div>
+		</div>
+		<!-- modal-content -->
+	</div>
+	<!-- modal-dialog -->
+</div>
+<!-- modal -->

@@ -1,0 +1,33 @@
+<!-- Modal -->
+<div class="modal fade" id="commentOnLecture" tabindex="-1"
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Comment On Lecture</h4>
+			</div>
+
+			<!-- Start block -->
+			<form method="post" name="formcommentonlecture" id="formcommentonlecture">
+				{% csrf_token %} 
+				<input type="hidden" id="post_id" name="post_id" value=""> 
+				<input type="hidden" name="posttype" value="4">
+				<!-- post type = 3; add new comment -->
+				<textarea name="txaComment" id="txaComment"
+					placeholder="Insert your comment here to comment on lecture"
+					class="form-control" rows="5"></textarea>
+			</form>
+			<!-- End of block -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary"
+					onclick="saveComment();">Save</button>
+			</div>
+		</div>
+		<!-- modal-content -->
+	</div>
+	<!-- modal-dialog -->
+</div>
+<!-- modal -->

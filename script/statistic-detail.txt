@@ -1,0 +1,9 @@
+db.statistic_detail.remove();
+
+db.statistic_detail.insert({
+user: ObjectId("53833d5630635f17c4daab02"),
+reason: "Like",
+create_date : new Date(),
+object_id: "537f051c008ebc68d6419d77",
+status : "1"
+});

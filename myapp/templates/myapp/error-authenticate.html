@@ -1,0 +1,32 @@
+{% extends "myapp/base.html" %} {% block header %}
+<div class="pageheader">
+	<h2>
+		<i class="fa fa-file-text"></i> <a href="index"> Home </a> <span>
+	</h2>
+</div>
+
+{% endblock %} {% block content %}
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<div class="panel-btns">
+			<a href="#" class="panel-close">×</a>
+			<a href="#" class="minimize">−</a>
+		</div>
+		<!-- panel-btns -->
+		<h4 class="panel-title">Authetication Fail</h4>
+		<p>Some thing is going wrong with your login and it can not be process</p>
+	</div>
+	<!-- panel-heading -->
+	<div class="panel-body">
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<strong>Oh snap!</strong> You can go back to this  <a href="#" class="alert-link">link</a> to try login again. Your login is not success because you have not give us permission to take your needed information.
+	</div>
+</div>
+
+
+{% endblock %} {% block scripts %}
+<script src="js/masonry.pkgd.min.js"></script>
+<script src="js/custom.js"></script>
+{% endblock %}

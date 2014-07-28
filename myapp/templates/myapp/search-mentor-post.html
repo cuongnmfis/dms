@@ -1,0 +1,216 @@
+{% extends "myapp/base.html" %} 
+{% block content %}
+<div class=col-sm style="min-height: 600px;margin-top: 4%;">
+	<div class="row">
+		<div class="col-sm-12">
+			<span id="parentId" hidden="false"></span>
+			<select id="listCategories" hidden="false">
+				{% if listCategory %}
+					{% for category in listCategory %}
+						{% if  category.isparent == '0' %}
+							<option isparent="{{ category.id}}" anc="{{category.parentCategory.id}}" value="{{ category.id }}">{{category.categoryName}}</option>
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+			</select>
+				<div class="media">
+					<div class="text-muted">
+						<form class="col-sm-6" action="search-mentor" method="post" style="margin-left: 25%;">
+						{% csrf_token %}
+							<div class="form-group">
+									<label class="col-sm-6 control-label">両親カテゴリー</label><label class="col-sm-6 control-label">子どもカテゴリー</label>
+									<!-- <label class="col-sm-6 control-label">Categories1</label> -->
+										<div class="col-sm-6">
+											<select  onChange="delivery(this)" name="parentCategory" id="ddlViewBy" title="Please select at least 2 flowers" class="form-control" size="5" multiple="multiple" required="">
+												{% if listCategory %}
+													{% for cate in listCategory %}
+														{% if  cate.isparent == '1' %}
+															{% if category and category.id|truncatechars:100 == cate.id|truncatechars:100 %}
+																<option value="{{ cate.id }}" selected>{{cate.categoryName}}</option>
+															{% else %}
+																{% if  parentCategory and cate.id|truncatechars:100 == parentCategory %}
+																	<option value="{{ cate.id }}" selected>{{cate.categoryName}}</option>
+																{% else %}
+																	<option value="{{ cate.id }}">{{cate.categoryName}}</option>
+																{% endif %}
+															{% endif %}
+														{% endif %}
+													{% endfor %}
+												{% endif %}
+											</select>
+											<label class="error" for="flowers"></label>
+										</div>
+										<div class="col-sm-6">
+											<select name="childrenCategory" id="childrenCategory" title="Please select at least 2 flowers" class="form-control" size="5" multiple="multiple" onchange="this.form.submit()">
+												{% if listCategory %}
+													{% for cate in listCategory %}
+														{% if cate.isparent == '0' %}
+															{% if category and category.id|truncatechars:100 == cate.parentCategory.id|truncatechars:100 %}
+																<option value="{{ cate.id }}">{{cate.categoryName}}</option>
+															{% else %}
+																{% if parentCategory and cate.parentCategory.id|truncatechars:100 == parentCategory %}
+																	{% if  childrenCategory and cate.id|truncatechars:100 == childrenCategory %}
+																		<option value="{{ cate.id }}" selected>{{cate.categoryName}}</option>
+																	{% else %}
+																		<option value="{{ cate.id }}">{{cate.categoryName}}</option>
+																	{% endif %}
+																{% endif %}
+															{% endif %}
+														{% endif %}
+													{% endfor %}
+												{% endif %}
+											</select>
+											<label class="error" for="flowers"></label>
+										</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-12">
+										<div class="input-group mb15">
+											{% if search %}
+												<input type="text" id="textSearch" class="form-control" name="search" value="{{search}}" placeholder="カリキュラム,材料 ..." autocomplete="off" style="background: #fff url(../images/icon-search.png) no-repeat 95% center;">
+											{% else %}
+												<input type="text" id="textSearch" class="form-control" name="search" value="" placeholder="カリキュラム,材料 ..." autocomplete="off" style="background: #fff url(../images/icon-search.png) no-repeat 95% center;">
+											{% endif %}
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-primary" onclick="this.form.submit()" >検索</button>
+											</span>
+										</div>
+									</div>
+								</div>
+						</form>
+					</div>
+				</div>
+		</div>
+		{% if listCurriculumn or parentCategory %}
+			
+		{% else %}
+			{% include 'myapp/pnlHelp.html' %}
+		{% endif %}
+		
+	</div>
+	
+	<div class="row" id="result-list">
+		<div class="people-list">
+			<!-- Cucutium  -->
+			{% if listCurriculumn %}
+					{% for curriculumn in listCurriculumn %}
+						<div class="col-md-6">
+							<div class="people-item">
+								<div class="media">
+									<div class="media-body">
+										<form id="frmCourseDetail" action="/course-detail" method="post">
+											{% csrf_token %}
+											<input type="hidden" id = "course_id" value="{{curriculumn.id}}" name="course_id" />
+											<input type="hidden" id = "user_id" value="{{curriculumn.mentor.user.id}}" name="user_id" />
+											<input type="hidden" id="posttype" name="posttype" value="frmCourseDetail">
+											<div class="text-muted">
+												<a id="course_detail" href="#" onclick="redirect('{{curriculumn.id}}','{{curriculumn.mentor.user.id}}');"><h4 class="person-name peoplename">{{curriculumn.name}}</h4></a>
+											</div>
+										</form>
+										<div class="text-muted">
+											<i class="fa fa-briefcase"></i>Mentor:<a href="/studentview?user_id={{curriculumn.mentor.user.id}}"><span>{{curriculumn.mentor.user.username}}</span></a>
+											<a href="/studentview?user_id={{curriculumn.mentor.user.id}}" class="pull-right"><span>View more courses</span></a>
+										</div>
+										
+										<!-- <div class="text-muted">
+											<i class="fa fa-briefcase"></i>Units:
+												{% for unit in curriculumn.units %}
+													{{unit.name|add:","}}
+												{% endfor %}
+										</div> -->
+										<div class="text-muted">
+											<i class="fa fa-briefcase"></i>materials:
+												{% for material in curriculumn.material %}
+													{{material.name|add:","}}
+												{% endfor %}
+										</div>
+										<!-- <div class="text-muted">
+											<i class="fa fa-briefcase"></i>Actions:
+												{% for action in curriculumn.action %}
+													{{action.name|add:","}}
+												{% endfor %}
+										</div> -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- col-md-6 -->
+					{% endfor %}
+			{% else %}
+				{% if parentCategory %}
+				<div class="col-md-6" style="margin-left: 25%;">
+					<div class="text-muted" style="margin-left: 2%;">
+						<h3>No record </h3>
+					</div>
+				</div>
+				<!-- col-md-6 -->
+				{% endif %}
+			{% endif %}
+			<!-- End Cucutium -->
+			
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="js/masonry.pkgd.min.js"></script>
+<script src="js/jquery-ui-1.10.3.min.js"></script>
+<script src="js/chosen.jquery.min.js"></script>
+
+<script src="js/bootstrap-wizard.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script src="js/jquery.maskedinput.min.js"></script>
+<script src="js/jquery.numeric.js"></script>
+<script src="js/custom.js"></script>
+
+<script>
+ jQuery(window).load(function(){
+	var container = document.querySelector('#result-list');
+	var msnry = new Masonry( container, {
+	// options
+	columnWidth: '.col-md-6',
+	itemSelector: '.col-md-6'
+	});
+
+	// check on load
+	if(jQuery(window).width() <= 640 )
+		msnry.destroy();
+
+	// check on resize
+	jQuery(window).resize(function(){
+	if(jQuery(this).width() <= 640 )
+		msnry.destroy();
+	});
+});
+
+	function delivery(x){
+		var country = x.value;
+		document.getElementById('parentId').innerHTML = country;
+		select = document.getElementById('childrenCategory');
+		for(var i=select.options.length-1;i>=0;i--)
+		{
+			select.remove(i);
+		}
+		//remove input search when change option
+		document.getElementById('textSearch').value = "";
+		var ex = document.getElementById("listCategories").options;
+		for(var i=0;i<ex.length;i++)
+		{
+			if(ex[i].getAttribute('anc')==country)
+			{
+				var opt = document.createElement('option');
+				opt.value = ex[i].value;
+				opt.innerHTML = ex[i].text;
+				select.appendChild(opt);
+			}
+		}
+	}
+	function redirect(course_id,user_id){
+	document.getElementById('course_id').value = course_id;
+	document.getElementById('user_id').value = user_id;
+	document.getElementById('posttype').value = 'frmCourseDetail';
+
+	document.forms['frmCourseDetail'].submit();
+	};
+</script>
+{% endblock scripts%}

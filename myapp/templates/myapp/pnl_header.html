@@ -1,0 +1,30 @@
+{% if author_id == userlogged %}
+	<div class="pageheader" style="margin-top: 4%; height: 70px;">
+		<h2 style="margin-left: 1%;margin-top: 1%;"><img src="{{ user_images }}" style="max-height: 30px; max-width: 30px;" alt="" onError="this.onerror=null;this.src='/images/avatar/default.png';"> {{ user.username }}</h2>
+		{% if has_curriculum == True %} 
+			<div class="breadcrumb-wrapper">
+				<button class="btn btn-default btn-block" data-toggle="modal" data-target="#add-new-course">新カリキュラム</button>
+			</div>
+		{% endif %}
+	</div>
+{% else %}
+	<div class="pageheader" style="margin-top: 4%; height: 70px;">
+	<h2 style="margin-left: 1%;margin-top: 1%;" ><i class="fa fa-font"></i> {{ author }}</h2>
+	<div class="breadcrumb-wrapper">
+	{% if cl.mentor.user.id == user.id %}
+		{% include "myapp/add-material.html"%}
+		<!-- 	<button class="btn btn-default btn-block" data-toggle="modal" data-target="#add-material">素材を追加 </button> -->
+		{% elif is_joined %}
+			<span class="label">{{ user.username }} back to course!</span>
+		{% endif %}
+	</div>
+	</div>
+{% endif %}
+
+{% if author_id == userlogged %}
+	{% if has_curriculum == True %} 
+		{% include "myapp/add-curriculumn.html"%}
+	{% endif %}
+{% else %}
+	{% include "myapp/joincourse.html"%}
+{% endif %}

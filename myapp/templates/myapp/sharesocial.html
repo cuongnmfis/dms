@@ -1,0 +1,57 @@
+<!-- Modal -->
+<div class="modal fade" id="sharesocial" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Share SNS</h4>
+			</div>
+
+			<!-- Start block -->
+			<div align="center">
+				<br/>
+				<div class="fb-share-button" data-href="http://127.0.0.1:8000/post-detail?post_id={{ post.id }}" data-type="button_count"></div>
+				<br/>
+				<div style="margin-right: -50px;margin-top: 40px;">
+					<a href="https://twitter.com/share" data-size="large" class="twitter-share-button" data-url="http://127.0.0.1:8000/post-detail?post_id={{ post.id }}">Tweet</a>
+				</div>
+				<br/>
+				<div style="width: 90px;" class="g-plus" data-height="40" data-action="share" data-annotation="bubble" data-href="http://127.0.0.1:8000/post-detail?post_id={{ post.id }}"></div>
+			</div>
+			<!-- End of block -->
+			<div class="modal-footer">
+			</div>
+		</div>
+		<!-- modal-content -->
+	</div>
+	<!-- modal-dialog -->
+</div>
+<!-- modal -->
+<style>
+  .fb-share-button
+{
+transform: scale(1.3);
+-ms-transform: scale(1.3);
+-webkit-transform: scale(1.3);
+-o-transform: scale(1.3);
+-moz-transform: scale(1.3);
+transform-origin: top left;
+-ms-transform-origin: top left;
+-webkit-transform-origin: top left;
+-moz-transform-origin: top left;
+-webkit-transform-origin: top left;
+}
+  </style>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=400365133403014&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<script type="text/javascript" src="https://apis.google.com/js/platform.js"></script>

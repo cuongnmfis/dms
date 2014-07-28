@@ -1,0 +1,197 @@
+{% include 'myapp/commentOnAction.html' %}
+{% include 'myapp/commentOnCourse.html' %}
+{% if author_id == userlogged %}
+	{% include 'myapp/add-material.html' %}
+	{% include 'myapp/edit-material.html' %}
+	{% include 'myapp/add-action.html' %}
+	{% include 'myapp/edit-action.html' %}
+	{% include 'myapp/edit-curriculumn.html' %}
+{% endif %}
+
+{% if has_curriculum %}
+<div id="bloglist">
+	{% for cl in cl %}
+	<!-- Start block -->
+	<div class="col-xs-6 col-sm-6 col-md-6">
+		<div class="people-item">
+			<div class="col-sm">
+				
+				<div class="row">
+					{% if userlogged|truncatechars:100 == author_id|truncatechars:100 %}
+						<div class="btn-group pull-right" style="margin-right: 2%;">
+							<button class="btn btn-default" data-toggle="modal" data-target="#edit-curriculumn" onclick="onEditCurriculumn('{{cl.id}}');">
+								<i class="fa fa-pencil" style="padding-left: 5px;"></i>
+							</button>
+						</div>
+					{% else %}
+						{% if cl.joined_user|length > 0 %}
+							{% if username in cl.joined_user %}
+								<div class="btn-group pull-right">
+									<a href="course-detail?course_id={{ cl.id }}&user_id={{cl.mentor.user.id}}"><button type="button" class="btn btn-default">参加しました</button></a>
+								</div>
+							{% else %}
+								<div class="btn-group pull-right">
+									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#joincourse" onclick="onJoinCourse('{{cl.id}}');">参加する</button>
+								</div>
+							{% endif %}
+						{% else %}
+							<div class="btn-group pull-right">
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#joincourse" onclick="onJoinCourse('{{cl.id}}');">参加する</button>
+							</div>
+						{% endif %}
+	 				{% endif %}
+					<a href="course-detail?course_id={{ cl.id }}&user_id={{cl.mentor.user.id}}"><h4 class="person-name">{{ cl.name }}</h4></a>
+					<ul class="blog-meta">
+						<li>Course Start: {{ cl.from_date|date:'Y-M-d' }}</li>
+						<li>Duration: {{ cl.duration }} - {{ cl.duration_type }}</li>
+						{% if user.id|truncatechars:100 == user_id %}
+							<li>
+								<!--  <a href="#" data-toggle="modal" data-target="#edit-curriculumn" onclick="onEditCurriculumn('{{cl.id}}');"><i class="fa fa-pencil"></i></a> --> 
+								<!--  <a href="#" class="delete-row" data-toggle="modal" data-target=""><i class="fa fa-trash-o"></i></a>  -->
+							</li>
+						{% endif %}
+					</ul>
+					<input type="hidden" id="curriculumnName{{ cl.id }}" value="{{ cl.name }}">
+					<input type="hidden" id="curriculumnDuration{{ cl.id}}" value="{{ cl.duration }}">
+					<input type="hidden" id="curriculumnDurationType{{ cl.id }}" value="{{ cl.duration_type }}">
+					<input type="hidden" id="curriculumnCategoryParent{{ cl.id}}" value="{{ cl.category.parentCategory.id  }}">
+					<input type="hidden" id="curriculumnCategoryChildren{{ cl.id}}" value="{{ cl.category.id }}">
+					<input type="hidden" id="curriculumnFromDate{{ cl.id}}" value="{{ cl.from_date|date:'m/d/Y' }}">
+					<input type="hidden" id="curriculumnToDate{{ cl.id}}" value="{{ cl.to_date|date:'m/d/Y' }}">
+					<input type="hidden" id="curriculumnDescription{{ cl.id}}" value="{{ cl.description }}">
+				</div>
+				
+				<!-- <div id="slider-success"
+					class="slider-success mb20 ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"
+					aria-disabled="false">
+					<div
+						class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min"
+						style="width: 60%;"></div>
+					<a class="ui-slider-handle ui-state-default ui-corner-all"
+						href="#" style="left: 60%;"></a>
+				</div> -->
+				<div class="media-body">
+					<ul class="social-list">
+						<div >
+						{% if cl.material|length > 0  %}
+							{% if author_id == userlogged %}
+							<div class="btn-group  pull-left">
+								<button type="button" class="btn btn-sm btn-white"
+									data-toggle="modal" data-target="#add-material" onclick="onShowFormMaterial('{{cl.id}}');">素材を追加</button>
+							</div>
+							{% endif%}
+						<div class="table-responsive">
+							<table class="table table-hover table-bordered mb30" >
+								<tr>
+								<th style="width: 5%;text-align: center; background-color: #1CAF9A; color: #fff">リンク</th>
+								<th style="width: 40%;text-align: center; background-color: #1CAF9A; color: #fff">名前</th>
+								<th style="width: ; text-align: center; background-color: #1CAF9A; color: #fff">説明</th>
+								{% if  cl.mentor.user|truncatechars:100 == username|truncatechars:100 %}
+									<th style="width: 10%; text-align: center; background-color: #1CAF9A; color: #fff"></th>
+								{% endif %}
+								</tr>
+								<tbody>
+								{% for mt in cl.material %}
+								<tr style="cursor: hand;" > 
+								<td><a href="{{ mt.url }}" target="_blank"><img alt="" src="/images/photos/amzon.jpg" style="width: 50px;"></a></td>
+									<td onclick="document.location = 'course-detail?course_id={{ cl.id }}&user_id={{cl.mentor.user.id}}';" >{{ mt.name|truncatechars:100 }}</td>
+									<td onclick="document.location = 'course-detail?course_id={{ cl.id }}&user_id={{cl.mentor.user.id}}';" >{{ mt.description|truncatechars:100 }}</td>
+									{% if  author_id == userlogged %}
+										<td class="table-action">
+											<button class="btn btn-default btn-xs" data-toggle="modal" data-target="#edit-material" onclick='onEdit("{{cl.id}}","{{ mt.id }}");'>
+												<i class="fa fa-pencil" style="padding-left: 5px;"></i>
+											</button>
+										</td>
+									{% endif %}
+									
+								</tr>
+								</tbody>
+								<input type="hidden" id="materialName{{ mt.id }}" value="{{ mt.name }}">
+								<input type="hidden" id="materialDescription{{ mt.id}}" value="{{ mt.description }}">
+								<input type="hidden" id="materialUrl{{ mt.id }}" value="{{ mt.url }}">
+								<input type="hidden" id="materialType{{ mt.id}}" value="{{ mt.type.name }}">
+								{% endfor %}
+							</table>
+						</div>
+						{% endif %}
+
+						{% if cl.action|length > 0  %}
+							{% if author_id == userlogged %}
+								<div class="btn-group  pull-left">
+									<button type="button" class="btn btn-sm btn-white"
+										data-toggle="modal" data-target="#add-action" onclick="onShowFormAction('{{cl.id}}');">アクションの追加</button>
+								</div>
+							{% endif%}
+						<div class="table-responsive">
+							<table class="table table-hover table-bordered mb30">
+								<tr >
+								<th style="width: 40%; text-align: center; background-color: #1CAF9A; color: #fff">アクションの追加</th>
+								<th style="text-align: center; background-color: #1CAF9A; color: #fff">説明</th>
+								{% if  author_id == userlogged %}
+									<th style="width: 10%; text-align: center; background-color: #1CAF9A; color: #fff"></th>
+								{% endif %}
+								</tr>
+								<tbody>
+								{% for ac in cl.action %}
+								<tr>
+									<td >{{ ac.name|truncatechars:100 }}</td>
+									<td >{{ ac.description|truncatechars:100 }}</td>
+									{% if  author_id == userlogged %}
+										<td class="table-action">
+											<button class="btn btn-default btn-xs" data-toggle="modal" data-target="#edit-action" onclick='onEditAction("{{ac.id}}");'>
+												<i class="fa fa-pencil" style="padding-left: 5px;"></i>
+											</button>
+										</td>
+									{% endif %}
+									<input type="hidden" id="actionName{{ ac.id }}" value="{{ ac.name }}">
+									<input type="hidden" id="actionDescription{{ ac.id}}" value="{{ ac.description }}">
+								</tbody>
+								{% endfor %}
+							</table>
+						</div>
+						{% endif %}
+						
+							<!-- <div class="table-responsive" style="text-align: center;">
+							<div class="tinystat mr20">
+								<div id="sparkline2" class="chart mt5">
+									<img alt="" src="images/chart09.jpg"
+										class="thumbnail media-object"
+										style="width: 60px; height: 60px;">
+								</div>
+								<div class="datainfo">
+									<span class="text-muted">Taken</span>
+									<h4>{{ cl.statistic.currentTakenNumber}}</h4>
+								</div>
+							</div>
+							tinystat
+
+							<div class="tinystat mr20">
+								<div id="sparkline3" class="chart mt5">
+									<img alt="" src="images/chart07.jpg"
+										class="thumbnail media-object"
+										style="width: 60px; height: 60px;">
+								</div>
+								<div class="datainfo">
+									<span class="text-muted">Like</span>
+									<h4>{{ cl.statistic.currentLikeNumber}}</h4>
+								</div>
+							</div>
+							tinystat
+							</div> -->
+						</div>
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div> <!-- end of col-sm-6 -->
+	<!-- End block -->
+	{% endfor %}
+	<!-- End for -->
+</div>
+<!-- row -->
+{% else %} <!-- No curriculumn data  -->
+ <div class="row">
+ <p> No data to show
+ </div>
+{% endif %}
