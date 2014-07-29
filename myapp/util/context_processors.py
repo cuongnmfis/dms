@@ -1,6 +1,5 @@
 from mongoengine.django.auth import User
 
-from myapp.models.Mentor import Mentor
 
 
 def user(request):

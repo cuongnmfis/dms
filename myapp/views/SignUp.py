@@ -11,7 +11,6 @@ from django.shortcuts import render, render_to_response
 from mongoengine.django.auth import User
 import mongoengine.errors
 
-from myapp.models.Student import Student
 from myapp.models.UserProfile import UserProfile
 from myapp.util import context_processors
 

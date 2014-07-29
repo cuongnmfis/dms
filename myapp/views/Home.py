@@ -8,8 +8,6 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 from mongoengine.django.auth import User
 
-from myapp.models.CommentPost import CommentPost
-from myapp.models.MentorPost import MentorPost
 from myapp.util import context_processors
 
 
