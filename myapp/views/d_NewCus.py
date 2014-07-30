@@ -13,8 +13,10 @@ from mongoengine.django.auth import User
 from myapp.models.Customer import Customer
 
 
-#@login_required(login_url='/signin')
+@login_required(login_url='/signin')
 def index(request):
+	debt_owner1= User.objects.get(username=str(request.user))
+	
 	if request.method == 'GET':
 		context={}
 		return render(request, 'myapp/d-NewCus.html', context)
@@ -28,10 +30,10 @@ def index(request):
 		About = request.POST['txaAbout']
 
 		try:
-			user_name=request.user
-			debt_owner=User.objects.get(username=user_name)
+			
 			
 			user = User()
+			
 			user.username = firstname + lastname
 			user.first_name = firstname
 			user.last_name = lastname
@@ -47,13 +49,10 @@ def index(request):
 			_customer.fone_number = PhoneNumber
 			_customer.about = About
 			_customer.status = 1
-			_customer.debt_owner = debt_owner
+			_customer.debt_owner = debt_owner1
 			_customer.save()
 			
 			user.backend = 'mongoengine.django.auth.MongoEngineBackend'
-			context={"status":"success"}
-			return render(request, 'myapp/d-mainScreen.html', context)
 		except Exception as e:
 			print(e)
-
-	
+		return HttpResponseRedirect('/custom-debit-detail?type=loan')
