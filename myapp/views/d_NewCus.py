@@ -28,7 +28,8 @@ def index(request):
 		HomeAddress = request.POST['txtHomeAddress']
 		PhoneNumber = request.POST['txtPhoneNumber']
 		About = request.POST['txaAbout']
-
+		
+		
 		try:
 			
 			
@@ -55,4 +56,7 @@ def index(request):
 			user.backend = 'mongoengine.django.auth.MongoEngineBackend'
 		except Exception as e:
 			print(e)
-		return HttpResponseRedirect('/custom-debit-detail?type=loan')
+		if 'normalsave' in request.POST:
+			return HttpResponseRedirect('/newcustomer')			
+		elif 'saveandredirect' in request.POST:
+			return HttpResponseRedirect('/custom-debit-detail?type=loan')

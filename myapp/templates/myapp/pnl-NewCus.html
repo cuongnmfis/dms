@@ -54,15 +54,17 @@
 						style="min-height: 230px;" maxlength="1000"></textarea>
 				</div>
 			</div>
-
+			<input type="hidden" id="typeSave">
 		</div>
 		<!-- panel-body -->
 
 		<div class="panel-footer">
 			<div class="row">
-				<div class="col-sm-6 ">
+				<div class="col-sm-12 ">
 					<button class="btn btn-primary pull-left"
-						onclick="validatesdata();">Lưu thông tin</button>
+						onclick="validatesdata();" name="normalsave">Lưu thông tin</button>
+						<button class="btn btn-primary pull-right"
+						onclick="validatesdata();" name="saveandredirect">Lưu và về trang quản lý</button>
 					&nbsp; <span id="lblsuccess" style="display: none;"
 						class="label label-success">Thành công</span> <span id="lblfail"
 						style="display: none;" class="label label-danger">Không
