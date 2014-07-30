@@ -1,0 +1,64 @@
+<form id="form_cus_loan" novalidate="novalidate" action="/newCusDebit" method="post">
+	{% csrf_token %}
+	<div class="table-responsive">
+		<div class="panel panel-primary">
+			<div class="panel-heading" style="height: 40px !important;padding-top: 10px !important;padding-left: 6px !important">
+				<h4 class="panel-title" style="font-family: Arial,Helvetica,sans-serif;">NHẬP THÔNG TIN: NGÀY VAY, LÃI XUẤT, CHU KỲ, SỐ TIỀN VAY, GHI CHÚ</h4>
+			</div>
+			<div class="panel-body" style="padding: 0px !important;">
+				<table class="table table-hover mb30" style="min-height: 264px !important;">
+					<tbody>
+						<tr>
+							<td style="height: 36px !important;">
+								<div class="form-group" style="margin-bottom: 0px !important;">
+									<div class="input-group col-sm-4" style="float: left;">
+										<input type="text" class="form-control" required=""
+											placeholder="Ngày vay" id="startDate" name="cus_loan_date" required=""> <span
+											class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									</div>
+									<div class="input-group col-sm-4" style="float: left; padding-left: 5px;">
+										<input type="text" name="cus_rate" class="form-control" id="cusRate" maxlength="10" required="" value="" placeholder="Lãi xuất (vd: 2.000)">
+										<span class="input-group-addon"><i class="fa fa-money" ></i></span>
+									</div>
+									<div class="input-group col-sm-4" style="float: left; padding-left: 5px;">
+										<input type="text" name="cus_cycle" class="form-control tooltips" id="cusCycle" maxlength="2" required="" value="" placeholder="Chu kỳ (vd: 15 ngày)">
+										<span class="input-group-addon">ngày</span>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="height: 36px !important;">
+								<div class="form-group" style="margin-bottom: 0px !important;">
+									<div class="input-group col-sm" style="float: left;">
+										<input type="text" name="cus_debit" class="form-control" id="cusAmount" maxlength="15" required="" placeholder="Nhập số tiền ...">
+										<label id="lbcusAmount" style="display: none;" class="error"></label>
+										<span class="input-group-addon"><i class="fa fa-money" ></i></span>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="form-group col-sm-10" style="margin-bottom: 0px !important; padding: 0px !important;">
+									<div class="input-group" style="float: left;width: 100%;">
+										<textarea name="txtnote" class="form-control"
+											placeholder="Ghi chú" style="height: 88px;"> </textarea>
+									</div>
+								</div>
+								<div class="form-group col-sm-2" style="margin-bottom: 0px !important; padding-right: 0px !important;">
+									<button class="btn btn-primary" style="float: right;width: 100%;height: 88px;" onclick="SaveLoan();">Lưu</button>
+									<!-- <button type="reset" class="btn btn-default" style="float: right;margin-right: 10px;">Xóa</button> -->
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>	
+	</div>
+	<input type="hidden" value="cusLoan" name="type">
+	<input type="hidden" value="" id="hd_cus_amount" name="hd_cus_amount">
+	<input type="hidden" value="" id="hd_cus_rate" name="hd_cus_rate">
+	<input type="hidden" value="" id="hd_cus_id" name="hd_cus_id">
+</form>

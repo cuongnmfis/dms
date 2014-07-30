@@ -15,6 +15,7 @@ from myapp.models.CusDebitDetail import CusDebitDetail
 from myapp.models.Customer import Customer
 from myapp.models.LoanType import LoanType
 from myapp.views.CreateDms import createcusdebit, close_cycle_all,createMakePayment,createEstimatePayment
+from myapp.models import CusDebitDetailTrailer
 
 
 def index(request):
@@ -22,7 +23,7 @@ def index(request):
 		try:
 			close_cycle_all()
 			type_name=''
-			user_name='anhphongkiem'
+# 			user_name= request.user
 # 			debt_owner=User.objects.get(username=user_name)
 # 			lsCusomer=Customer.objects(debt_owner=debt_owner.id)
 # 			
@@ -32,6 +33,7 @@ def index(request):
 			lsCusomer = []
 			lsCusDebit = []
 			lsCusDebitDetail = []
+			
 			if 'type' in request.GET:
 				if request.GET['type']=='loan':
 					type_name = 'loan'
@@ -67,14 +69,12 @@ def index(request):
 				type_name = 'loan'
 				type_post = 'loan'
 				
-# 				user_name='anhphongkiem'
-# 				debt_owner=User.objects.get(username=user_name)
-# 				lsCusomer=Customer.objects(debt_owner=debt_owner.id)
-# 				lsCusDebit = CusDebit.objects(status=1).order_by('loan_date')
-# 				lsCusDebitDetail =CusDebitDetail.objects(status=1).order_by('cus_debit_id')
-				lsCusomer = []
-				lsCusDebit = []
-				lsCusDebitDetail = []
+				user_name = request.user
+				debt_owner=User.objects.get(username=user_name)
+				lsCusomer=Customer.objects(debt_owner=debt_owner.id)
+				lsCusDebit = CusDebit.objects(status=1).order_by('loan_date')
+				lsCusDebitDetail =CusDebitDetail.objects(status=1).order_by('cus_debit_id')
+				
 			except Exception as ex:
 				print("cusLoan :"+ex)
 			finally:
@@ -97,9 +97,11 @@ def index(request):
 				type_name = 'payment'
 				type_post = 'estimatePayment'
 				
-				lsCusomer = []
-				lsCusDebit = []
-				lsCusDebitDetail = []
+				user_name = request.user
+				debt_owner=User.objects.get(username=user_name)
+				lsCusomer=Customer.objects(debt_owner=debt_owner.id)
+				lsCusDebit = CusDebit.objects(status=1).order_by('loan_date')
+				lsCusDebitDetail =CusDebitDetailTrailer.objects(status=1).order_by('cus_debit_id')
 				
 			except Exception as ex:
 				print("estimatePayment: "+ex)
@@ -123,9 +125,11 @@ def index(request):
 				type_name = 'payment'
 				type_post = 'makePayment'
 				
-				lsCusomer = []
-				lsCusDebit = []
-				lsCusDebitDetail = []
+				user_name = request.user
+				debt_owner=User.objects.get(username=user_name)
+				lsCusomer=Customer.objects(debt_owner=debt_owner.id)
+				lsCusDebit = CusDebit.objects(status=1).order_by('loan_date')
+				lsCusDebitDetail =CusDebitDetail.objects(status=1).order_by('cus_debit_id')
 				
 			except Exception as ex:
 				print("makePayment: "+ex)

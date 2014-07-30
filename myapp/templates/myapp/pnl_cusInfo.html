@@ -1,0 +1,77 @@
+<div class="col-xs-6 col-sm-6 col-md-6"style="margin-top: 2%;" >
+	<div class="table-responsive">
+		<div class="panel panel-primary">
+			<div class="panel-heading" style="height: 40px !important;padding-top: 10px !important;padding-left: 6px !important">
+				<h4 class="panel-title" style="font-family: Arial,Helvetica,sans-serif; float: left;width: 70%;">THÔNG TIN KHÁCH HÀNG</h4>
+				{% if type == 'loan' %}
+					<button class="btn btn btn-danger " style="float: right;width: 25%;height: 40px; margin-top: -10px;padding-right: 0px;margin-right: -20px;"
+						onclick="window.location.href='/newcustomer'">
+					Thêm khách hàng</button>
+				{% endif %}
+			</div>
+			<div class="panel-body" style="padding: 0px !important;">
+				<table class="table table-hover mb30" style="min-height: 264px !important;">
+					<tbody>
+						<tr>
+							<td style="width: 20%;height: 36px !important;">Mã K/H: </td>
+							<td>
+								<div class="form-group" style="margin-bottom: 0px !important;">
+									<div class="col-sm-6" style="float: left;">
+										<select class="form-control chosen-select" data-placeholder="Mã khách hàng" id="selCusCode">
+											{% if lsCusomer %}
+												{% for cus in lsCusomer %}
+													<option cus_id="{{ cus.id}}" cus_name="{{ cus.full_name}}" cus_address="{{ cus.address }}" value="United States">{{ cus.cus_code }}</option>
+												{% endfor %}
+											{% endif %}
+										</select>
+									</div>
+									<div class="col-sm-6" id="divCusName"></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 20%;height: 36px !important;">CMTND|SĐT: </td>
+							<td>
+								<div class="form-group" style="margin-bottom: 0px !important;">
+									<div class="col-sm-6" style="float: left;">
+										<select class="form-control chosen-select" data-placeholder="Số CMTND" id="selCusIdNo">
+											{% if lsCusomer %}
+												{% for cus in lsCusomer %}
+													<option cus_id={{ cus.id}} cus_name="{{ cus.full_name}}" cus_address="{{ cus.address }}" value="United States">{{ cus.id_no }}</option>
+												{% endfor %}
+											{% endif %}
+										</select>
+									</div>
+									<div class="col-sm-6" style="float: left;">
+										<select class="form-control chosen-select" data-placeholder="Số điện thoại" id="selCusphone">
+											{% if lsCusomer %}
+												{% for cus in lsCusomer %}
+													<option  cus_id={{ cus.id}} cus_name="{{ cus.full_name}}" cus_address="{{ cus.address }}" value="United States">{{ cus.fone_number }}</option>
+												{% endfor %}
+											{% endif %}
+										</select>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 20%;height: 36px !important;">Địa chỉ: </td>
+							<td><div class="col-sm-12" id="divCusAddress"></div></td>
+						</tr>
+						<tr>
+							<td style="width: 20%;height: 36px !important;color: red;font-family: monospace;">Số khoản vay: </td>
+							<td><div class="col-sm-12" id="divCusInfor1" style="color: red;font-family: monospace;"></div>
+						</tr>
+						<tr>
+							<td style="width: 20%;height: 36px !important;color: red;font-family: monospace;">Tổng tiền nợ: </td>
+							<td><div class="col-sm-12" id="divCusInfor2" style="color: red !important;font-family: monospace;"></div>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+	</div>
+	<!-- table-responsive -->
+</div>
+<!-- col-md-6 -->
