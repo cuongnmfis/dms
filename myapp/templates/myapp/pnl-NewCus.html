@@ -1,0 +1,84 @@
+
+<div class="panel panel-default">
+	<form method="post" action="/newcustomer"
+		class="form-horizontal form-bordered" id="frmNewCus"
+		novalidate="novalidate">
+		{% csrf_token %}
+		<div class="panel-body">
+			<div class="row row-pad-5">
+				<div class="col-lg-6">
+					<input type="text" name="txtFirstName"
+						placeholder="(*) Nhập vào Họ và Tên đệm (vd: Nguyễn Văn)"
+						class="form-control" required="">
+				</div>
+				<div class="col-lg-6">
+					<input type="text" name="txtLastName"
+						placeholder="(*) Nhập vào tên khách hàng (vd: Tuấn)"
+						class="form-control" required="">
+				</div>
+			</div>
+
+			<div class="row row-pad-5">
+				<div class="col-sm-6">
+					<input name="txtidNo" type="text" value=""
+						placeholder="(*) Nhập vào số CMND (vd: 111657899)"
+						class="form-control" required="" />
+				</div>
+				<div class="col-sm-6">
+					<input name="txtPhoneNumber" type="text" value=""
+						placeholder="(*) Nhập vào số điện thoại liên lạc (vd: 0988123456 ; 0123456789;)"
+						class="form-control" required="" />
+				</div>
+			</div>
+
+			<div class="row row-pad-5">
+				<div class="col-sm">
+					<input name="txtAddress" type="text" value=""
+						placeholder="(*)  Nhập vào địa chỉ liên hệ (vd: 124,Xuân Thủy, Cầu Giấy, Hà Nội)"
+						class="form-control" required="" />
+				</div>
+			</div>
+
+			<div class="row row-pad-5">
+				<div class="col-sm">
+					<input name="txtHomeAddress" type="text" value=""
+						placeholder="(*) Nhập vào địa chỉ theo CMND hoặc sổ hộ khẩu"
+						class="form-control" required="" />
+				</div>
+			</div>
+
+			<div class="row row-pad-5">
+				<div class="col-sm">
+					<textarea name="txaAbout" rows="5" value="" class="form-control"
+						placeholder="Nhập vào thông tin ghi chú về khách hàng (vd: Khách hàng mới..)"
+						style="min-height: 230px;"></textarea>
+				</div>
+			</div>
+
+		</div>
+		<!-- panel-body -->
+
+		<div class="panel-footer">
+			<div class="row">
+				<div class="col-sm-6 ">
+					<button class="btn btn-primary pull-left"
+						onclick="validatesdata();">Lưu thông tin</button>
+					&nbsp; <span id="lblsuccess" style="display: none;"
+						class="label label-success">Thành công</span> <span id="lblfail"
+						style="display: none;" class="label label-danger">Không
+						thành công</span>
+				</div>
+
+			</div>
+		</div>
+		<!-- panel-footer -->
+	</form>
+</div>
+
+</div>
+<!-- col-sm-9 -->
+</div>
+<!-- row -->
+
+</div>
+<!-- contentpanel -->
