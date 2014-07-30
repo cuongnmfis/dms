@@ -7,7 +7,7 @@
 <meta name="author" content="">
 <link rel="shortcut icon" href="images/favicon.png" type="image/png">
 
-<title>Adult Social Education</title>
+<title>HỆ THỐNG QUẢN LÝ CÔNG NỢ</title>
 
 <link href="css/bootstrap-social.css" rel="stylesheet">
 <link href="css/style.default.css" rel="stylesheet">
@@ -41,38 +41,41 @@
 						<div class="mb20"></div>
 
 						<h3>
-							<strong>アダルト社会教育</strong>
+							<strong>Tại sao nên chọn:</strong>
 						</h3>
 						<div class="mb20"></div>
 
 						<div class="feat-list">
 							<i class="fa fa-wrench"></i>
-							<h4 class="text-success">特定のキャリアやライフスタイルのためのカリキュラム。</h4>
-							<p>あなたは、すぐあなたがそれを更新として自分のプロフィールを作成し、向上させることができます。</p>
+							<h4 class="text-success">Lợi ích về chi phí:</h4>
+							<p>Miễn phí hoàn toàn 6 tháng đầu tiên; </p>
+							<p>Thuê dịch vụ chỉ 1 triệu đồng / 1 năm</p>
 						</div>
 
 						<div class="feat-list">
 							<i class="fa fa-wrench"></i>
-							<h4 class="text-success">キャリアや人生の進行状況を視覚化する。</h4>
-							<p>ライフプランと進捗明確かつ管理が容易に作成し、どのような行方不明参照してください。</p>
+							<h4 class="text-success">Kết nối mọi lúc - Mọi nơi</h4>
+							<p>Kết nối với máy tính qua internet</p>
+							<p>Kết nối với thiết bị di động qua 3G</p>
 						</div>
 
 						<div class="feat-list mb20">
 							<i class="fa fa-wrench"></i>
-							<h4 class="text-success">個人的なメンターを取得します。</h4>
-							<p>あらゆる分野の多くの成功したメンター·グラフィックスはサインアップし、あなたにアドバイスを与えるために準備ができて。</p>
+							<h4 class="text-success">Công nghệ hiện đại</h4>
+							<p>Ứng dụng mô hình điện toán đám mây</p>
+							<p>Dịch vụ chạy trên máy chủ của Mỹ</p>
 						</div>
 
 						<div class="feat-list mb20">
 							<i class="fa fa-wrench"></i>
-							<h4 class="text-success">社会的なノウハウを得る方法</h4>
-							<p>成功と人生についての記事は、専門家によって毎日更新されました。</p>
+							<h4 class="text-success">An Toàn</h4>
+							<p>An toàn và bảo mật theo tiêu chuẩn của Mỹ</p>
 						</div>
 						
 						<div class="feat-list mb20">
 							<i class="fa fa-wrench"></i>
-							<h4 class="text-success">成功の人生を取得</h4>
-							<p>あなたはyourseftメンターになり、私たちでできることはまだまだたくさんあります。</p>
+							<h4 class="text-success">Nâng cấp thường xuyên</h4>
+							<p>Nâng cấp thường xuyên</p>
 						</div>
 						
 						
@@ -87,89 +90,41 @@
 
 					<form class="form" method="post" novalidate="novalidate" id="formsignup" >
 						{% csrf_token %}
-						<h3 class="nomargin">登録</h3>
+						<h3 class="nomargin" style="text-align: center;">ĐĂNG KÝ THÔNG TIN</h3>
 						
 						<p class="mt5 mb20">
-							既にメンバー ? <a href="signin"><strong>サインインする</strong></a>
+							Đã có tài khoản ? <a href="signin"><strong>Đăng Nhập</strong></a>
 						</p>
 						{% if error_message %}
 							<div class="row mb10">
 								<label for="" class="error">{{error_message}}</label>
 							</div>
 						{% endif %} 												
-						<label class="control-label">名前</label>
+						<label class="control-label">Họ Tên</label>
 						<div class="row mb10">
 							<div class="col-sm-6">
-								<input name="txtFirstName" type="text" class="form-control" placeholder="姓" value="{{firstname}}" required=""/>
+								<input name="txtFirstName" type="text" class="form-control" placeholder="Họ" value="{{firstname}}" required=""/>
 							</div>
 							<div class="col-sm-6">
-								<input name="txtLastName" type="text" class="form-control" placeholder="姓" value="{{lastname}}" required=""/>
+								<input name="txtLastName" type="text" class="form-control" placeholder="Tên" value="{{lastname}}" required=""/>
 							</div>
 						</div>
 
 						<div class="mb10">
-							<label class="control-label">Eメール</label> 
-							<input name="txtEmail" placeholder="Eメール" type="email"  class="form-control" value="{{mail}}" required=""/>
+							<label class="control-label">Email</label> 
+							<input name="txtEmail" placeholder="Email" type="email"  class="form-control" value="{{mail}}" required=""/>
 						</div>
 						<div class="mb10">
-							<label class="control-label">ユーザー名</label> 
-							<input name="txtUserName" placeholder="ユーザー名" type="text"  class="form-control" value="{{username}}" required=""/>
+							<label class="control-label">Tên đăng nhập</label> 
+							<input name="txtUserName" placeholder="Tên đăng nhập hệ thống" type="text"  class="form-control" value="{{username}}" required=""/>
 						</div>
 						<div class="mb10">
-							<label class="control-label">パスワード</label> 
-							<input name="txtPassWord" placeholder="単語を渡す" type="password" class="form-control" value="{{password}}" required=""/>
+							<label class="control-label">Mật khẩu</label> 
+							<input name="txtPassWord" placeholder="Mật khẩu" type="password" class="form-control" value="{{password}}" required=""/>
 						</div>
-						<!-- <label class="control-label">Birthday</label> -->
-						<!-- <div class="row mb10">
-							<div class="col-sm-3" style="width: 40%;float: left;">
-								<select class="form-control chosen-select">
-									<option value="0" selected>Month</option>
-									<option value="January">January</option>
-									<option value="February">February</option>
-									<option value="March">March</option>
-									<option value="April">April</option>
-									<option value="May">May</option>
-									<option value="June">June</option>
-									<option value="July">July</option>
-									<option value="August">August</option>
-									<option value="September">September</option>
-									<option value="October">October</option>
-									<option value="November">November</option>
-									<option value="December">December</option>
-								</select>
-							</div>
-							<div class="col-sm-3" style="width: 30%;float: left;">
-								<select  class="form-control chosen-select">
-									<option value="0" selected>Day</option>
-									{% for i in rangerDay %}
-										<option value="{{ i }}">{{ i }}</option>
-									{% endfor %}
-								</select>
-							</div>
-							<div class="col-sm-3" style="width: 30%;float: left;">
-								<select class="form-control chosen-select">
-									<option value="0" selected>Year</option>
-									{% for i in rangerYear %}
-										<option value="{{ i }}">{{ i }}</option>
-									{% endfor %}
-								</select>
-							</div>
-						</div> -->
 						<br />
 						
-						<button class="btn btn-success btn-block" onclick="validatesignup();">登録</button>
-						<br />
-						<div align="center">
-							<a href= "{% url 'social:begin' "twitter" %}" class="btn btn-social-icon btn-twitter">
-	    						<i class="fa fa-twitter"></i>
-	  						</a>
-	  						<a href= "{% url 'social:begin' "facebook" %}" class="btn btn-social-icon btn-facebook">
-	    						<i class="fa fa-facebook"></i>
-	  						</a>
-	  						<a href= "{% url 'social:begin' "google-oauth2" %}" class="btn btn-social-icon btn-google-plus">
-	    						<i class="fa fa-google-plus"></i>
-	  						</a>
-	  					</div>						
+						<button class="btn btn-success btn-block" onclick="validatesignup();">ĐĂNG KÝ</button>
 					</form>
 					
 					
@@ -178,14 +133,6 @@
 
 			</div>
 			<!-- row -->
-
-			<div class="signup-footer">
-				<div class="pull-left">&copy; 2014. 無断複写·転載を禁じます.
-					</div>
-				<div class="pull-right">
-					によって作成された : <a href="http://ex-artisan.com/" target="_blank">Ex-artisan</a>
-				</div>
-			</div>
 
 		</div>
 		<!-- signuppanel -->
