@@ -12,7 +12,6 @@ from mongoengine.fields import ReferenceField, StringField, DateTimeField,\
 from myapp.models.Customer import Customer
 from myapp.models.LoanType import LoanType
 
-import myapp.models.Customer as Cus
 
 class CusDebit(Document):
 	cus_id  = ReferenceField(Customer)
@@ -34,6 +33,6 @@ class CusDebit(Document):
 			}
 
 def getCusDebitofadebtowner(debt_owner):
-	listcus = Cus.getlistCustomerbyDebtOwner(debt_owner)
+	listcus = Customer.getlistCustomerbyDebtOwner(debt_owner)
 	cusdebitafterfilter = CusDebit.objects.filter(cus_id__in=listcus)
 	return cusdebitafterfilter

@@ -72,7 +72,7 @@ def getPaymentHistory():
 			if(pm.cus_id == l.cus_id ):
 				paymentafterfilter.append(pm)
 	return paymentafterfilter
-def createMakePayment(vCus_id,vPayment_date,vPayment,loan_type):
+def createMakePayment(vCus_id,vPayment_date,vPayment,loan_type,note):
 	
 		cus=Customer.objects.get(id=vCus_id)
 		lsCusDebit =CusDebit.objects(cus_id = cus.id,status = 1).order_by('loan_date')
@@ -124,7 +124,7 @@ def createMakePayment(vCus_id,vPayment_date,vPayment,loan_type):
 						cs.status = 0
 						cs.payment = cus_debit_detail_trailer.payment
 						cs.last_close_date = cus_debit_detail_trailer.to_date
-						
+						cs.note = note
 						cs.save()
 						
 						#insert payment_detail

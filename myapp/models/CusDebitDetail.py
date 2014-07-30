@@ -13,8 +13,6 @@ from mongoengine.fields import ReferenceField, DateTimeField,\
 from myapp.models.CusDebit import CusDebit
 from myapp.models.Customer import Customer
 
-import myapp.models.Customer as Cus
-
 class CusDebitDetail(Document):
 	cus_id  = ReferenceField(Customer)
 	cus_debit_id  = ReferenceField(CusDebit)
@@ -37,11 +35,11 @@ class CusDebitDetail(Document):
 			}
 # retrive all record in CusDebitDetail that have specific input debt_owner 
 def getCusDebitDetailofadebtowner(debt_owner):
-	listcus = Cus.getlistCustomerbyDebtOwner(debt_owner)
+	listcus = Customer.getlistCustomerbyDebtOwner(debt_owner)
 	cusdebitdetailafterfilter = CusDebitDetail.objects.filter(cus_id__in=listcus)
 	return cusdebitdetailafterfilter
 
 def getCusDebitDetailbyCusdebitID(cusdebit_ID):
-	listcus = Cus.getlistCustomerbyDebtOwner(debt_owner)
+	listcus = Customer.getlistCustomerbyDebtOwner(debt_owner)
 	cusdebitdetailafterfilter = CusDebitDetail.objects.filter(cus_id__in=listcus)
 	return cusdebitdetailafterfilter
