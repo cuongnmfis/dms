@@ -21,6 +21,8 @@
 		{% if lsCusDebit|length > 0 %}
 			{% include 'myapp/pnl_cusDebit.html' %}
 			{% include 'myapp/pnl_cusDebitDetail.html' %}
+		{% else %}
+			{% include 'myapp/pnl_help.html' %}
 		{% endif %}
 	</div>
 	<!-- END ROW -->
