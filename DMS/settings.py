@@ -7,15 +7,6 @@ import mongoengine
 
 # mongoengine.register_connection(alias, name, host, port, is_slave, read_preference, slaves, username, password)
 mongoengine.connect('dms',host="kahana.mongohq.com",port=10073,username="root",password="dms@root*#12345@#")
-AUTHENTICATION_BACKENDS = (
-    'mongoengine.django.auth.MongoEngineBackend',
-    'social.backends.open_id.OpenIdAuth',
-    'social.backends.google.GoogleOpenId',
-    'social.backends.google.GoogleOAuth2',
-    'social.backends.google.GoogleOAuth',
-    'social.backends.twitter.TwitterOAuth',
-    'social.backends.facebook.FacebookOAuth2',
-)
 
 
 SESSION_ENGINE = 'mongoengine.django.sessions'
@@ -54,15 +45,7 @@ DATABASES = {
     },
 }
 SESSION_ENGINE = 'mongoengine.django.sessions'
-AUTHENTICATION_BACKENDS = (
-    'mongoengine.django.auth.MongoEngineBackend',
-    'social.backends.open_id.OpenIdAuth',
-    'social.backends.google.GoogleOpenId',
-    'social.backends.google.GoogleOAuth2',
-    'social.backends.google.GoogleOAuth',
-    'social.backends.twitter.TwitterOAuth',
-    'social.backends.facebook.FacebookOAuth2',
-)
+
 TEST_RUNNER = 'yourproject.tests.NoSQLTestRunner'
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -179,7 +162,6 @@ INSTALLED_APPS = (
     'mongoengine.django.mongo_auth',
     #'django.contrib.staticfiles',
     'myapp',
-    'social.apps.django_app.me',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -194,21 +176,6 @@ LANGUAGES = (
 
 AUTH_USER_MODEL = 'mongo_auth.MongoUser'
 
-SOCIAL_AUTH_PIPELINE = (
-    'social.pipeline.social_auth.social_details',
-    'social.pipeline.social_auth.social_uid',
-    'social.pipeline.social_auth.auth_allowed',
-    'social.pipeline.social_auth.social_user',
-    'social.pipeline.user.get_username',
-    'social.pipeline.user.create_user',
-    'social.pipeline.social_auth.associate_user',
-    'social.pipeline.social_auth.load_extra_data',
-    'social.pipeline.user.user_details'
-)
-
-SOCIAL_AUTH_PIPELINE += (
-    'myapp.util.pipelines.save_profile_picture',
-)
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
