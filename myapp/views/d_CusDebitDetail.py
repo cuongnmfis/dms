@@ -24,7 +24,7 @@ def index(request):
 	if request.method == 'GET':
 		try:
 			type=''
-			user_name='anhphongkiem'
+			user_name=request.user
 			debt_owner=User.objects.get(username=user_name)
 			lsCusomer=Customer.objects(debt_owner=debt_owner.id)
 			

@@ -18,54 +18,59 @@ def index(request):
 	password = ""
 	defaultUserImage = "/images/avatar/default.png"
 	
-	username=str(request.user)
-	return render(request, 'myapp/signin.html', {})
 	if 'next' in request.GET:
 		nextpage = request.GET['next']
 	else:
 		nextpage = ""
-	try: 
+			
+	if request.method == 'GET':
+		return render(request, 'myapp/signin.html', {})
+	elif request.method == 'POST':
+		username = request.POST['txtUserName']
+		password = request.POST['txtPassWord']
 		
-		user = User.objects.get(username=username)
-		transaction = UserLogin()
-		transaction.user = user
-		transaction.save()
-		if user.check_password(password):
-			logout(request)
-			user.backend = 'mongoengine.django.auth.MongoEngineBackend'
-			login(request, user)
+		try: 
+			
+			user = User.objects.get(username=username)
+			if user.check_password(password):
+				logout(request)
+				user.backend = 'mongoengine.django.auth.MongoEngineBackend'
+				login(request, user)
 
-			user_images = ""
-			try:
-				profile = UserProfile.objects(user_id=user)
-			except Exception as e:
-				upro = UserProfile()
-				upro.user_id = user
-				upro.images = defaultUserImage
-				upro.save()
-				request.session['user_images'] = defaultUserImage
-				print(e)
-			context = 	{
-						'user_images':user_images,
-						}
-			if nextpage:
-				return HttpResponseRedirect(nextpage,context)	
+
+				user_images = ""
+				try:
+					profile = UserProfile.objects(user_id=user)
+					user_images = profile[0].images
+					request.session['user_images'] = "/upload/" +user.username+"-avatar.jpg"
+				except Exception as e:
+					upro = UserProfile()
+					upro.user_id = user
+					upro.images = defaultUserImage
+					upro.save()
+					request.session['user_images'] = defaultUserImage
+					print(e)
+				context = 	{
+							'user_images':user_images,
+							}
+				if nextpage:
+					return HttpResponseRedirect(nextpage,context)	
+				else:
+					return HttpResponseRedirect('/mainscreen')
 			else:
-				return HttpResponseRedirect('/mainscreen')
-		else:
-			c = {
-					'error_message':"User name or password does not correct",
-					'username':username,
-					'password':password,
-				}
-			c.update(csrf(request))
-			c.update(context_processors.user(request))
-			return render_to_response("myapp/signin.html", c)
-	except Exception as e:
-			c = {
-					'error_message':e,
-				}
-			c.update(csrf(request))
-			c.update(context_processors.user(request))
-			return render_to_response("myapp/signin.html", c)
+				c = {
+						'error_message':"User name or password does not correct",
+						'username':username,
+						'password':password,
+					}
+				c.update(csrf(request))
+				c.update(context_processors.user(request))
+				return render_to_response("myapp/signin.html", c)
+		except Exception as e:
+				c = {
+						'error_message':e,
+					}
+				c.update(csrf(request))
+				c.update(context_processors.user(request))
+				return render_to_response("myapp/signin.html", c)
 	return render(request, 'myapp/signin.html', {})
