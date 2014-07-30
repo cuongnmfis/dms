@@ -22,7 +22,11 @@
 			{% include 'myapp/pnl_cusDebit.html' %}
 			{% include 'myapp/pnl_cusDebitDetail.html' %}
 		{% else %}
-			{% include 'myapp/pnl_help.html' %}
+			{% if type == 'loan' %}
+				{% include 'myapp/pnl_help.html' %}
+			{% elif type == 'payment' %}
+				{% include 'myapp/pnl_helpPayment.html' %}
+			{% endif %}		
 		{% endif %}
 	</div>
 	<!-- END ROW -->
