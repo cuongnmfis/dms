@@ -4,7 +4,7 @@
 			<div class="panel-heading" style="height: 40px !important;padding-top: 10px !important;padding-left: 6px !important">
 				<h4 class="panel-title" style="font-family: Arial,Helvetica,sans-serif; float: left;width: 70%;">THÔNG TIN KHÁCH HÀNG</h4>
 				{% if type == 'loan' %}
-					<button class="btn btn-success " style="float: right;width: 25%;height: 40px; margin-top: -10px;padding-right: 0px;margin-right: -20px;"
+					<button class="btn btn-warning" style="float: right;width: 25%;height: 40px; margin-top: -10px;padding-right: 0px;margin-right: -20px;"
 						onclick="window.location.href='/newcustomer'"><i class="fa fa-plus-circle"></i>
 					Thêm khách hàng</button>
 				{% endif %}
@@ -20,7 +20,7 @@
 										<select class="form-control chosen-select" data-placeholder="Mã khách hàng" id="selCusCode">
 											{% if lsCusomer %}
 												{% for cus in lsCusomer %}
-													<option cus_id="{{ cus.id}}" cus_name="{{ cus.full_name}}" cus_address="{{ cus.address }}" value="United States">{{ cus.cus_code }}</option>
+													<option cus_id="{{ cus.id}}" cus_name="{{ cus.cus_id.username }}" cus_address="{{ cus.address }}" value="United States">{{ cus.cus_code }}</option>
 												{% endfor %}
 											{% endif %}
 										</select>
@@ -37,7 +37,7 @@
 										<select class="form-control chosen-select" data-placeholder="Số CMTND" id="selCusIdNo">
 											{% if lsCusomer %}
 												{% for cus in lsCusomer %}
-													<option cus_id={{ cus.id}} cus_name="{{ cus.full_name}}" cus_address="{{ cus.address }}" value="United States">{{ cus.id_no }}</option>
+													<option cus_id={{ cus.id}} cus_name="{{ cus.cus_id.username }}" cus_address="{{ cus.address }}" value="United States">{{ cus.id_no }}</option>
 												{% endfor %}
 											{% endif %}
 										</select>
@@ -46,7 +46,7 @@
 										<select class="form-control chosen-select" data-placeholder="Số điện thoại" id="selCusphone">
 											{% if lsCusomer %}
 												{% for cus in lsCusomer %}
-													<option  cus_id={{ cus.id}} cus_name="{{ cus.full_name}}" cus_address="{{ cus.address }}" value="United States">{{ cus.fone_number }}</option>
+													<option  cus_id={{ cus.id}} cus_name="{{ cus.cus_id.username }}" cus_address="{{ cus.address }}" value="United States">{{ cus.fone_number }}</option>
 												{% endfor %}
 											{% endif %}
 										</select>

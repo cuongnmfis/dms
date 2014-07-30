@@ -14,7 +14,7 @@
 									<div class="input-group col-sm-12" style="float: left;">
 										<input type="text" class="form-control" required=""
 											placeholder="計画開始日" id="startDatePayment" name="cus_payment_date_payment" required=""> <span
-											class="input-group-addon"><i class="fa fa-calendar" {% if estimatePaymentDay %} value={{ estimatePaymentDay }} {% endif %}></i></span>
+											class="input-group-addon"><i class="fa fa-calendar" {% if payment_date %} value={{ payment_date }} {% endif %}></i></span>
 									</div>
 								</div>
 							</td>
@@ -23,7 +23,7 @@
 							<td style="height: 36px !important;">
 								<div class="form-group" style="margin-bottom: 0px !important;">
 									<div class="input-group col-sm" style="float: left;">
-										<input type="text" name="cus_debit_payment" class="form-control" {% if estimatePayment %} value="{{ estimatePayment }}" {% endif %} id="cusAmountPayment" maxlength="15" required="" placeholder="Nhập số tiền trả ...">
+										<input type="text" name="cus_debit_payment" class="form-control" {% if payment_amount %} value="{{ payment_amount }}" {% endif %} id="cusAmountPayment" maxlength="15" required="" placeholder="Nhập số tiền trả ...">
 										<label id="lbcusAmountPayment" style="display: none;" class="error"></label>
 										<span class="input-group-addon"><i class="fa fa-money" ></i></span>
 									</div>

@@ -16,6 +16,7 @@ from myapp.models.CusDebitDetail import CusDebitDetail
 from myapp.models.Customer import Customer
 from myapp.models.Payment import Payment
 from myapp.models.PaymentDetail import PaymentDetail
+from myapp.models.CusDebitDetailTrailer import CusDebitDetailTrailer
 
 @login_required(login_url='/signin')
 def index(request):
@@ -76,6 +77,7 @@ def createMakePayment(vCus_id,vPayment_date,vPayment,loan_type,note):
 	
 		cus=Customer.objects.get(id=vCus_id)
 		lsCusDebit =CusDebit.objects(cus_id = cus.id,status = 1).order_by('loan_date')
+		lsCus_debit_detail = CusDebitDetail.objects(cus_debit_id = cs.id)
 		createEstimatePayment(vCus_id,vPayment_date,vPayment)
 	
 	#	create new a payment
@@ -95,7 +97,7 @@ def createMakePayment(vCus_id,vPayment_date,vPayment,loan_type,note):
 							c.delete()
 					
 						lsCus_debit_detail_trailer = CusDebitDetailTrailer.objects(cus_debit_id = cs.id)
-						for  Cus_debit_detail_trailer in lsCus_debit_detail_trailer:
+						for Cus_debit_detail_trailer in lsCus_debit_detail_trailer:
 							cdt = Cus_debit_detail_trailer
 							
 							cd = CusDebitDetail()
@@ -118,12 +120,12 @@ def createMakePayment(vCus_id,vPayment_date,vPayment,loan_type,note):
 							
 							cd.save()
 							
-						cus_debit_detail_trailer = CusDebitDetailTrailer.objects.get(cus_debit_id = cs.id,flag = 1)
+						cus_debit_detail = CusDebitDetail.objects.get(cus_debit_id = cs.id,flag = 1)
 						
 						cs.total_debit =cs.total_debit_trailer
 						cs.status = 0
-						cs.payment = cus_debit_detail_trailer.payment
-						cs.last_close_date = cus_debit_detail_trailer.to_date
+						cs.payment = cus_debit_detail.payment
+						cs.last_close_date = cus_debit_detail.to_date
 						cs.note = note
 						cs.save()
 						
@@ -134,7 +136,7 @@ def createMakePayment(vCus_id,vPayment_date,vPayment,loan_type,note):
 						pd.cus_id = cus
 						pd.debit = cus_debit_detail_trailer.payment
 						pd.payment = cus_debit_detail_trailer.payment
-						pd.cus_debit_detail_id = cus_debit_detail_trailer
+						pd.cus_debit_detail_id = cus_debit_detail
 						pd.status = 1
 						
 						pd.save()
@@ -144,12 +146,12 @@ def createMakePayment(vCus_id,vPayment_date,vPayment,loan_type,note):
 						
 					elif cs.total_debit_trailer == 0 :
 						print("update status=0")
-						cus_debit_detail_trailer = CusDebitDetailTrailer.objects.get(cus_debit_id = cs.id,flag = 1)
+						cus_debit_detail = CusDebitDetail.objects.get(cus_debit_id = cs.id,flag = 1)
 						
 						cs.total_debit =cs.total_debit_trailer
 						cs.status = 0
-						cs.payment = cus_debit_detail_trailer.payment
-						cs.last_close_date = cus_debit_detail_trailer.to_date
+						cs.payment = cus_debit_detail.payment
+						cs.last_close_date = cus_debit_detail.to_date
 						
 						cs.save()
 						
@@ -160,7 +162,7 @@ def createMakePayment(vCus_id,vPayment_date,vPayment,loan_type,note):
 						pd.cus_id = cus
 						pb.debit = cus_debit_detail_trailer.payment
 						pd.payment = cus_debit_detail_trailer.payment
-						pb.cus_debit_detail_id = cus_debit_detail_trailer
+						pb.cus_debit_detail_id = cus_debit_detail
 						pd.status = 1
 						
 						pd.save()
@@ -192,7 +194,7 @@ def createEstimatePayment(vCus_id,vPayment_date,vPayment_trailer):
 					cus_debit_detail_last =CusDebitDetailTrailer.objects.get(cus_debit_id =cus_debit.id ,flag=1)
 					
 					cus_debit_detail_last.payment = payment_trailer
-					cus_debit_detail_last.status = 0
+					cus_debit_detail_last.status = 1
 					cus_debit_detail_last.end_cycle = cus_debit.total_debit_trailer
 					cus_debit_detail_last.payment = payment_trailer
 					payment_trailer = 0
@@ -202,7 +204,7 @@ def createEstimatePayment(vCus_id,vPayment_date,vPayment_trailer):
 					payment_trailer -= cus_debit.total_debit_trailer
 					cus_debit_detail_last =CusDebitDetailTrailer.objects.get(cus_debit_id =cus_debit.id ,flag=1)
 					
-					cus_debit_detail_last.status = 0
+					cus_debit_detail_last.status = 1
 					cus_debit_detail_last.end_cycle = 0
 					cus_debit_detail_last.payment = cus_debit.total_debit_trailer
 					cus_debit.total_debit_trailer = 0
