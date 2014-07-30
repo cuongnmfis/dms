@@ -8,7 +8,15 @@ import mongoengine
 # mongoengine.register_connection(alias, name, host, port, is_slave, read_preference, slaves, username, password)
 mongoengine.connect('dms',host="kahana.mongohq.com",port=10073,username="root",password="dms@root*#12345@#")
 
-
+AUTHENTICATION_BACKENDS = (
+    'mongoengine.django.auth.MongoEngineBackend',
+    'social.backends.open_id.OpenIdAuth',
+    'social.backends.google.GoogleOpenId',
+    'social.backends.google.GoogleOAuth2',
+    'social.backends.google.GoogleOAuth',
+    'social.backends.twitter.TwitterOAuth',
+    'social.backends.facebook.FacebookOAuth2',
+)
 SESSION_ENGINE = 'mongoengine.django.sessions'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

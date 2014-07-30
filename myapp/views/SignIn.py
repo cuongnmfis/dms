@@ -32,6 +32,7 @@ def index(request):
 		try: 
 			
 			user = User.objects.get(username=username)
+			
 			if user.check_password(password):
 				logout(request)
 				user.backend = 'mongoengine.django.auth.MongoEngineBackend'

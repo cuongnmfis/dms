@@ -45,7 +45,7 @@ def index(request):
 			user.backend = 'mongoengine.django.auth.MongoEngineBackend'
 			logout(request)
 			login(request, user)
-			return HttpResponseRedirect('/maincreen')
+			return HttpResponseRedirect('/mainscreen')
 		except mongoengine.errors.NotUniqueError as e:
 				return getSignupError(request,'Đã tồn tại trong hệ thống',firstname,lastname,username,password,email)
 def getSignupError(request,e,firstname,lastname,username,password,email):
