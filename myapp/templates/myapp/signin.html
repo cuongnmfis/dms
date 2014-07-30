@@ -7,7 +7,7 @@
 <meta name="author" content="">
 <link rel="shortcut icon" href="images/favicon.png" type="image/png">
 
-<title>Ex-artisan Admin System</title>
+<title>HỆ THỐNG QUẢN LÝ CÔNG NỢ</title>
 
 <link href="css/style.default.css" rel="stylesheet">
 <link href="css/ase-style.css" rel="stylesheet">
@@ -35,34 +35,18 @@
 				<div class="col-md-4" style="margin-top: 12%;">
 					<form method="POST">
 						{% csrf_token %}
-						<h2><i class="fa fa-edit"></i>EverEduシステムへようこそ</h2>
-						<p class="mt5 mb20">あなたのアカウントにアクセスするにはログインしてください。</p>
+						<h3><i class="fa fa-edit"></i> DMS-DEBIT MANAGEMENT SYSTEM</h3>
+						<p class="mt5 mb20" style="text-align: center;">HỆ THỐNG QUẢN LÝ CÔNG NỢ</p>
 
 						<input type="text" name="txtUserName" class="form-control uname" placeholder="Username" value="{{username}}"/> 
 						<input type="password" name="txtPassWord" class="form-control pword" placeholder="Password" value="{{password}}"/>
 							<!-- <a href="#"><small>Forgot Your Password?</small></a> -->
-							メンバーではありませんか？ <strong><a href="signup">登録</a></strong> 
+							Bạn chưa có tài khoản？ <strong><a href="signup">Đăng ký mới</a></strong> 
 								{% if error_message %}
 									<label for="" class="error">{{error_message}}</label>
 								{% endif %} 
-						<button class="btn btn-success btn-block">サインインする</button>
+						<button class="btn btn-success btn-block">ĐĂNG NHẬP</button>
 					</form>
-						<div class="btn-group" style="width: 100%; margin-bottom: 1%;margin-top: 1%;" >
-							<button type="button" class="btn btn-social-icon btn-twitter"
-								onclick="window.location.href='{% url 'social:begin' "twitter" %}'" style="width: 35%;">
-								<i class="fa fa-twitter"></i></button>
-						
-							<button type="button" class="btn btn-social-icon btn-facebook"
-								onclick="window.location.href='{% url 'social:begin' "facebook" %}'" style="width: 30%;">
-								<i class="fa fa-facebook"></i></button>
-
-							<button type="button" class="btn btn-social-icon btn-google-plus"
-								onclick="window.location.href='{% url 'social:begin' "google-oauth2" %}'" style="width: 35%;">
-								<i class="fa fa-google-plus"></i></button>
-
-						
-	  					</div>
-
 				</div>
 				<!-- col-sm-5 -->
 

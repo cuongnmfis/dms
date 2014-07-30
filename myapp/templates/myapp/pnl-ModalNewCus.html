@@ -1,0 +1,31 @@
+<!-- Modal -->
+<div class="modal fade" id="add-action" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">アクションを追加</h4>
+			</div>
+
+			<div class="panel panel-default">
+				<form class="form" id="actionForm" novalidate="novalidate" method="post" action="/add-action">
+					{% csrf_token %} 
+					<div class="panel-body">
+						{% include 'myapp/pnl-NewCus.html' %}
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="return onActionFormSubmit();">Lưu thôn tin</button>
+					</div>
+				</form>
+			</div>
+			<!-- End of block -->
+			
+		</div>
+		<!-- modal-content -->
+		
+	</div>
+	<!-- modal-dialog -->
+</div>
+<!-- modal -->
