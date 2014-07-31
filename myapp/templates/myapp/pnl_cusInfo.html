@@ -13,14 +13,14 @@
 				<table class="table table-hover mb30" style="min-height: 264px !important;">
 					<tbody>
 						<tr>
-							<td style="width: 20%;height: 36px !important;">Mã K/H: </td>
+							<td style="width: 20%;height: 36px !important;">Tên khách hàng: </td>
 							<td>
 								<div class="form-group" style="margin-bottom: 0px !important;">
 									<div class="col-sm-6" style="float: left;">
 										<select class="form-control chosen-select" data-placeholder="Mã khách hàng" id="selCusCode">
 											{% if lsCusomer %}
 												{% for cus in lsCusomer %}
-													<option cus_id="{{ cus.id}}" cus_name="{{ cus.cus_id.username }}" cus_address="{{ cus.address }}" value="United States">{{ cus.cus_code }}</option>
+													<option cus_id="{{ cus.id}}" cus_name="{{ cus.full_name }}" cus_address="{{ cus.address }}" value="United States">{{ cus.cus_code }}</option>
 												{% endfor %}
 											{% endif %}
 										</select>
