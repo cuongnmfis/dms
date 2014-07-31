@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 from _io import StringIO
 import hashlib
 import json
