@@ -33,3 +33,5 @@ class CusDebitDetailTrailer(Document):
 	meta = {
 			'ordering': ['-create_date']
 			}
+	
+	

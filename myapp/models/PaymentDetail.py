@@ -13,10 +13,12 @@ from mongoengine.fields import ReferenceField, DateTimeField,\
 from myapp.models.CusDebit import CusDebit
 from myapp.models.Payment import Payment
 from myapp.models.Customer import Customer
+from myapp.models.CusDebitDetail import CusDebitDetail
 
 class PaymentDetail(Document):
 	payment_id = ReferenceField(Payment)
 	cus_debit_id = ReferenceField(CusDebit)
+	cus_debit_detail_id =ReferenceField(CusDebitDetail)
 	cus_id  = ReferenceField(Customer)
 	create_date= DateTimeField(default=datetime.now)
 	pay_date= DateTimeField(default=datetime.now)

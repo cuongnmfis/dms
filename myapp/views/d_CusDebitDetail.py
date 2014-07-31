@@ -10,29 +10,31 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from mongoengine.django.auth import User
 
+from myapp.models import CusDebitDetailTrailer
 from myapp.models.CusDebit import CusDebit
 from myapp.models.CusDebitDetail import CusDebitDetail
 from myapp.models.Customer import Customer
+from myapp.models.Customer import getlistCustomerbyDebtOwner
 from myapp.models.LoanType import LoanType
 from myapp.views.CreateDms import createcusdebit, close_cycle_all,createMakePayment,createEstimatePayment
-from myapp.models import CusDebitDetailTrailer
 
-
+@login_required(login_url='/signin')
 def index(request):
 	if request.method == 'GET':
 		try:
+			lsCDTT = CusDebitDetailTrailer.objects()
+			if len(lsCDTT) > 0:
+				for l in lsCDTT:
+					l.delete()
+				
 			close_cycle_all()
-			type_name=''
-# 			user_name= request.user
-# 			debt_owner=User.objects.get(username=user_name)
-# 			lsCusomer=Customer.objects(debt_owner=debt_owner.id)
-# 			
-# 			lsCusDebit = CusDebit.objects(status=1).order_by('-create_date,loan_date')
-# 			
-# 			lsCusDebitDetail =CusDebitDetail.objects(status=1).order_by('-create_date,cus_debit_id')
-			lsCusomer = []
-			lsCusDebit = []
-			lsCusDebitDetail = []
+			type_name =''
+			user_name = str(request.user)
+			debt_owner = User.objects.get(username=user_name)
+			lsCusomer = getlistCustomerbyDebtOwner(debt_owner)
+			lsCusDebit = CusDebit.objects(status=1).order_by('loan_date')
+			
+			lsCusDebitDetail =CusDebitDetail.objects(status=1).order_by('-create_date,cus_debit_id')
 			
 			if 'type' in request.GET:
 				if request.GET['type']=='loan':
@@ -59,7 +61,7 @@ def index(request):
 				if request.POST['txtnote'] :
 					note = request.POST['txtnote']
 					
-				lt =LoanType.objects.get()
+				lt =LoanType.objects.get(code = 'LN',unit = 'D')
 				cus =Customer.objects.get(id=cus_id)
 				
 				createcusdebit(cus, Loan_date, amount, rate, cycle, lt, note)
@@ -69,9 +71,9 @@ def index(request):
 				type_name = 'loan'
 				type_post = 'loan'
 				
-				user_name = request.user
-				debt_owner=User.objects.get(username=user_name)
-				lsCusomer=Customer.objects(debt_owner=debt_owner.id)
+				user_name = str(request.user)
+				debt_owner=User.objects.get(username = user_name)
+				lsCusomer=getlistCustomerbyDebtOwner(debt_owner)
 				lsCusDebit = CusDebit.objects(status=1).order_by('loan_date')
 				lsCusDebitDetail =CusDebitDetail.objects(status=1).order_by('cus_debit_id')
 				
@@ -85,21 +87,20 @@ def index(request):
 				
 				cus_id = request.POST['hd_payment_cus_id']
 				payment_date = datetime.strptime(request.POST['cus_payment_date_payment'],'%m/%d/%Y')
-				payment_amount = Float(request.POST['hd_cus_amount_payment'])
+				payment_amount = float(request.POST['hd_cus_amount_payment'])
 				note=''
 				if request.POST['txtnote'] :
 					note = request.POST['txtnote']
-				cus = Customer.objects.get(id = cus_id)
-				
-				createEstimatePayment(cus, payment_date, payment_amount)
+					
+				createEstimatePayment(cus_id, payment_date, payment_amount)
 # 				get data show on view
 				print("estimatePayment")
 				type_name = 'payment'
 				type_post = 'estimatePayment'
 				
-				user_name = request.user
+				user_name = str(request.user)
 				debt_owner=User.objects.get(username=user_name)
-				lsCusomer=Customer.objects(debt_owner=debt_owner.id)
+				lsCusomer=getlistCustomerbyDebtOwner(debt_owner)
 				lsCusDebit = CusDebit.objects(status=1).order_by('loan_date')
 				lsCusDebitDetail =CusDebitDetailTrailer.objects(status=1).order_by('cus_debit_id')
 				
@@ -112,22 +113,22 @@ def index(request):
 			try:
 				cus_id = request.POST['hd_payment_cus_id']
 				payment_date = datetime.strptime(request.POST['cus_payment_date_payment'],'%m/%d/%Y')
-				payment_amount = Float(request.POST['hd_cus_amount_payment'])
+				payment_amount = float(request.POST['hd_cus_amount_payment'])
 				note=''
 				if request.POST['txtnote'] :
 					note = request.POST['txtnote']
 				
-				lt = LoanType.objects.get()
+				lt =LoanType.objects.get(code = 'LN',unit = 'D')
 				cus = Customer.objects.get(id = cus_id)
 				
-				createMakePayment(cus, payment_date, payment_amount, lt,note)
+				createMakePayment(cus_id, payment_date, payment_amount, lt,note)
 				#get data to show view
 				type_name = 'payment'
 				type_post = 'makePayment'
 				
-				user_name = request.user
-				debt_owner=User.objects.get(username=user_name)
-				lsCusomer=Customer.objects(debt_owner=debt_owner.id)
+				user_name = str(request.user)
+				debt_owner = User.objects.get(username=user_name)
+				lsCusomer = getlistCustomerbyDebtOwner(debt_owner)
 				lsCusDebit = CusDebit.objects(status=1).order_by('loan_date')
 				lsCusDebitDetail =CusDebitDetail.objects(status=1).order_by('cus_debit_id')
 				
