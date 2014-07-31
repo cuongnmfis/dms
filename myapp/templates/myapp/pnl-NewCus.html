@@ -9,12 +9,12 @@
 				<div class="col-lg-6">
 					<input type="text" name="txtFirstName"
 						placeholder="(*) Nhập vào Họ và Tên đệm (vd: Nguyễn Văn)"
-						class="form-control" required="" maxlength="50">
+						class="form-control" required="" maxlength="50" value="{{firstname}}">
 				</div>
 				<div class="col-lg-6">
 					<input type="text" name="txtLastName"
 						placeholder="(*) Nhập vào tên khách hàng (vd: Tuấn)"
-						class="form-control" required="" maxlength="50">
+						class="form-control" required="" maxlength="50" value="{{lastname}}">
 				</div>
 			</div>
 
@@ -22,12 +22,12 @@
 				<div class="col-sm-6">
 					<input name="txtidNo" type="text" value=""
 						placeholder="(*) Nhập vào số CMND (vd: 111657899)"
-						class="form-control" required="" maxlength="20" />
+						class="form-control" required="" maxlength="20" value="{{txtidNo}}">
 				</div>
 				<div class="col-sm-6">
 					<input name="txtPhoneNumber" type="text" value=""
 						placeholder="(*) Nhập vào số điện thoại liên lạc (vd: 0988123456 ; 0123456789;)"
-						class="form-control" required="" maxlength="50" />
+						class="form-control" required="" maxlength="50" value="{{txtPhoneNumber}}" >
 				</div>
 			</div>
 
@@ -35,7 +35,7 @@
 				<div class="col-sm">
 					<input name="txtAddress" type="text" value=""
 						placeholder="(*)  Nhập vào địa chỉ liên hệ (vd: 124,Xuân Thủy, Cầu Giấy, Hà Nội)"
-						class="form-control" required="" maxlength="300" />
+						class="form-control" required="" maxlength="300" value="{{txtAddress}}">
 				</div>
 			</div>
 
@@ -43,7 +43,7 @@
 				<div class="col-sm">
 					<input name="txtHomeAddress" type="text" value=""
 						placeholder="(*) Nhập vào địa chỉ theo CMND hoặc sổ hộ khẩu"
-						class="form-control" required="" maxlength="300"/>
+						class="form-control" required="" maxlength="300" value="{{txtHomeAddress}}">
 				</div>
 			</div>
 
@@ -51,20 +51,25 @@
 				<div class="col-sm">
 					<textarea name="txaAbout" rows="5" value="" class="form-control"
 						placeholder="Nhập vào thông tin ghi chú về khách hàng (vd: Khách hàng mới..)"
-						style="min-height: 230px;" maxlength="1000"></textarea>
+						style="min-height: 230px;" maxlength="1000" value="{{txtAbout}}"></textarea>
 				</div>
 			</div>
-			<input type="hidden" id="typeSave">
+			<input type="hidden" id="typeSave" name="typeSave">
 		</div>
 		<!-- panel-body -->
-
+		{% if error_message %}
+			<div class="row mb10">
+				<label for="" class="error">{{error_message}}</label>
+			</div>
+		{% endif %}
+		
 		<div class="panel-footer">
 			<div class="row">
 				<div class="col-sm-12 ">
 					<button class="btn btn-primary pull-left"
-						onclick="validatesdata();" name="normalsave">Lưu thông tin</button>
+						onclick="validatesdata();">Lưu thông tin</button>
 						<button class="btn btn-primary pull-right"
-						onclick="validatesdata();" name="saveandredirect">Lưu và về trang quản lý</button>
+						onclick="validatesdataredirect();">Lưu và về trang quản lý</button>
 					&nbsp; <span id="lblsuccess" style="display: none;"
 						class="label label-success">Thành công</span> <span id="lblfail"
 						style="display: none;" class="label label-danger">Không

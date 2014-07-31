@@ -39,9 +39,12 @@
 {% block scripts %}
 <script src="js/custom.js"></script>
 <script src="js/jquery.validate.min.js"></script>
+<script src="js/jquery-ui-1.10.3.min.js"></script>
 <script>
 	function validatesdata()
 	{
+		var text = "normalsave";
+		$('#typeSave').val(text);
 		var $valid = jQuery('#frmNewCus').valid();
 		if(!$valid) {
 			$validator.focusInvalid();
@@ -54,7 +57,24 @@
 		
 		
 	}
-
+	
+	function validatesdataredirect()
+	{
+		var text = "saveandredirect";
+		$('#typeSave').val(text);
+		var $valid = jQuery('#frmNewCus').valid();
+		if(!$valid) {
+			$validator.focusInvalid();
+			return false;
+		 }
+		else
+		{
+			jQuery('#frmNewCus').submit();
+		}
+		
+		
+	}
+	
 </script>
 <script defer src="slider/jquery.flexslider.js"></script>
 {% endblock %}

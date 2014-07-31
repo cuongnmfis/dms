@@ -9,6 +9,10 @@ from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from mongoengine import django
 from mongoengine.django.auth import User
+import mongoengine.errors
+from django.core.context_processors import csrf
+from myapp.util import context_processors
+from django.shortcuts import render, render_to_response
 
 from myapp.models.Customer import Customer
 
@@ -16,7 +20,13 @@ from myapp.models.Customer import Customer
 @login_required(login_url='/signin')
 def index(request):
 	debt_owner1= User.objects.get(username=str(request.user))
-	
+	firstname = ""
+	lastname = ""
+	idNo = ""
+	Address = ""
+	HomeAddress = ""
+	PhoneNumber = ""
+	About = ""
 	if request.method == 'GET':
 		context={}
 		return render(request, 'myapp/d-NewCus.html', context)
@@ -28,7 +38,7 @@ def index(request):
 		HomeAddress = request.POST['txtHomeAddress']
 		PhoneNumber = request.POST['txtPhoneNumber']
 		About = request.POST['txaAbout']
-		
+		type = request.POST['typeSave']
 		
 		try:
 			
@@ -54,9 +64,25 @@ def index(request):
 			_customer.save()
 			
 			user.backend = 'mongoengine.django.auth.MongoEngineBackend'
-		except Exception as e:
-			print(e)
-		if 'normalsave' in request.POST:
+		except mongoengine.errors.NotUniqueError as e:
+			return getNewCusError(request,'Đã tồn tại trong hệ thống',firstname,lastname,idNo,Address,HomeAddress,PhoneNumber,About)
+		if type == "normalsave":
 			return HttpResponseRedirect('/newcustomer')			
-		elif 'saveandredirect' in request.POST:
+		elif type == "saveandredirect":
 			return HttpResponseRedirect('/custom-debit-detail?type=loan')
+def getNewCusError(request,e,firstname,lastname,idNo,address,homeaddress,phonenumber,about):
+	c = {
+			'error_message':e,
+			'firstname':firstname,
+			'lastname':lastname,
+			'txtidNo':idNo,
+			'txtAddress':address,
+			'txtHomeAddress':homeaddress,
+			'txtPhoneNumber':phonenumber,
+			'txtAbout':about,
+			'rangerDay':range(1,31),
+			'rangerYear':range(2014,1905,-1),
+		}
+	c.update(csrf(request))
+	c.update(context_processors.user(request))
+	return render_to_response("myapp/d-NewCus.html", c)
