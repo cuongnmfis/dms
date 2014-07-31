@@ -44,16 +44,15 @@ def index(request):
 		try:
 			
 			
-			user = User()
+			#user = User()
 			
-			user.username = firstname + lastname
-			user.first_name = firstname
-			user.last_name = lastname
-			user.set_password(idNo);
-			user.save()
+			#user.username = firstname + lastname
+			#user.first_name = firstname
+			#user.last_name = lastname
+			#user.set_password(idNo);
+			#user.save()
 			
 			_customer = Customer()
-			_customer.cus_id = user
 			_customer.id_no = idNo
 			_customer.first_name = firstname
 			_customer.last_name = lastname
@@ -65,16 +64,20 @@ def index(request):
 			_customer.about = About
 			_customer.status = 1
 			_customer.debt_owner = debt_owner1
-			_customer.save()
-			
-			user.backend = 'mongoengine.django.auth.MongoEngineBackend'
-		except mongoengine.errors.NotUniqueError as e:
-			return getNewCusError(request,'Đã tồn tại trong hệ thống',firstname,lastname,idNo,Address,HomeAddress,PhoneNumber,About)
+			if len(Customer.objects(debt_owner=debt_owner1,id_no=idNo,full_name=_customer.full_name))> 0:
+				return getNewCusError(request,'Đã tồn tại thông tin khách hàng tương tư trong hệ thống',firstname,lastname,idNo,Address,HomeAddress,PhoneNumber,About)
+			else:
+				_customer.save()
+			#user.backend = 'mongoengine.django.auth.MongoEngineBackend'
+		except e:
+			print(e)
+		
 		if type == "normalsave":
 			return HttpResponseRedirect('/newcustomer')			
 		elif type == "saveandredirect":
 			return HttpResponseRedirect('/custom-debit-detail?type=loan')
 def getNewCusError(request,e,firstname,lastname,idNo,address,homeaddress,phonenumber,about):
+	
 	c = {
 			'error_message':e,
 			'firstname':firstname,

@@ -12,7 +12,6 @@ from mongoengine.fields import ReferenceField, StringField, DateTimeField ,\
 
 
 class Customer(Document):
-	cus_id  = ReferenceField(User)
 	cus_code = StringField()
 	first_name = StringField()
 	last_name = StringField()
