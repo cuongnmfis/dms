@@ -77,7 +77,6 @@ def createMakePayment(vCus_id,vPayment_date,vPayment,loan_type,note):
 	
 		cus=Customer.objects.get(id=vCus_id)
 		lsCusDebit =CusDebit.objects(cus_id = cus.id,status = 1).order_by('loan_date')
-		lsCus_debit_detail = CusDebitDetail.objects(cus_debit_id = cs.id)
 		createEstimatePayment(vCus_id,vPayment_date,vPayment)
 	
 	#	create new a payment
@@ -120,7 +119,12 @@ def createMakePayment(vCus_id,vPayment_date,vPayment,loan_type,note):
 							
 							cd.save()
 							
+						cus_debit_detail_trailer = CusDebitDetailTrailer.objects.get(cus_debit_id = cs.id,flag = 1)
 						cus_debit_detail = CusDebitDetail.objects.get(cus_debit_id = cs.id,flag = 1)
+						cus_debit_detail.payment = cus_debit_detail_trailer.payment
+						cus_debit_detail.end_cycle = 0
+						cus_debit_detail.save()
+						
 						
 						cs.total_debit =cs.total_debit_trailer
 						cs.status = 0
@@ -134,8 +138,8 @@ def createMakePayment(vCus_id,vPayment_date,vPayment,loan_type,note):
 						pd.payment_id = p
 						pd.cus_debit_id = cs
 						pd.cus_id = cus
-						pd.debit = cus_debit_detail_trailer.payment
-						pd.payment = cus_debit_detail_trailer.payment
+						pd.debit = cus_debit_detail.payment
+						pd.payment = cus_debit_detail.payment
 						pd.cus_debit_detail_id = cus_debit_detail
 						pd.status = 1
 						
@@ -146,7 +150,12 @@ def createMakePayment(vCus_id,vPayment_date,vPayment,loan_type,note):
 						
 					elif cs.total_debit_trailer == 0 :
 						print("update status=0")
+						cus_debit_detail_trailer = CusDebitDetailTrailer.objects.get(cus_debit_id = cs.id,flag = 1)
 						cus_debit_detail = CusDebitDetail.objects.get(cus_debit_id = cs.id,flag = 1)
+						
+						cus_debit_detail.payment = cus_debit_detail_trailer.payment
+						cus_debit_detail.end_cycle = 0
+						cus_debit_detail.save()
 						
 						cs.total_debit =cs.total_debit_trailer
 						cs.status = 0
@@ -160,9 +169,9 @@ def createMakePayment(vCus_id,vPayment_date,vPayment,loan_type,note):
 						pd.payment_id = p
 						pd.cus_debit_id = cs
 						pd.cus_id = cus
-						pb.debit = cus_debit_detail_trailer.payment
-						pd.payment = cus_debit_detail_trailer.payment
-						pb.cus_debit_detail_id = cus_debit_detail
+						pd.debit = cus_debit_detail.payment
+						pd.payment = cus_debit_detail.payment
+						pd.cus_debit_detail_id = cus_debit_detail
 						pd.status = 1
 						
 						pd.save()
@@ -202,7 +211,7 @@ def createEstimatePayment(vCus_id,vPayment_date,vPayment_trailer):
 					cus_debit.save()
 				else :
 					payment_trailer -= cus_debit.total_debit_trailer
-					cus_debit_detail_last =CusDebitDetailTrailer.objects.get(cus_debit_id =cus_debit.id ,flag=1)
+					cus_debit_detail_last = CusDebitDetailTrailer.objects.get(cus_debit_id =cus_debit.id ,flag=1)
 					
 					cus_debit_detail_last.status = 1
 					cus_debit_detail_last.end_cycle = 0
