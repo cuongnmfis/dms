@@ -34,5 +34,5 @@ class CusDebit(Document):
 
 def getCusDebitofadebtowner(debt_owner):
 	listcus = Customer.getlistCustomerbyDebtOwner(debt_owner)
-	cusdebitafterfilter = CusDebit.objects.filter(cus_id__in=listcus)
+	cusdebitafterfilter = CusDebit.objects.filter(cus_id__in=listcus).order_by('loan_date')
 	return cusdebitafterfilter

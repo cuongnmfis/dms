@@ -17,7 +17,8 @@ from myapp.models.Customer import Customer
 from myapp.models.Customer import getlistCustomerbyDebtOwner
 from myapp.models.LoanType import LoanType
 from myapp.views.CreateDms import createcusdebit, close_cycle_all,createMakePayment,createEstimatePayment
-
+from myapp.models.CusDebitDetail import getCusDebitDetailofadebtowner
+from myapp.models.CusDebit import getCusDebitofadebtowner
 @login_required(login_url='/signin')
 def index(request):
 	if request.method == 'GET':
@@ -32,9 +33,8 @@ def index(request):
 			user_name = str(request.user)
 			debt_owner = User.objects.get(username=user_name)
 			lsCusomer = getlistCustomerbyDebtOwner(debt_owner)
-			lsCusDebit = CusDebit.objects(status=1).order_by('loan_date')
-			
-			lsCusDebitDetail =CusDebitDetail.objects(status=1).order_by('-create_date,cus_debit_id')
+			lsCusDebit =  getCusDebitofadebtowner(debt_owner)
+			lsCusDebitDetail = getCusDebitDetailofadebtowner(debt_owner)
 			
 			if 'type' in request.GET:
 				if request.GET['type']=='loan':

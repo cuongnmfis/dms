@@ -36,7 +36,7 @@ class CusDebitDetail(Document):
 # retrive all record in CusDebitDetail that have specific input debt_owner 
 def getCusDebitDetailofadebtowner(debt_owner):
 	listcus = Customer.getlistCustomerbyDebtOwner(debt_owner)
-	cusdebitdetailafterfilter = CusDebitDetail.objects.filter(cus_id__in=listcus)
+	cusdebitdetailafterfilter = CusDebitDetail.objects.filter(cus_id__in=listcus,status=1).order_by('-create_date,cus_debit_id')
 	return cusdebitdetailafterfilter
 
 def getCusDebitDetailbyCusdebitID(cusdebit_ID):
