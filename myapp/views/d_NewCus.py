@@ -54,7 +54,10 @@ def index(request):
 			_customer = Customer()
 			_customer.cus_id = user
 			_customer.id_no = idNo
-			_customer.cus_code=firstname
+			_customer.first_name = firstname
+			_customer.last_name = lastname
+			_customer.full_name = firstname +' '+ lastname
+			_customer.cus_code = lastname
 			_customer.address = Address
 			_customer.home_address = HomeAddress
 			_customer.fone_number = PhoneNumber
