@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls import patterns, url , include
 
 from myapp.views import Home, AccountSetting, SignIn, \
-	SignUp, SignOut , CreateDms,d_MainScreen,d_NewCus,d_CusDebitDetail,AuthenFail,errorpage\
+	SignUp, SignOut , CreateDms,d_MainScreen,d_NewCus,d_CusDebitDetail,AuthenFail,errorpage,editCus\
 
 
 # Uncomment the next two lines to enable the admin:
@@ -17,6 +17,7 @@ urlpatterns = patterns('',
 						url(r'^custom-debit-detail$',d_CusDebitDetail.index),
 						url(r'^newCusDebit$',d_CusDebitDetail.index,name='newCusDebit'),
 						
+						url(r'^editCus$', editCus.index, name='editCus'),
 						#ASE
 						url(r'^error-authenticate$', AuthenFail.index),
 						

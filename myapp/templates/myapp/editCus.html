@@ -1,0 +1,308 @@
+{% extends "myapp/base.html" %}
+{% block header %}
+<div class="pageheader">
+	<h2>
+		<i class="fa fa-edit"></i> <a href="#">Edit cus</a>
+	</h2>
+</div>
+{% endblock %} 
+{% block content %}
+<div class="mainpanel" style="margin-top: 2%">
+        
+    <div class="contentpanel">
+      
+      <div class="row">
+		<div class="col-sm-3">
+       <div class="table-responsive">
+		<div class="panel panel-primary">
+			<div class="panel-heading" style="height: 40px !important;padding-top: 10px !important;padding-left: 6px !important">
+				<h4 class="panel-title" style="font-family: Arial,Helvetica,sans-serif; float: left;width: 100%;">THÔNG TIN KHÁCH HÀNG</h4>
+				{% if type == 'loan' %}
+					<button class="btn btn-warning" style="float: right;width: 25%;height: 40px; margin-top: -10px;padding-right: 0px;margin-right: -20px;"
+						onclick="window.location.href='/newcustomer'"><i class="fa fa-plus-circle"></i>
+					Thêm khách hàng</button>
+				{% endif %}
+			</div>
+			<div class="panel-body" style="padding: 0px !important;">
+				<table class="table table-hover mb30">
+					<tbody>
+						<tr>
+							<td style="width: 20%;height: 36px !important;">Mã K/H: </td>
+							<td>
+								<div class="form-group" style="margin-bottom: 0px !important;">
+									<div class="col-sm-12" style="float: left;">
+										<select class="form-control chosen-select" data-placeholder="Mã khách hàng" id="selCusCode">
+											{% if lsCusomer %}
+												{% for cus in lsCusomer %}
+													<option cus_id="{{ cus.id}}" cus_name="{{ cus.full_name }}" cus_firstname="{{ cus.first_name }}" cus_lastname="{{ cus.last_name }}" cus_idno="{{ cus.id_no }}" cus_home_address="{{ cus.home_address }}" cus_address="{{ cus.address }}" cus_fone_number="{{cus.fone_number}}" cus_about="{{cus.about}}" >{{ cus.cus_code }}</option>
+												{% endfor %}
+											{% endif %}
+										</select>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 20%;height: 36px !important;">CMTND: </td>
+							<td>
+								<div class="form-group" style="margin-bottom: 0px !important;">
+									<div class="col-sm-12" style="float: left;">
+										<select class="form-control chosen-select" data-placeholder="Số CMTND" id="selCusIdNo">
+											{% if lsCusomer %}
+												{% for cus in lsCusomer %}
+													<option cus_id="{{ cus.id}}" cus_name="{{ cus.full_name }}" cus_firstname="{{ cus.first_name }}" cus_lastname="{{ cus.last_name }}" cus_idno="{{ cus.id_no }}" cus_home_address="{{ cus.home_address }}" cus_address="{{ cus.address }}" cus_fone_number="{{cus.fone_number}}" cus_about="{{cus.about}}" >{{ cus.id_no }}</option>
+												{% endfor %}
+											{% endif %}
+										</select>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 20%;height: 36px !important;">Địa chỉ: </td>
+							<td><div class="col-sm-12" id="divCusAddress"></div></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+	</div>
+        </div>
+        <div class="col-sm-9">
+<div class="panel panel-default">
+	<form method="post" action="/editCus"
+		class="form-horizontal form-bordered" id="frmeditCus"
+		novalidate="novalidate">
+		{% csrf_token %}
+		<div class="panel-body">
+			<div class="row row-pad-5">
+				<div class="col-lg-6">
+					<input type="text" name="txtFirstName" id="txtFirstName" 
+						placeholder="(*) Nhập vào Họ và Tên đệm (vd: Nguyễn Văn)"
+						class="form-control" required="" maxlength="50" value="{{firstname}}">
+				</div>
+				<div class="col-lg-6">
+					<input type="text" name="txtLastName" id="txtLastName" 
+						placeholder="(*) Nhập vào tên khách hàng (vd: Tuấn)"
+						class="form-control" required="" maxlength="50" value="{{lastname}}">
+				</div>
+			</div>
+
+			<div class="row row-pad-5">
+				<div class="col-sm-6">
+					<input name="txtidNo" type="text" value="" id="txtidNo" 
+						placeholder="(*) Nhập vào số CMND (vd: 111657899)"
+						class="form-control" required="" maxlength="20" value="{{txtidNo}}">
+				</div>
+				<div class="col-sm-6">
+					<input name="txtPhoneNumber" type="text" value="" id="txtPhoneNumber" 
+						placeholder="(*) Nhập vào số điện thoại liên lạc (vd: 0988123456 ; 0123456789;)"
+						class="form-control" required="" maxlength="50" value="{{txtPhoneNumber}}" >
+				</div>
+			</div>
+
+			<div class="row row-pad-5">
+				<div class="col-sm">
+					<input name="txtAddress" type="text" value="" id="txtAddress" 
+						placeholder="(*)  Nhập vào địa chỉ liên hệ (vd: 124,Xuân Thủy, Cầu Giấy, Hà Nội)"
+						class="form-control" required="" maxlength="300" value="{{txtAddress}}">
+				</div>
+			</div>
+
+			<div class="row row-pad-5">
+				<div class="col-sm">
+					<input name="txtHomeAddress" type="text" value="" id="txtHomeAddress" 
+						placeholder="(*) Nhập vào địa chỉ theo CMND hoặc sổ hộ khẩu"
+						class="form-control" required="" maxlength="300" value="{{txtHomeAddress}}">
+				</div>
+			</div>
+
+			<div class="row row-pad-5">
+				<div class="col-sm">
+					<textarea name="txaAbout" rows="5" value="" class="form-control" id="txaAbout" 
+						placeholder="Nhập vào thông tin ghi chú về khách hàng (vd: Khách hàng mới..)"
+						style="min-height: 230px;" maxlength="1000" value="{{txtAbout}}"></textarea>
+				</div>
+			</div>
+			<input type="hidden" id="typeSave" name="typeSave">
+			<input type="hidden" id="cusID" name="cusID">
+		</div>
+		<!-- panel-body -->
+		{% if error_message %}
+			<div class="row mb10">
+				<label for="" class="error">{{error_message}}</label>
+			</div>
+		{% endif %}
+		
+		<div class="panel-footer">
+			<div class="row">
+				<div class="col-sm-12 ">
+					<button class="btn btn-primary pull-left"
+						onclick="validatesdata();">Lưu thông tin</button>
+						<button class="btn btn-primary pull-right"
+						onclick="validatesdataredirect();">Lưu và về trang cho vay</button>
+					&nbsp; <span id="lblsuccess" style="display: none;"
+						class="label label-success">Thành công</span> <span id="lblfail"
+						style="display: none;" class="label label-danger">Không
+						thành công</span>
+				</div>
+
+			</div>
+		</div>
+		<!-- panel-footer -->
+	</form>
+</div>
+
+</div>
+<!-- col-sm-9 -->
+
+        </div> 
+        </div>
+        </div>
+
+	
+  </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="js/custom.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script src="js/jquery-ui-1.10.3.min.js"></script>
+<script src="js/chosen.jquery.min.js"></script>
+<script>
+	function validatesdata()
+	{
+		var text = "normalsave";
+		$('#typeSave').val(text);
+		var $valid = jQuery('#frmeditCus').valid();
+		if(!$valid) {
+			$validator.focusInvalid();
+			return false;
+		 }
+		else
+		{
+			jQuery('#frmeditCus').submit();
+		}
+		
+		
+	}
+	
+	function validatesdataredirect()
+	{
+		var text = "saveandredirect";
+		$('#typeSave').val(text);
+		var $valid = jQuery('#frmeditCus').valid();
+		if(!$valid) {
+			$validator.focusInvalid();
+			return false;
+		 }
+		else
+		{
+			jQuery('#frmeditCus').submit();
+		}
+		
+		
+	}
+	
+</script>
+<script>
+function reloadselect(){
+	$('#selCusIdNo').chosen('destroy');
+	$('#selCusIdNo').chosen();
+	$('#selCusCode').chosen('destroy');
+	$('#selCusCode').chosen();
+}
+
+
+$('#selCusIdNo').change(function(){
+	var cusId = $(this).find('option:selected').attr('cus_id');
+	var cusName = $(this).find('option:selected').attr('cus_name');
+	var cusAdress = $(this).find('option:selected').attr('cus_address');
+	var cus_firstname = $(this).find('option:selected').attr('cus_firstname');
+	var cus_lastname = $(this).find('option:selected').attr('cus_lastname');
+	var cus_idno = $(this).find('option:selected').attr('cus_idno');
+	var cus_home_address = $(this).find('option:selected').attr('cus_home_address');
+	var cus_fone_number = $(this).find('option:selected').attr('cus_fone_number');
+	var cus_about = $(this).find('option:selected').attr('cus_about');
+	
+	
+	$("#selCusphone option[cus_id="+ cusId +"]").attr("selected","selected");
+	$("#selCusCode option[cus_id="+ cusId +"]").attr("selected","selected");
+	reloadselect();
+	$("#divCusAddress").html(cusAdress);
+	$("#hd_cus_id").val(cusId);
+	$("#hd_payment_cus_id").val(cusId);
+	$("#hd_payment_trailer_cus_id").val(cusId);
+	
+	
+	$('#txtFirstName').val(cus_firstname);
+	$('#txtLastName').val(cus_lastname);
+	$('#txtidNo').val(cus_idno);
+	$('#txtPhoneNumber').val(cus_fone_number);
+	$('#txtAddress').val(cusAdress);
+	$('#txtHomeAddress').val(cus_home_address);
+	$('#txaAbout').val(cus_about);
+	$('#cusID').val(cusId);
+});
+
+$('#selCusCode').change(function(){
+	var cusId = $(this).find('option:selected').attr('cus_id');
+	var cusName = $(this).find('option:selected').attr('cus_name');
+	var cusAdress = $(this).find('option:selected').attr('cus_address');
+	var cus_firstname = $(this).find('option:selected').attr('cus_firstname');
+	var cus_lastname = $(this).find('option:selected').attr('cus_lastname');
+	var cus_idno = $(this).find('option:selected').attr('cus_idno');
+	var cus_home_address = $(this).find('option:selected').attr('cus_home_address');
+	var cus_fone_number = $(this).find('option:selected').attr('cus_fone_number');
+	var cus_about = $(this).find('option:selected').attr('cus_about');
+	
+	$("#selCusIdNo option[cus_id="+ cusId +"]").attr("selected","selected");
+	$("#selCusphone option[cus_id="+ cusId +"]").attr("selected","selected");
+	reloadselect();
+	$("#divCusAddress").html(cusAdress);
+	$("#hd_cus_id").val(cusId);
+	$("#hd_payment_cus_id").val(cusId);
+	$("#hd_payment_trailer_cus_id").val(cusId);
+	
+	$('#txtFirstName').val(cus_firstname);
+	$('#txtLastName').val(cus_lastname);
+	$('#txtidNo').val(cus_idno);
+	$('#txtPhoneNumber').val(cus_fone_number);
+	$('#txtAddress').val(cusAdress);
+	$('#txtHomeAddress').val(cus_home_address);
+	$('#txaAbout').val(cus_about);
+	$('#cusID').val(cusId);
+});
+
+jQuery(window).load(function(){ 
+	
+	var cusId =  $("#selCusCode").find('option:selected').attr('cus_id');
+	var cusName =  $("#selCusCode").find('option:selected').attr('cus_name');
+	var cusAdress =  $("#selCusCode").find('option:selected').attr('cus_address');
+	var cus_firstname =  $("#selCusCode").find('option:selected').attr('cus_firstname');
+	var cus_lastname =  $("#selCusCode").find('option:selected').attr('cus_lastname');
+	var cus_idno =  $("#selCusCode").find('option:selected').attr('cus_idno');
+	var cus_home_address =  $("#selCusCode").find('option:selected').attr('cus_home_address');
+	var cus_fone_number =  $("#selCusCode").find('option:selected').attr('cus_fone_number');
+	var cus_about =  $("#selCusCode").find('option:selected').attr('cus_about');
+	
+	$("#divCusAddress").html(cusAdress);
+	$('#txtFirstName').val(cus_firstname);
+	$('#txtLastName').val(cus_lastname);
+	$('#txtidNo').val(cus_idno);
+	$('#txtPhoneNumber').val(cus_fone_number);
+	$('#txtAddress').val(cusAdress);
+	$('#txtHomeAddress').val(cus_home_address);
+	$('#txaAbout').val(cus_about);
+	$('#cusID').val(cusId);
+	
+});
+
+jQuery(".chosen-select").chosen({'width':'100%','white-space':'nowrap'});
+</script>
+
+<script defer src="slider/jquery.flexslider.js"></script>
+{% endblock %}
