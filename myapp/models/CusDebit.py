@@ -9,7 +9,7 @@ from mongoengine.document import Document
 from mongoengine.fields import ReferenceField, StringField, DateTimeField,\
 	FloatField
 
-from myapp.models.Customer import Customer
+from myapp.models.Customer import Customer, getlistCustomerbyDebtOwner
 from myapp.models.LoanType import LoanType
 
 
@@ -33,6 +33,6 @@ class CusDebit(Document):
 			}
 
 def getCusDebitofadebtowner(debt_owner):
-	listcus = Customer.getlistCustomerbyDebtOwner(debt_owner)
-	cusdebitafterfilter = CusDebit.objects.filter(cus_id__in=listcus).order_by('loan_date')
+	listcus = getlistCustomerbyDebtOwner(debt_owner)
+	cusdebitafterfilter = CusDebit.objects.filter(cus_id__in=listcus,status = 1).order_by('loan_date')
 	return cusdebitafterfilter

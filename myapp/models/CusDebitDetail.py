@@ -11,7 +11,8 @@ from mongoengine.fields import ReferenceField, DateTimeField,\
 	FloatField, IntField
 
 from myapp.models.CusDebit import CusDebit
-from myapp.models.Customer import Customer
+from myapp.models.Customer import Customer, getlistCustomerbyDebtOwner
+
 
 class CusDebitDetail(Document):
 	cus_id  = ReferenceField(Customer)
@@ -35,11 +36,11 @@ class CusDebitDetail(Document):
 			}
 # retrive all record in CusDebitDetail that have specific input debt_owner 
 def getCusDebitDetailofadebtowner(debt_owner):
-	listcus = Customer.getlistCustomerbyDebtOwner(debt_owner)
-	cusdebitdetailafterfilter = CusDebitDetail.objects.filter(cus_id__in=listcus,status=1).order_by('-create_date,cus_debit_id')
+	listcus = getlistCustomerbyDebtOwner(debt_owner)
+	cusdebitdetailafterfilter = CusDebitDetail.objects.filter(cus_id__in=listcus,status=1).order_by('cus_debit_id,to_date')
 	return cusdebitdetailafterfilter
 
 def getCusDebitDetailbyCusdebitID(cusdebit_ID):
-	listcus = Customer.getlistCustomerbyDebtOwner(debt_owner)
+	listcus = getlistCustomerbyDebtOwner(debt_owner)
 	cusdebitdetailafterfilter = CusDebitDetail.objects.filter(cus_id__in=listcus)
 	return cusdebitdetailafterfilter
