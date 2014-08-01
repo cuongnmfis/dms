@@ -152,6 +152,7 @@
 		
 		var cus_debit_id=$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']:first").attr('cus_debit_id');
 		var number_records=$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']").size();
+		var cus_loan_date=$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']:first").attr('loan_date');
 		
 		var totalTemp=0;
 		var totalTemp1=0;
@@ -171,7 +172,7 @@
 		$('#divCusInfor2').formatCurrency({ colorize:true, region: 'vi-VN' });
 		
 		$("#totalAmount").val(totalTemp);
-		
+		$('#startDatePayment').datepicker('option', 'minDate',cus_loan_date);
 	});
 	$('#selCusIdNo').change(function(){
 		var cusId = $(this).find('option:selected').attr('cus_id');
@@ -199,6 +200,7 @@
 		
 		var cus_debit_id=$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']:first").attr('cus_debit_id');
 		var number_records=$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']").size();
+		var cus_loan_date=$("table tbody tr[custommer_id][custommer_id='"+ cusId +"']:first").attr('loan_date');
 		
 		var totalTemp=0;
 		var totalTemp1=0;
@@ -218,7 +220,7 @@
 		$('#divCusInfor2').formatCurrency({ colorize:true, region: 'vi-VN' });
 		
 		$("#totalAmount").val(totalTemp);
-		
+		$('#startDatePayment').datepicker('option', 'minDate',cus_loan_date);
 	});
 	$('#selCusCode').change(function(){
 		var cusId = $(this).find('option:selected').attr('cus_id');
@@ -261,7 +263,10 @@
 		$('#divCusInfor2').formatCurrency({ colorize:true, region: 'vi-VN' });
 		
 		$("#totalAmount").val(totalTemp);
+		
+		$('#startDatePayment').datepicker('option', 'minDate',cus_loan_date);
 	});
+	
 	function SaveLoan()
 	{
 		var $valid = jQuery('#form_cus_loan').valid();
@@ -386,7 +391,6 @@
 					maxDate: new Date()
 			};
 		}
-		
 		jQuery('#startDate').datepicker(StartpickerOptsPlanStart);
 		//jQuery("#startDate").datepicker( "setDate" , new Date() );
 		
