@@ -15,7 +15,6 @@ urlpatterns = patterns('',
 						url(r'^mainscreen$', d_MainScreen.index, name='d_MainScreen'),
 						url(r'^newcustomer$', d_NewCus.index, name='d_NewCus'),
 						url(r'^custom-debit-detail$',d_CusDebitDetail.index),
-						url(r'^newCusDebit$',d_CusDebitDetail.index,name='newCusDebit'),
 						
 						url(r'^editCus$', editCus.index, name='editCus'),
 						#ASE

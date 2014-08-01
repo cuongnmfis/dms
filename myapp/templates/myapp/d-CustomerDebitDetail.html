@@ -58,6 +58,7 @@
 		$("#cusAmount").attr('maxlength','20');
 		var temp=($("#cusAmount").val()).toString();
 		$("#hd_cus_amount").val(temp);
+		
 		$('#cusAmount').formatCurrency({ colorize:true, region: 'vi-VN' });
 		
 		var kqcusAmount =toWords(temp);
@@ -72,6 +73,7 @@
 		$("#cusAmount").val($("#hd_cus_amount").val());
 		
 		$("#lbcusAmount").css('display','none')
+		
 	});
 	$('#cusRate').blur(function()
 	{
@@ -104,6 +106,7 @@
 		$("#cusAmountPayment").attr('maxlength','10');
 		$("#cusAmountPayment").val($("#hd_cus_amount_payment").val());
 		$("#lbcusAmountPayment").css('display','none')
+		
 	});
 	
 	});
@@ -117,10 +120,6 @@
 		{
 			$("table tbody[cus_debit_id][cus_debit_id='" + cus_debit_id + "']").hide();
 		}
-	/* 	$("table tbody[cus_debit_id][cus_debit_id='" + cus_debit_id + "']").show();
-		$("table tbody[cus_debit_id][cus_debit_id!='" + cus_debit_id + "']").hide();
-		$("ul li[cus_debit_id='" + cus_debit_id + "']").addClass('active');
-		$("ul li[cus_debit_id!='" + cus_debit_id + "']").removeClass('active'); */
 	}
 	function reloadselect(){
 		$('#selCusphone').chosen('destroy');
@@ -310,9 +309,30 @@
 			$("table tbody tr span[cus_debit_detail_id][cus_debit_detail_id='"+ cus_debit_detail_id +"']").addClass('glyphicon-chevron-down');
 		}
 	}
+	$('#form_cus_loan').bind("keyup keypress", function(e) {
+		var code = e.keyCode || e.which; 
+		if (code  == 13) {
+			e.preventDefault();
+			return false;
+		}
+	});
+	$('#form_cus_payment').bind("keyup keypress", function(e) {
+		var code = e.keyCode || e.which; 
+		if (code  == 13) {
+			e.preventDefault();
+			return false;
+		}
+	});
+	
 	jQuery(window).load(function(){ 
 		$('.currency').formatCurrency({ colorize:true, region: 'vi-VN' });
 		$('#cusRate').formatCurrency({ colorize:true, region: 'vi-VN' });
+		
+		var cus_id = '{{ cus_id }}'
+		$("#selCusCode option[cus_id='"+ cus_id +"']").attr("selected","selected");
+		$("#selCusIdNo option[cus_id="+ cus_id +"]").attr("selected","selected");
+		$("#selCusphone option[cus_id="+ cus_id +"]").attr("selected","selected");
+		reloadselect();
 		
 		var cusId = $("#selCusCode").find('option:selected').attr('cus_id');
 		var cusName = $("#selCusCode").find('option:selected').attr('cus_name');
@@ -351,11 +371,20 @@
 			$("#divCusInfor2").html(totalTemp);
 		$('#divCusInfor2').formatCurrency({ colorize:true, region: 'vi-VN' });
 		$("#totalAmount").val(totalTemp);
-			
-		StartpickerOptsPlanStart = {
-				//minDate: new Date(),
-				maxDate: "+5Y"
-		};
+		
+		if( type == 'estimatePayment' || type == 'payment')
+		{
+			StartpickerOptsPlanStart = {
+					minDate: "-5Y",
+			};
+		}
+		else
+		{
+			StartpickerOptsPlanStart = {
+					minDate: "-5Y",
+					maxDate: new Date()
+			};
+		}
 		
 		jQuery('#startDate').datepicker(StartpickerOptsPlanStart);
 		//jQuery("#startDate").datepicker( "setDate" , new Date() );
@@ -363,6 +392,10 @@
 		jQuery('#startDatePayment').datepicker(StartpickerOptsPlanStart);
 		
 		$("#cusAmount").numeric();
+		$("#cusCycle").numeric();
+		$("#cusRate").numeric();
+		$("#cusAmountPayment").numeric();
+		
 	});
 	</script>
 	<script>

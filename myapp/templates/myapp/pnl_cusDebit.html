@@ -12,7 +12,7 @@
 					{% for cus_debit in lsCusDebit %}
 						<tr custommer_id = "{{ cus_debit.cus_id.id }}" cus_debit_id ="{{ cus_debit.id }}" cus_total_debit_trailer ="{{ cus_debit.total_debit_trailer }}" cus_total_debit ="{{ cus_debit.total_debit }}">
 							<td>
-								<div class="ckbox ckbox-primary">
+								<div class="ckbox ckbox-primary" style="height: 21px;">
 									<input type="checkbox"  id="lb{{ cus_debit.id }}"  style="margin-top: 0px !important;" checked onclick="changeDebitDetail('{{ cus_debit.id }}');">
 									<label for="lb{{cus_debit.id}}">NGÀY VAY : {{ cus_debit.loan_date|date:'d-m-Y' }}</label>
 								</div>

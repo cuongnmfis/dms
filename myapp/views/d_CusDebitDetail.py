@@ -80,7 +80,7 @@ def index(request):
 			except Exception as ex:
 				print("cusLoan :"+ex)
 			finally:
-				context = {'type':type_name,'type_post':type_post,'lsCusomer':lsCusomer,'lsCusDebit':lsCusDebit,'lsCusDebitDetail':lsCusDebitDetail}
+				context = {'type':type_name,'type_post':type_post,'lsCusomer':lsCusomer,'lsCusDebit':lsCusDebit,'lsCusDebitDetail':lsCusDebitDetail,'cus_id':cus_id}
 				return render(request,'myapp/d-CustomerDebitDetail.html', context)
 		elif request.POST['type'] == "estimatePayment":
 			try:
@@ -135,5 +135,5 @@ def index(request):
 			except Exception as ex:
 				print("makePayment: "+ex)
 			finally:
-				context = {'type':type_name,"type_post":type_post,'lsCusomer':lsCusomer,'lsCusDebit':lsCusDebit,'lsCusDebitDetail':lsCusDebitDetail }
+				context = {'type':type_name,"type_post":type_post,'lsCusomer':lsCusomer,'lsCusDebit':lsCusDebit,'lsCusDebitDetail':lsCusDebitDetail,'cus_id':cus_id }
 				return render(request,'myapp/d-CustomerDebitDetail.html', context)
