@@ -187,9 +187,8 @@ def createEstimatePayment(vCus_id,vPayment_date,vPayment_trailer):
 		cus_id = vCus_id
 		payment_date=vPayment_date
 		payment_trailer = vPayment_trailer
-				
 		cus=Customer.objects.get(id=cus_id)
-		lsCusDebit =CusDebit.objects(cus_id = cus.id,status = 1).order_by('loan_date')
+		lsCusDebit =CusDebit.objects(cus_id = cus.id,loan_date__lte = vPayment_date,status = 1).order_by('loan_date')
 #  		estimate payment
 		for cus_debit in lsCusDebit :
 			insert_missing_debit_detail_trailer(cus,cus_debit,cus_debit.loan_date,payment_date,cus_debit.debit,cus_debit.rate)

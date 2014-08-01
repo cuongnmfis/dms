@@ -74,8 +74,8 @@ def index(request):
 				user_name = str(request.user)
 				debt_owner=User.objects.get(username = user_name)
 				lsCusomer=getlistCustomerbyDebtOwner(debt_owner)
-				lsCusDebit = CusDebit.objects(status=1).order_by('loan_date')
-				lsCusDebitDetail =CusDebitDetail.objects(status=1).order_by('cus_debit_id')
+				lsCusDebit = getCusDebitofadebtowner(debt_owner)
+				lsCusDebitDetail = getCusDebitDetailofadebtowner(debt_owner)
 				
 			except Exception as ex:
 				print("cusLoan :"+ex)
@@ -101,8 +101,8 @@ def index(request):
 				user_name = str(request.user)
 				debt_owner=User.objects.get(username=user_name)
 				lsCusomer=getlistCustomerbyDebtOwner(debt_owner)
-				lsCusDebit = CusDebit.objects(status=1).order_by('loan_date')
-				lsCusDebitDetail =CusDebitDetailTrailer.objects(status=1).order_by('cus_debit_id')
+				lsCusDebit = getCusDebitofadebtowner(debt_owner)
+				lsCusDebitDetail = CusDebitDetailTrailer.objects(status=1).order_by('cus_debit_id')
 				
 			except Exception as ex:
 				print("estimatePayment: "+ex)
@@ -129,9 +129,8 @@ def index(request):
 				user_name = str(request.user)
 				debt_owner = User.objects.get(username=user_name)
 				lsCusomer = getlistCustomerbyDebtOwner(debt_owner)
-				lsCusDebit = CusDebit.objects(status=1).order_by('loan_date')
-				lsCusDebitDetail =CusDebitDetail.objects(status=1).order_by('cus_debit_id')
-				
+				lsCusDebit = getCusDebitofadebtowner(debt_owner)
+				lsCusDebitDetail = getCusDebitDetailofadebtowner(debt_owner)
 			except Exception as ex:
 				print("makePayment: "+ex)
 			finally:
