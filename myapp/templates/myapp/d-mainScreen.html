@@ -13,8 +13,8 @@
             <div class="panel-body">
               <div class="row">
                 <div class="col-sm-12">
-                  <h5 class="subtitle mb5">Network Performance</h5>
-                  <p class="mb15">Duis autem vel eum iriure dolor in hendrerit in vulputate...</p>
+                  <h5 class="subtitle mb5">Biểu đồ khoản vay</h5>
+                  <p class="mb15">Biểu đồ thống kê số khoản vay và số khoản đã trả trong 6 tháng gần nhất...</p>
                   <div id="basicflot" style="width: 100%; height: 300px; margin-bottom: 20px"></div>
                 </div><!-- col-sm-8 -->
               </div><!-- row -->
@@ -49,24 +49,14 @@
                     <img src="images/is-user.png" alt="">
                   </div>
                   <div class="col-xs-8">
-                    <small class="stat-label">Visits Today</small>
-                    <h1>900k+</h1>
+                    <small class="stat-label">Số khách hàng:</small>
+                    <h1>{{numCus}}</h1>
                   </div>
                 </div><!-- row -->
                 
                 <div class="mb15"></div>
                 
-                <div class="row">
-                  <div class="col-xs-6">
-                    <small class="stat-label">Pages / Visit</small>
-                    <h4>7.80</h4>
-                  </div>
-                  
-                  <div class="col-xs-6">
-                    <small class="stat-label">% New Visits</small>
-                    <h4>76.43%</h4>
-                  </div>
-                </div><!-- row -->
+                
               </div><!-- stat -->
               
             </div><!-- panel-heading -->
@@ -83,15 +73,11 @@
                     <img src="images/is-document.png" alt="">
                   </div>
                   <div class="col-xs-8">
-                    <small class="stat-label">% Unique Visitors</small>
-                    <h1>54.40%</h1>
+                    <small class="stat-label">Khoản vay đang hoạt động:</small>
+                    <h1>{{numdebt}}</h1>
                   </div>
                 </div><!-- row -->
                 
-                <div class="mb15"></div>
-                
-                <small class="stat-label">Avg. Visit Duration</small>
-                <h4>01:80:22</h4>
                   
               </div><!-- stat -->
               
@@ -164,6 +150,90 @@
 {% endblock %}
 
 {% block scripts %}
+<<script type="text/javascript">
+jQuery(document).ready(function() {
+	var debt = [[0, 2], [1, 6], [2,3], [3, 8], [4, 5], [5, 13], [6, 8]];
+	var payment = [[0, 5], [1, 4], [2,4], [3, 1], [4, 9], [5, 10], [6, 13]];
+	
+	var plot = jQuery.plot(jQuery("#basicflot"),
+		[ { data: debt,
+	     label: "Khoản vẫn nợ",
+	     color: "#1CAF9A"
+	   },
+	   { data: payment,
+	     label: "Khoản đã trả",
+	     color: "#428BCA"
+	   }
+	 ],
+	 {
+		  series: {
+			 lines: {
+	       show: true,
+	       fill: true,
+	       lineWidth: 1,
+	       fillColor: {
+	         colors: [ { opacity: 0.5 },
+	                   { opacity: 0.5 }
+	                 ]
+	       }
+	     },
+			 points: {
+	       show: true
+	     },
+	     shadowSize: 0
+		  },
+		  legend: {
+	     position: 'nw'
+	   },
+		  grid: {
+	     hoverable: true,
+	     clickable: true,
+	     borderColor: '#ddd',
+	     borderWidth: 1,
+	     labelMargin: 10,
+	     backgroundColor: '#fff'
+	   },
+		  yaxis: {
+	     min: 0,
+	     max: 15,
+	     color: '#eee'
+	   },
+	   xaxis: {
+	     color: '#eee'
+	   }
+		});
+		
+	var previousPoint = null;
+	jQuery("#basicflot").bind("plothover", function (event, pos, item) {
+	 jQuery("#x").text(pos.x.toFixed(2));
+	 jQuery("#y").text(pos.y.toFixed(2));
+			
+		if(item) {
+		  if (previousPoint != item.dataIndex) {
+			 previousPoint = item.dataIndex;
+						
+			 jQuery("#tooltip").remove();
+			 var x = item.datapoint[0].toFixed(2),
+			 y = item.datapoint[1].toFixed(2);
+				
+			 showTooltip(item.pageX, item.pageY,
+				  item.series.label + " of " + x + " = " + y);
+		  }
+			
+		} else {
+		  jQuery("#tooltip").remove();
+		  previousPoint = null;            
+		}
+		
+	});
+		
+	jQuery("#basicflot").bind("plotclick", function (event, pos, item) {
+		if (item) {
+		  plot.highlight(item.series, item.datapoint);
+		}
+	});
+});
+</script>
 <script src="js/masonry.pkgd.min.js"></script>
 <script src="js/jquery-ui-1.10.3.min.js"></script>
 <script src="js/chosen.jquery.min.js"></script>
@@ -184,7 +254,7 @@
 <script src="js/morris.min.js"></script>
 <script src="js/raphael-2.1.0.min.js"></script>
 
-<script src="js/charts.js"></script>
+
 
 <script defer src="slider/jquery.flexslider.js"></script>
 

@@ -57,7 +57,7 @@ def index(request):
 				if nextpage:
 					return HttpResponseRedirect(nextpage,context)	
 				else:
-					return HttpResponseRedirect('/mainscreen')
+					return HttpResponseRedirect('/custom-debit-detail?type=loan')
 			else:
 				c = {
 						'error_message':"User name or password does not correct",

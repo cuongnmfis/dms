@@ -21,7 +21,7 @@ urlpatterns = patterns('',
 						url(r'^error-authenticate$', AuthenFail.index),
 						
 						url('', include('social.apps.django_app.urls', namespace='social')),
-                       url(r'^$', d_MainScreen.index, name='d_MainScreen'),
+                       url(r'^$', d_CusDebitDetail.index),
                        url(r'^home$', Home.index),
                        url(r'^index$', Home.index),
                        url(r'^account-setting$', AccountSetting.index),
