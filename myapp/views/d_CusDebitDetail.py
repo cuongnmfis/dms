@@ -16,7 +16,7 @@ from myapp.models.CusDebitDetail import CusDebitDetail
 from myapp.models.Customer import Customer
 from myapp.models.Customer import getlistCustomerbyDebtOwner
 from myapp.models.LoanType import LoanType
-from myapp.views.CreateDms import createcusdebit, close_cycle_all,createMakePayment,createEstimatePayment
+from myapp.views.CreateDms import createcusdebit, close_cycle_all,createMakePayment,createEstimatePayment,change_rate
 from myapp.models.CusDebitDetail import getCusDebitDetailofadebtowner
 from myapp.models.CusDebit import getCusDebitofadebtowner
 @login_required(login_url='/signin')
@@ -68,8 +68,8 @@ def index(request):
 				
 				#get data show on view
 				print('add cusdebit ')
-				type_name = 'loan'
-				type_post = 'loan'
+				type_name = 'payment'
+				type_post = 'payment'
 				
 				user_name = str(request.user)
 				debt_owner=User.objects.get(username = user_name)
@@ -108,6 +108,35 @@ def index(request):
 				print("estimatePayment: "+ex)
 			finally:
 				context = {'type':type_name,"type_post":type_post,'lsCusomer':lsCusomer,'lsCusDebit':lsCusDebit,'lsCusDebitDetail':lsCusDebitDetail,'cus_id':cus_id,'payment_date':payment_date,'payment_amount':payment_amount,'note':note }
+				return render(request,'myapp/d-CustomerDebitDetail.html', context)
+		elif request.POST['type'] == "changeRate":
+			try:
+				cus_debit_id = request.POST['hd_change_rate_cus_debit_id']
+				cus_id = request.POST['hd_change_cus_id']
+				
+				cus_debit_detail_id = request.POST['hd_change_rate_cus_debit_detail_id']
+				rate = 0
+				if request.POST['txt_rate'] :
+					rate = float(request.POST['txt_rate'])
+# 				
+				cusDebit = CusDebit.objects.get( id = cus_debit_id)
+				cusDebitDetail = CusDebitDetail.objects.get( id = cus_debit_detail_id)
+				
+				change_rate(cusDebit, cusDebitDetail, rate)
+				print('change rate')
+				#get data to show view
+				type_name = 'payment'
+				type_post = 'payment'
+				
+				user_name = str(request.user)
+				debt_owner = User.objects.get(username=user_name)
+				lsCusomer = getlistCustomerbyDebtOwner(debt_owner)
+				lsCusDebit = getCusDebitofadebtowner(debt_owner)
+				lsCusDebitDetail = getCusDebitDetailofadebtowner(debt_owner)
+			except Exception as ex:
+				print("changeRate: "+ex)
+			finally:
+				context = {'type':type_name,"type_post":type_post,'lsCusomer':lsCusomer,'lsCusDebit':lsCusDebit,'lsCusDebitDetail':lsCusDebitDetail,'cus_id':cus_id }
 				return render(request,'myapp/d-CustomerDebitDetail.html', context)
 		elif request.POST['type'] == "makePayment":
 			try:

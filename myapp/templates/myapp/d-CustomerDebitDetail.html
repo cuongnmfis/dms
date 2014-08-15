@@ -334,7 +334,7 @@
 		$('.currency').formatCurrency({ colorize:true, region: 'vi-VN' });
 		$('#cusRate').formatCurrency({ colorize:true, region: 'vi-VN' });
 		
-		var cus_id = '{{ cus_id }}'
+		var cus_id = '{{ cus_id }}';
 		$("#selCusCode option[cus_id='"+ cus_id +"']").attr("selected","selected");
 		$("#selCusIdNo option[cus_id="+ cus_id +"]").attr("selected","selected");
 		$("#selCusphone option[cus_id="+ cus_id +"]").attr("selected","selected");
@@ -405,14 +405,30 @@
 	</script>
 	<script>
 		//change rate
-		function onChangeRate()
+		function onChangeRate(cus_debit_detail_id)
 		{
-			$("#aaaaa").numeric();
-			$('#aaaaa').css('display', 'block');
+			$("#changeRate" + cus_debit_detail_id).numeric();
+			$("#changeRate" + cus_debit_detail_id).css('display', 'block');
+			$("#showhideRate" + cus_debit_detail_id).css('display', 'none');
+			
+			$("a[cus_debit_detail_id][cus_debit_detail_id='"+ cus_debit_detail_id +"']").css('display', 'none');
+			$("a[cus_debit_detail_id][cus_debit_detail_id!='"+ cus_debit_detail_id +"']").css('display', 'block');
+			
+			$("input[cus_debit_detail_id][cus_debit_detail_id='"+ cus_debit_detail_id +"']").css('display', 'block');
+			$("input[cus_debit_detail_id][cus_debit_detail_id!='"+ cus_debit_detail_id +"']").css('display', 'none');
 		}
-		function onSaveChange()
+		function onSaveChange(cus_debit_detail_id)
 		{
-			$('#aaaaa').css('display', 'none');
+			$("#changeRate" + cus_debit_detail_id).css('display', 'none');
+			$("#showhideRate" + cus_debit_detail_id).css('display', 'block');
+			$("#hd_change_cus_id").val(cusId);
+			var $valid = jQuery("#form_change_rate" + cus_debit_detail_id).valid();
+			if(!$valid) 
+			{
+				$validator.focusInvalid();
+				return false;
+			}
+			jQuery("#form_change_rate" + cus_debit_detail_id).submit();
 		}
 	</script>
 {% endblock scripts%}

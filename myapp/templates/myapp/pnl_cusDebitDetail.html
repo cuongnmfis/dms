@@ -21,25 +21,51 @@
 				<tbody cus_id ="{{ cus_debit.cus_id.id }}" cus_debit_id="{{ cus_debit.id }}" style="overflow-y: scroll; overflow-x: hidden; height: 100px;" >
 					{% for cus_debit_detail in lsCusDebitDetail %}
 						{% if cus_debit.id|truncatechars:100 ==  cus_debit_detail.cus_debit_id.id|truncatechars:100 %}
-							<tr cus_debit_detail_flag="{{ cus_debit_detail.flag }}" cus_debit_id ="{{ cus_debit.id }}">
-								{% if cus_debit_detail.flag == 1 %}
-									<td onclick="onShowHideDetail('{{ cus_debit.id }}','{{ cus_debit_detail.id }}');"><span cus_debit_detail_id ="{{ cus_debit_detail.id }}" class="glyphicon glyphicon-chevron-down"></span></td>
-								{% else %}
-									<td>{{ cus_debit_detail.index }}</td>
-								{% endif %}
-								<td class="date">{{ cus_debit_detail.from_date|date:'d-m-Y' }}</td>
-								<td class="date"><a href="#">{{ cus_debit_detail.to_date|date:'d-m-Y' }}</a></td>
-								<td class="currency">{{ cus_debit_detail.start_cycle }}</td>
-								<td>
-									<a href="#" onclick="onChangeRate();" style="color: #428bca !important;" class="currency">{{ cus_debit_detail.rate }}</a>
-									<input type="text" id="aaaaa" name="" value="1000" style="display: none;color: #428bca;width: 80px;" onkeydown="if (event.keyCode == 13) onSaveChange();" maxlength="5" required="">
-								</td>
-								<td>{{ cus_debit.cycle }}</td>
-								<td>{{ cus_debit_detail.days }}</td>
-								<td class="currency">{{ cus_debit_detail.amount }}</td>
-								<td class="currency">{{ cus_debit_detail.payment }}</td>
-								<td class="currency">{{ cus_debit_detail.end_cycle }}</td>
-							</tr>
+							{% if type == 'payment' %}
+								<form id="form_change_rate{{ cus_debit_detail.id }}" novalidate="novalidate" method="post">
+									{% csrf_token %}
+									<tr cus_debit_detail_flag="{{ cus_debit_detail.flag }}" cus_debit_id ="{{ cus_debit.id }}">
+										{% if cus_debit_detail.flag == 1 %}
+											<td onclick="onShowHideDetail('{{ cus_debit.id }}','{{ cus_debit_detail.id }}');"><span cus_debit_detail_id ="{{ cus_debit_detail.id }}" class="glyphicon glyphicon-chevron-down"></span></td>
+										{% else %}
+											<td>{{ cus_debit_detail.index }}</td>
+										{% endif %}
+										<td class="date">{{ cus_debit_detail.from_date|date:'d-m-Y' }}</td>
+										<td class="date"><a href="#">{{ cus_debit_detail.to_date|date:'d-m-Y' }}</a></td>
+										<td class="currency">{{ cus_debit_detail.start_cycle }}</td>
+										<td>
+											<a href="#" cus_debit_detail_id="{{ cus_debit_detail.id }}" onclick="onChangeRate('{{ cus_debit_detail.id }}');" id="showhideRate{{ cus_debit_detail.id }}" style="color: #428bca !important;" class="currency">{{ cus_debit_detail.rate }}</a>
+											<input type="text" cus_debit_detail_id="{{ cus_debit_detail.id }}" id="changeRate{{ cus_debit_detail.id }}" name="txt_rate" value="{{ cus_debit_detail.rate }}" style="display: none;color: #428bca;width: 80px;" onkeydown="if (event.keyCode == 13) onSaveChange('{{ cus_debit_detail.id }}');" maxlength="5" required="">
+											<input type="hidden" name="type" value="changeRate" >
+											<input type="hidden" name="hd_change_rate_cus_debit_id" value="{{ cus_debit.id }}" >
+											<input type="hidden" name="hd_change_rate_cus_debit_detail_id" value="{{ cus_debit_detail.id }}" >
+											<input type="hidden" name="hd_change_cus_id" id="hd_change_cus_id" value="{{ cus_debit_detail.cus_id.id }}" >
+										</td>
+										<td>{{ cus_debit.cycle }}</td>
+										<td>{{ cus_debit_detail.days }}</td>
+										<td class="currency">{{ cus_debit_detail.amount }}</td>
+										<td class="currency">{{ cus_debit_detail.payment }}</td>
+										<td class="currency">{{ cus_debit_detail.end_cycle }}</td>
+									</tr>
+								</form>
+							{% else %}
+								<tr cus_debit_detail_flag="{{ cus_debit_detail.flag }}" cus_debit_id ="{{ cus_debit.id }}">
+									{% if cus_debit_detail.flag == 1 %}
+										<td onclick="onShowHideDetail('{{ cus_debit.id }}','{{ cus_debit_detail.id }}');"><span cus_debit_detail_id ="{{ cus_debit_detail.id }}" class="glyphicon glyphicon-chevron-down"></span></td>
+									{% else %}
+										<td>{{ cus_debit_detail.index }}</td>
+									{% endif %}
+									<td class="date">{{ cus_debit_detail.from_date|date:'d-m-Y' }}</td>
+									<td class="date"><a href="#">{{ cus_debit_detail.to_date|date:'d-m-Y' }}</a></td>
+									<td class="currency">{{ cus_debit_detail.start_cycle }}</td>
+									<td class="currency">{{ cus_debit_detail.rate }}</td>
+									<td>{{ cus_debit.cycle }}</td>
+									<td>{{ cus_debit_detail.days }}</td>
+									<td class="currency">{{ cus_debit_detail.amount }}</td>
+									<td class="currency">{{ cus_debit_detail.payment }}</td>
+									<td class="currency">{{ cus_debit_detail.end_cycle }}</td>
+								</tr>
+							{% endif %}
 						{% endif %}
 					{% endfor %}
 				</tbody>
